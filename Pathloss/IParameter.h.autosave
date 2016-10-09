@@ -1,0 +1,14 @@
+#ifndef IPARAMETER_H
+#define IPARAMETER_H
+
+class IParameter
+{
+public:
+    auto getParameter();
+    bool setParameter(auto value) = ;
+protected:
+    int maxValue;
+    int minValue;
+};
+
+#endif // IPARAMETER_H

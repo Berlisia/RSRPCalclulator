@@ -1,0 +1,11 @@
+#ifndef IPATHLOSS_H
+#define IPATHLOSS_H
+
+
+class IPathloss
+{
+public:
+    
+};
+
+#endif // IPATHLOSS_H
