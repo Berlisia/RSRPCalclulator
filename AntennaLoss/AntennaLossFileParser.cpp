@@ -1,6 +1,9 @@
 #include "AntennaLossFileParser.h"
 #include "iostream"
 #include "algorithm"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 using namespace std;
 
 const int AntennaLossFileParser::numberOfLine = 360;
@@ -25,6 +28,11 @@ void AntennaLossFileParser::getDataFromFile()
 {
     fstream file;
     file.open(fileName, ios::in);
+//    if(chmod(fileName.c_str(),0777) == -1)
+//    {
+//        if(access(fileName.c_str(), R_OK) == -1)
+//        cout << "Nie masz praw" << endl;
+//    }
     if(file.good())
     {
         string angle = "";

@@ -11,6 +11,10 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = RSRPCalculator
 TEMPLATE = app
+DEFINES += GTEST_LINKED_AS_SHARED_LIBRARY=1
+
+    LIBS += -lgtest -L/usr/lib/
+
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -28,7 +32,8 @@ SOURCES += main.cpp\
     RuskiTest/rsrptestcase.cpp \
     AntennaLoss/AntennaLossFileParser.cpp \
     RuskiTest/AntennaLossFileParserTest.cpp \
-    AntennaLoss/AntennaLossFileProvider.cpp
+    AntennaLoss/AntennaLossFileProvider.cpp \
+    utest/antennalossfileprovidertest.cpp
 
 HEADERS  += mainwindow.h \
     Pathloss/Pathloss.h \
@@ -51,7 +56,8 @@ HEADERS  += mainwindow.h \
     AntennaLoss/AntennaLossFileParser.h \
     RuskiTest/AntennaLossFileParserTest.h \
     AntennaLoss/AntennaLossFileProvider.h \
-    AntennaLoss/IAntennaLossFileProvider.h
+    AntennaLoss/IAntennaLossFileProvider.h \
+    utest/antennalossfileparsermock.h
 
 FORMS    += mainwindow.ui \
     dialog.ui

@@ -6,7 +6,6 @@
 #include "fstream"
 
 typedef std::vector<std::pair<int,float>> ArrayOfAntennaLoss;
-//742266V02_pozioma
 
 class AntennaLossFileParser
 {
