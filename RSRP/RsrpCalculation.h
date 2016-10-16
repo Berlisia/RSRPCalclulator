@@ -7,7 +7,7 @@ class RsrpCalculation : public IRsrpCalculation
 {
 public:
     RsrpCalculation(RsrpInitialization & initialize);
-    float calculateRsrp(Pixel & pixel);
+    float calculateRsrp(PixelPoint & pixel);
 
 private:
     int numberOfSubcarrer(double bandwidth);

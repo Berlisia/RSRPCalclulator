@@ -25,7 +25,6 @@ SOURCES += main.cpp\
     Pathloss/OkumuraParameterForSector.cpp \
     Core/BaseStation.cpp \
     Core/Antenna.cpp \
-    Core/Pixel.cpp \
     Core/Sector.cpp \
     RSRP/RsrpCalculation.cpp \
     RSRP/RsrpInitialization.cpp \
@@ -33,7 +32,13 @@ SOURCES += main.cpp\
     AntennaLoss/AntennaLossFileParser.cpp \
     RuskiTest/AntennaLossFileParserTest.cpp \
     AntennaLoss/AntennaLossFileProvider.cpp \
-    utest/antennalossfileprovidertest.cpp
+    utest/antennalossfileprovidertest.cpp \
+    MapProvider/MapDataProvider.cpp \
+    MapProvider/MapParser.cpp \
+    MapProvider/Pixel.cpp \
+    utest/mapdataprovidertest.cpp \
+    Core/PixelPoint.cpp \
+    AntennaLoss/AntennaLossVerticalCalculator.cpp
 
 HEADERS  += mainwindow.h \
     Pathloss/Pathloss.h \
@@ -45,7 +50,6 @@ HEADERS  += mainwindow.h \
     Pathloss/PathlossCalculation.h \
     Pathloss/OkumuraHataPathlossMap.h \
     Pathloss/OkumuraParameterForSector.h \
-    Core/Pixel.h \
     Core/Sector.h \
     Core/BaseStation.h \
     Core/Antenna.h \
@@ -57,7 +61,15 @@ HEADERS  += mainwindow.h \
     RuskiTest/AntennaLossFileParserTest.h \
     AntennaLoss/AntennaLossFileProvider.h \
     AntennaLoss/IAntennaLossFileProvider.h \
-    utest/antennalossfileparsermock.h
+    utest/antennalossfileparsermock.h \
+    MapProvider/Enviroment.h \
+    MapProvider/IMapDataProvider.h \
+    MapProvider/MapDataProvider.h \
+    MapProvider/MapParser.h \
+    MapProvider/Pixel.h \
+    Pathloss/okumurahatapathlossmap.h \
+    Core/PixelPoint.h \
+    AntennaLoss/AntennaLossVerticalCalculator.h
 
 FORMS    += mainwindow.ui \
     dialog.ui

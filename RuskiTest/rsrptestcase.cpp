@@ -38,7 +38,7 @@ void RsrpTestCase::rsrpCalculationTest()
 
     RsrpInitialization rsrpInit;
     unique_ptr<IRsrpCalculation> calculator(new RsrpCalculation(rsrpInit));
-    Pixel pixel(sectors);
+    PixelPoint pixel(sectors);
     float maxValue = calculator->calculateRsrp(pixel);
     cout << "Max Value from rsrp vector: " << maxValue << endl;
 }

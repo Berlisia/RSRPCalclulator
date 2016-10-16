@@ -7,7 +7,7 @@ RsrpCalculation::RsrpCalculation(RsrpInitialization &initialize) :
 {
 }
 
-float RsrpCalculation::calculateRsrp(Pixel & pixel)
+float RsrpCalculation::calculateRsrp(PixelPoint &pixel)
 {
     float rsrp = 0;
     float buffRsrp = 0;
