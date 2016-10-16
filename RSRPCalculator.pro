@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
-CONFIG   += c++11
+CONFIG += console c++14
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -26,7 +26,9 @@ SOURCES += main.cpp\
     RSRP/RsrpCalculation.cpp \
     RSRP/RsrpInitialization.cpp \
     RuskiTest/rsrptestcase.cpp \
-    AntennaLoss/AntennaLossFileParser.cpp
+    AntennaLoss/AntennaLossFileParser.cpp \
+    RuskiTest/AntennaLossFileParserTest.cpp \
+    AntennaLoss/AntennaLossFileProvider.cpp
 
 HEADERS  += mainwindow.h \
     Pathloss/Pathloss.h \
@@ -46,7 +48,10 @@ HEADERS  += mainwindow.h \
     RSRP/RsrpCalculation.h \
     RSRP/RsrpInitialization.h \
     RuskiTest/rsrptestcase.h \
-    AntennaLoss/AntennaLossFileParser.h
+    AntennaLoss/AntennaLossFileParser.h \
+    RuskiTest/AntennaLossFileParserTest.h \
+    AntennaLoss/AntennaLossFileProvider.h \
+    AntennaLoss/IAntennaLossFileProvider.h
 
 FORMS    += mainwindow.ui \
     dialog.ui
