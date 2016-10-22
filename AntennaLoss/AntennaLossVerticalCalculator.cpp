@@ -3,32 +3,24 @@
 #include <functional>
 
 AntennaLossVerticalCalculator::AntennaLossVerticalCalculator(IMapDataProvider & p_mapProvider, IAntennaLossFileProvider & p_AntennafileProvider) :
-    mapProvider(p_mapProvider),
-    antennafileProvider(p_AntennafileProvider)
+    AntenaLossCalculator(p_mapProvider,p_AntennafileProvider),
+    antennaHeight(0),
+    tilt(0)
 {
 }
 
 float AntennaLossVerticalCalculator::calculateAntennaLoss()
 {
    int angle = calculateAngle();
-   angle = angle - tilt;
+   calculateAngleWithTilt(angle);
    float loss = antennafileProvider.getLossFromFile(angle, Charakteristic::vertical);
    return loss;
-}
-
-void AntennaLossVerticalCalculator::setReceiver(std::pair<int, int> p_receiver)
-{
-    receiver = p_receiver;
-}
-
-void AntennaLossVerticalCalculator::setAntenna(std::pair<int, int> p_antenna)
-{
-    antenna = p_antenna;
 }
 
 void AntennaLossVerticalCalculator::setAntennaHeight(float p_antennaHeight)
 {
     antennaHeight = p_antennaHeight;
+    calculateAntennaHeight();
 }
 
 void AntennaLossVerticalCalculator::setTilt(int p_tilt)
@@ -38,8 +30,30 @@ void AntennaLossVerticalCalculator::setTilt(int p_tilt)
 
 int AntennaLossVerticalCalculator::calculateAngle()
 {
-    int angle = -1;
-    float distance = mapProvider.coutDistance(receiver,antenna);
-    angle = std::atan(antennaHeight/distance);
+    float angle = 0;
+    const float distance = mapProvider.coutDistance(receiver,antenna);
+    angle = atangens(distance);
+    return angle;
+}
+
+void AntennaLossVerticalCalculator::calculateAntennaHeight()
+{
+    antennaHeight = (mapProvider.pixelHeight(antenna) + antennaHeight)
+                    - mapProvider.pixelHeight(receiver);
+}
+
+void AntennaLossVerticalCalculator::calculateAngleWithTilt(int & angle)
+{
+    angle = angle - tilt;
+    if(angle < 0)
+    {
+        angle = 360 + angle;
+    }
+}
+
+int AntennaLossVerticalCalculator::atangens(const float distance)
+{
+    const float value = antennaHeight/distance;
+    int angle = arcTangens(value);
     return angle;
 }

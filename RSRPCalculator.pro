@@ -13,7 +13,7 @@ TARGET = RSRPCalculator
 TEMPLATE = app
 DEFINES += GTEST_LINKED_AS_SHARED_LIBRARY=1
 
-    LIBS += -lgtest -L/usr/lib/
+LIBS += -lgtest -L/usr/lib/
 
 
 SOURCES += main.cpp\
@@ -38,7 +38,14 @@ SOURCES += main.cpp\
     MapProvider/Pixel.cpp \
     utest/mapdataprovidertest.cpp \
     Core/PixelPoint.cpp \
-    AntennaLoss/AntennaLossVerticalCalculator.cpp
+    AntennaLoss/AntennaLossVerticalCalculator.cpp \
+    utest/antennalossverticalclaculatortest.cpp \
+    AntennaLoss/AntennaLossHorizontalCalculator.cpp \
+    AntennaLoss/AnetnnaLossCalculator.cpp \
+    utest/antennalosshorizontalcalculatortest.cpp \
+    AntennaLoss/AnetnnaLossProvider.cpp \
+    Core/PixelFinder.cpp \
+    utest/pixelfindertest.cpp
 
 HEADERS  += mainwindow.h \
     Pathloss/Pathloss.h \
@@ -69,7 +76,13 @@ HEADERS  += mainwindow.h \
     MapProvider/Pixel.h \
     Pathloss/okumurahatapathlossmap.h \
     Core/PixelPoint.h \
-    AntennaLoss/AntennaLossVerticalCalculator.h
+    AntennaLoss/AntennaLossVerticalCalculator.h \
+    utest/imapdataprovidermock.h \
+    utest/antennalossfileprovidermock.h \
+    AntennaLoss/AntennaLossHorizontalCalculator.h \
+    AntennaLoss/AnetnnaLossCalculator.h \
+    AntennaLoss/AnetnnaLossProvider.h \
+    Core/PixelFinder.h
 
 FORMS    += mainwindow.ui \
     dialog.ui

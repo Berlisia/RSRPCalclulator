@@ -1,29 +1,26 @@
 #ifndef ANTENNALOSSVERTICALCALCULATOR_H
 #define ANTENNALOSSVERTICALCALCULATOR_H
-#include "Core/PixelPoint.h"
-#include "MapProvider/IMapDataProvider.h"
-#include "Core/Antenna.h"
-#include "IAntennaLossFileProvider.h"
+#include "AnetnnaLossCalculator.h"
 
-class AntennaLossVerticalCalculator
+class AntennaLossVerticalCalculator : public AntenaLossCalculator
 {
 public:
     AntennaLossVerticalCalculator(IMapDataProvider & p_mapProvider, IAntennaLossFileProvider & p_AntennafileProvider);
-    float calculateAntennaLoss();
-    void setReceiver(std::pair<int,int> p_receiver);
-    void setAntenna(std::pair<int,int> p_antenna);
+
+    float calculateAntennaLoss() override;
+
     void setAntennaHeight(float p_antennaHeight); //względem UE!!!!
     void setTilt(int p_tilt);
 
 private:
     int calculateAngle();
+    void calculateAntennaHeight();
+    void calculateAngleWithTilt(int & angle);
+    int atangens(const float distance);
 
-    std::pair<int,int> receiver;
-    std::pair<int,int> antenna;
+
     float antennaHeight;
     int tilt;
-    IMapDataProvider & mapProvider;
-    IAntennaLossFileProvider & antennafileProvider;
 };
 
 #endif // ANTENNALOSSCALCULATOR_H
