@@ -11,13 +11,18 @@ AntennaLossHorizontalCalculator::AntennaLossHorizontalCalculator(IMapDataProvide
 
 float AntennaLossHorizontalCalculator::calculateAntennaLoss()
 {
+    float loss = antennafileProvider.getLossFromFile(calculateAzimuth(), Charakteristic::horizontal);
+    return loss;
+}
+
+int AntennaLossHorizontalCalculator::calculateAzimuth()
+{
     int angle = 0;
     const float x = valueOfX();
     const float y = valueOfY();
     const float value = x/y;
     angle = arcTangens(value);
-    float loss = antennafileProvider.getLossFromFile(angle, Charakteristic::horizontal);
-    return loss;
+    return angle;
 }
 
 int AntennaLossHorizontalCalculator::valueOfX()
@@ -35,7 +40,6 @@ int AntennaLossHorizontalCalculator::valueOfY()
 {
     int y = 0;
     y = receiver.second - antenna.second;
-        cout << "Y: " << y << endl;
     if(y < 0)
     {
         y = -y;

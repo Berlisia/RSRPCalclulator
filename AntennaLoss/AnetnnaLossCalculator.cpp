@@ -1,8 +1,6 @@
 #include "AnetnnaLossCalculator.h"
 #include <cmath>
 #include <functional>
-#include <iostream>
-using namespace std;
 
 const int AntenaLossCalculator::stopnie = 180;
 const float AntenaLossCalculator::PI = 3.14;
@@ -30,9 +28,7 @@ int AntenaLossCalculator::arcTangens(const float value)
 {
     float angle = 0;
     angle = std::atan(value);
-    cout << angle << endl;
     angle = angle * stopnie/PI;
-        cout << angle << endl;
     angle = std::round(angle);
     return angle;
 }

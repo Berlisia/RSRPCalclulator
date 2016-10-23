@@ -1,25 +1,30 @@
 #ifndef PIXELFINDER_H
 #define PIXELFINDER_H
 #include "PixelPoint.h"
+#include "SectorsControler.h"
+#include "AreaCalculation.h"
 #include <memory>
-#include <vector>
 
-typedef std::vector<PixelPoint> vectorOfPixels;
-
-class PixelFinder
+class PixelFinder //Powinno byc PixelControler
 {
 public:
-    PixelFinder(vectorOfPixels & p_area);
+    PixelFinder(AreaCalculation & p_area, SectorsControler & p_sectorsControler);
 
-    void changePixel(PixelPoint * p_pixel);
-    vectorOfPixels & getArea();
-    std::unique_ptr<PixelPoint> getPixel();
+    void changePixel(std::unique_ptr<PixelPoint> p_pixel);
+
+    std::pair<int,int> getPixel();
+    float getPowerFromSector(int indexOfSector);
+    double getBandwithFromSector(int indexOfSector);
+    std::vector<Sector> &getVectorOfSectors();
+
+    void addSector(Sector p_sector);
 
 private:
-    bool checkPixel(PixelPoint * p_pixel);
+    bool checkPixel(std::unique_ptr<PixelPoint> & pixel);
 
     std::unique_ptr<PixelPoint> pixel;
-    vectorOfPixels & areaCalculation;
+    AreaCalculation & areaCalculation;
+    SectorsControler & sectorsControler; //te sektory które na niego patrzą
 };
 
 #endif // PIXELFINDER_H

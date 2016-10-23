@@ -1,6 +1,6 @@
 #ifndef ANTENNA_H
 #define ANTENNA_H
-
+#include <functional>
 
 class Antenna
 {
@@ -11,6 +11,7 @@ public:
     void setFrequency(int newFrequency);
 
     float getPower();
+    //std::pair<int,int> getPosition();
 
 private:
     float power;

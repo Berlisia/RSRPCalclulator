@@ -9,6 +9,7 @@ public:
     AntennaLossHorizontalCalculator(IMapDataProvider & p_mapProvider, IAntennaLossFileProvider & p_AntennafileProvider);
 
     float calculateAntennaLoss() override;
+    int calculateAzimuth();
 
 private:
     int valueOfX();

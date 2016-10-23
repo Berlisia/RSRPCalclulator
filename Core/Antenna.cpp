@@ -26,3 +26,8 @@ float Antenna::getPower()
 {
     return power;
 }
+
+//std::pair<int, int> Antenna::getPosition()
+//{
+//    return position.getXy();
+//}

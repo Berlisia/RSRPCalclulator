@@ -2,6 +2,7 @@
 #include "RSRP/IRsrpCalculation.h"
 #include "RSRP/RsrpCalculation.h"
 #include "RSRP/RsrpInitialization.h"
+#include "Core/PixelFinder.h"
 
 #include <memory>
 #include <vector>
@@ -12,6 +13,15 @@ void RsrpTestCase::rsrpCalculationTest()
 {
     BaseStation base1;
     BaseStation base2;
+
+    std::vector<std::pair<int,int>> area;
+
+    area.push_back(std::make_pair<int,int>(1000,1000));
+    area.push_back(std::make_pair<int,int>(2000,1000));
+    area.push_back(std::make_pair<int,int>(1000,2000));
+    area.push_back(std::make_pair<int,int>(2000,2000));
+
+    AreaCalculation areaCalc(area);
 
     Antenna antenna(20,0,1800);
     Antenna antenna2(20,0,1800);
@@ -31,14 +41,18 @@ void RsrpTestCase::rsrpCalculationTest()
     sec22.setBandwidth(15.0);
     sec32.setBandwidth(20.0);
 
-    vector<Sector*> sectors
+    vector<Sector> sectors
     {
-        &sec11, &sec21, &sec31, &sec12, &sec22, &sec32
+        sec11, sec21, sec31, sec12, sec22, sec32
     };
+    SectorsControler sectorControler(sectors);
 
     RsrpInitialization rsrpInit;
     unique_ptr<IRsrpCalculation> calculator(new RsrpCalculation(rsrpInit));
-    PixelPoint pixel(sectors);
-    float maxValue = calculator->calculateRsrp(pixel);
+    unique_ptr<PixelPoint> pixel =
+            std::make_unique<PixelPoint>(std::make_pair<int,int>(1024,1999));
+    PixelFinder finder(areaCalc, sectorControler);
+    finder.changePixel(std::move(pixel));
+    float maxValue = calculator->calculateRsrp(finder);
     cout << "Max Value from rsrp vector: " << maxValue << endl;
 }

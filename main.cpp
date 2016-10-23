@@ -6,9 +6,8 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    //RsrpTestCase testRsrp;
-    //testRsrp.rsrpCalculationTest();
-    //AntennaLossFileParserTest parserTest;
+    RsrpTestCase testRsrp;
+    testRsrp.rsrpCalculationTest();
 
     //gtest wariant
     ::testing::InitGoogleTest(&argc, argv);

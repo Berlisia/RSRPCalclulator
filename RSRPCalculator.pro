@@ -45,7 +45,9 @@ SOURCES += main.cpp\
     utest/antennalosshorizontalcalculatortest.cpp \
     AntennaLoss/AnetnnaLossProvider.cpp \
     Core/PixelFinder.cpp \
-    utest/pixelfindertest.cpp
+    utest/pixelfindertest.cpp \
+    Core/SectorsControler.cpp \
+    Core/AreaCalculation.cpp
 
 HEADERS  += mainwindow.h \
     Pathloss/Pathloss.h \
@@ -82,7 +84,9 @@ HEADERS  += mainwindow.h \
     AntennaLoss/AntennaLossHorizontalCalculator.h \
     AntennaLoss/AnetnnaLossCalculator.h \
     AntennaLoss/AnetnnaLossProvider.h \
-    Core/PixelFinder.h
+    Core/PixelFinder.h \
+    Core/SectorsControler.h \
+    Core/AreaCalculation.h
 
 FORMS    += mainwindow.ui \
     dialog.ui
