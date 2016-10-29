@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "Core/PixelFinder.h"
+#include "Core/PixelControler.h"
 #include "Core/AreaCalculation.h"
 #include <iostream>
 
@@ -7,7 +7,7 @@ class PixelFinderTest : public ::testing::Test
 {
 public:
     PixelFinderTest() :
-        base(BaseStation()),
+        base(BaseStation(std::make_pair<int,int>(1500,1500), 120.0)),
         antenna(Antenna(20,0,1800)),
         sec1(Sector(antenna, base)),
         sec2(Sector(antenna, base)),
@@ -29,7 +29,7 @@ public:
             sec1, sec2, sec3
         };
         sectorControler = std::make_unique<SectorsControler>(sectors);
-        pixelFinder = std::make_unique<PixelFinder>(*areaCalc, *sectorControler);
+        pixelFinder = std::make_unique<PixelControler>(*areaCalc, *sectorControler);
     }
 
     void SetUp() override
@@ -49,14 +49,14 @@ public:
     std::vector<std::pair<int,int>> area;
     std::unique_ptr<AreaCalculation> areaCalc;
     std::unique_ptr<SectorsControler> sectorControler;
-    std::unique_ptr<PixelFinder> pixelFinder;
+    std::unique_ptr<PixelControler> pixelFinder;
 };
 
 TEST_F(PixelFinderTest, changePixel_GoodPixel)
 {
-    std::unique_ptr<PixelPoint> pixel =
-            std::make_unique<PixelPoint>(std::make_pair<int,int>(1024,1999));
-    PixelPoint expectedPixel(std::make_pair<int,int>(1024,1999));
+    std::unique_ptr<PixelXY> pixel =
+            std::make_unique<PixelXY>(std::make_pair<int,int>(1024,1999));
+    PixelXY expectedPixel(std::make_pair<int,int>(1024,1999));
 
     pixelFinder->changePixel(std::move(pixel));
     EXPECT_EQ(expectedPixel.getX(), pixelFinder->getPixel().first);
@@ -64,9 +64,9 @@ TEST_F(PixelFinderTest, changePixel_GoodPixel)
 }
 TEST_F(PixelFinderTest, changePixel_BadPixel)
 {
-    std::unique_ptr<PixelPoint> pixel =
-            std::make_unique<PixelPoint>(std::make_pair<int,int>(102,300));
-    PixelPoint expectedPixel(std::make_pair<int,int>(1024,1999));
+    std::unique_ptr<PixelXY> pixel =
+            std::make_unique<PixelXY>(std::make_pair<int,int>(102,300));
+    PixelXY expectedPixel(std::make_pair<int,int>(1024,1999));
 
     pixelFinder->changePixel(std::move(pixel));
     EXPECT_FALSE(expectedPixel.getX() == pixelFinder->getPixel().first);

@@ -29,15 +29,32 @@ public:
     std::unique_ptr<AntennaLossHorizontalCalculator> calculator;
 };
 
-TEST_F(AntenaLossHorizontalCalculatorTest, calculateHorizontalLossTest)
+TEST_F(AntenaLossHorizontalCalculatorTest, calculateHorizontalLossTest_AzimutLessThan180)
 {
     std::pair<int,int> fakeReceiver = std::make_pair(2425,2244);
     std::pair<int,int> fakeAntenna = std::make_pair(2579, 1919);
+    int fakeAntennaAzimuth = 135;
 
     calculator->setReceiver(fakeReceiver);
     calculator->setAntenna(fakeAntenna);
+    calculator->setAzimuth(fakeAntennaAzimuth);
 
-    float expectedLoss = 2.01;
+    float expectedLoss = 23.71;
+    float loss = calculator->calculateAntennaLoss();
+    EXPECT_EQ(loss, expectedLoss);
+}
+
+TEST_F(AntenaLossHorizontalCalculatorTest, calculateHorizontalLossTest_AzimuthMoreThan180)
+{
+    std::pair<int,int> fakeReceiver = std::make_pair(2425,2244);
+    std::pair<int,int> fakeAntenna = std::make_pair(2579, 1919);
+    int fakeAntennaAzimuth = 225;
+
+    calculator->setReceiver(fakeReceiver);
+    calculator->setAntenna(fakeAntenna);
+    calculator->setAzimuth(fakeAntennaAzimuth);
+
+    float expectedLoss = 36.2;
     float loss = calculator->calculateAntennaLoss();
     EXPECT_EQ(loss, expectedLoss);
 }

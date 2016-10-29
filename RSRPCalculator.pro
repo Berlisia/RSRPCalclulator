@@ -37,17 +37,20 @@ SOURCES += main.cpp\
     MapProvider/MapParser.cpp \
     MapProvider/Pixel.cpp \
     utest/mapdataprovidertest.cpp \
-    Core/PixelPoint.cpp \
     AntennaLoss/AntennaLossVerticalCalculator.cpp \
     utest/antennalossverticalclaculatortest.cpp \
     AntennaLoss/AntennaLossHorizontalCalculator.cpp \
     AntennaLoss/AnetnnaLossCalculator.cpp \
     utest/antennalosshorizontalcalculatortest.cpp \
     AntennaLoss/AnetnnaLossProvider.cpp \
-    Core/PixelFinder.cpp \
     utest/pixelfindertest.cpp \
     Core/SectorsControler.cpp \
-    Core/AreaCalculation.cpp
+    Core/AreaCalculation.cpp \
+    Core/HorizontalCalculation.cpp \
+    Core/PixelControler.cpp \
+    Core/PixelXY.cpp \
+    Core/Receiver.cpp \
+    utest/calculatersrpwithoughtpathloss.cpp
 
 HEADERS  += mainwindow.h \
     Pathloss/Pathloss.h \
@@ -77,16 +80,18 @@ HEADERS  += mainwindow.h \
     MapProvider/MapParser.h \
     MapProvider/Pixel.h \
     Pathloss/okumurahatapathlossmap.h \
-    Core/PixelPoint.h \
     AntennaLoss/AntennaLossVerticalCalculator.h \
     utest/imapdataprovidermock.h \
     utest/antennalossfileprovidermock.h \
     AntennaLoss/AntennaLossHorizontalCalculator.h \
     AntennaLoss/AnetnnaLossCalculator.h \
     AntennaLoss/AnetnnaLossProvider.h \
-    Core/PixelFinder.h \
     Core/SectorsControler.h \
-    Core/AreaCalculation.h
+    Core/AreaCalculation.h \
+    Core/HorizontalCalculation.h \
+    Core/PixelControler.h \
+    Core/PixelXY.h \
+    Core/Receiver.h
 
 FORMS    += mainwindow.ui \
     dialog.ui

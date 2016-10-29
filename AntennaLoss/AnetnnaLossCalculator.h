@@ -1,6 +1,6 @@
 #ifndef ANETNNALOSSCALCULATOR_H
 #define ANETNNALOSSCALCULATOR_H
-#include "Core/PixelPoint.h"
+#include "Core/PixelXY.h"
 #include "MapProvider/IMapDataProvider.h"
 #include "Core/Antenna.h"
 #include "IAntennaLossFileProvider.h"

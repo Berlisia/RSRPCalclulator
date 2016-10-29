@@ -10,8 +10,11 @@ public:
 
     float calculateAntennaLoss() override;
     int calculateAzimuth();
+    int setAzimuth(int p_azimuth);
 
 private:
+    int relativeAzimuth(int p_azimuthForZeroDeegres);
+    int azimuth;
     int valueOfX();
     int valueOfY();
 

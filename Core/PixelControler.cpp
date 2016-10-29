@@ -1,18 +1,18 @@
-#include "PixelFinder.h"
+#include "PixelControler.h"
 #include <iostream>
 
-PixelFinder::PixelFinder(AreaCalculation &p_area, SectorsControler & p_sectorsControler) :
+PixelControler::PixelControler(AreaCalculation &p_area, SectorsControler & p_sectorsControler) :
     areaCalculation(p_area),
     sectorsControler(p_sectorsControler)
 {
-    pixel = std::make_unique<PixelPoint>(std::make_pair<int,int>(0,0));
+    pixel = std::make_shared<PixelXY>(std::make_pair<int,int>(0,0));
 }
 
-void PixelFinder::changePixel(std::unique_ptr<PixelPoint> p_pixel)
+void PixelControler::changePixel(std::shared_ptr<PixelXY> p_pixel)
 {
     if(checkPixel(p_pixel))
     {
-        pixel = std::move(p_pixel);
+        pixel = p_pixel;
     }
     else
     {
@@ -20,32 +20,32 @@ void PixelFinder::changePixel(std::unique_ptr<PixelPoint> p_pixel)
     }
 }
 
-std::pair<int, int> PixelFinder::getPixel()
+std::pair<int, int> PixelControler::getPixel()
 {
     return pixel->getXy();
 }
 
-float PixelFinder::getPowerFromSector(int indexOfSector)
+float PixelControler::getPowerFromSector(int indexOfSector)
 {
     return sectorsControler.getPowerFromSector(indexOfSector);
 }
 
-double PixelFinder::getBandwithFromSector(int indexOfSector)
+double PixelControler::getBandwithFromSector(int indexOfSector)
 {
     return sectorsControler.getBandwithFromSector(indexOfSector);
 }
 
-std::vector<Sector> &PixelFinder::getVectorOfSectors()
+std::vector<Sector> &PixelControler::getVectorOfSectors()
 {
     return sectorsControler.getVectorOfSectors();
 }
 
-void PixelFinder::addSector(Sector p_sector)
+void PixelControler::addSector(Sector p_sector)
 {
     sectorsControler.addSector(p_sector);
 }
 
-bool PixelFinder::checkPixel(std::unique_ptr<PixelPoint> & pixel)
+bool PixelControler::checkPixel(std::shared_ptr<PixelXY> &pixel)
 {
     return (areaCalculation.getPixel(0).getX() <= pixel->getX()) and
            (areaCalculation.getPixel(0).getY() <= pixel->getY()) and

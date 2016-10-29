@@ -24,6 +24,11 @@ void Sector::setMimo(MIMO newMimo)
     mimo = newMimo;
 }
 
+int Sector::getAzimuth()
+{
+    return azimuth;
+}
+
 float Sector::getPower()
 {
     return antenna.getPower();
@@ -32,5 +37,20 @@ float Sector::getPower()
 double Sector::getBandwith()
 {
     return bandwidth;
+}
+
+float Sector::getAntennaHeight()
+{
+    return baseStation.getAntennaHeight();
+}
+
+int Sector::getAntennaTilt()
+{
+    return antenna.getTilt();
+}
+
+std::pair<int, int> Sector::getPossitonOfBaseStation()
+{
+    return baseStation.getPossition();
 }
 

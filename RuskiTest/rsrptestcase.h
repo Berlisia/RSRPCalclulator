@@ -1,6 +1,6 @@
 #ifndef RSRPTESTCASE_H
 #define RSRPTESTCASE_H
-#include "Core/PixelPoint.h"
+#include "Core/PixelXY.h"
 #include <memory>
 
 class RsrpTestCase

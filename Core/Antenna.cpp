@@ -5,6 +5,7 @@ Antenna::Antenna(float power, int tilt, int frequency) :
     tilt(tilt),
     frequency(frequency)
 {
+    position = std::pair<int,int>(position);
 }
 
 void Antenna::setPower(float newPower)
@@ -27,7 +28,12 @@ float Antenna::getPower()
     return power;
 }
 
-//std::pair<int, int> Antenna::getPosition()
-//{
-//    return position.getXy();
-//}
+int Antenna::getTilt()
+{
+    return tilt;
+}
+
+std::pair<int, int> Antenna::getPosition()
+{
+    return position;
+}

@@ -4,11 +4,11 @@ AreaCalculation::AreaCalculation(std::vector<std::pair<int, int>> vectorOfPixels
 {
     for (auto pair : vectorOfPixels)
     {
-        area.push_back(PixelPoint(pair));
+        area.push_back(PixelXY(pair));
     }
 }
 
-PixelPoint AreaCalculation::getPixel(int index)
+PixelXY AreaCalculation::getPixel(int index)
 {
     return area[index];
 }

@@ -7,7 +7,7 @@ RsrpCalculation::RsrpCalculation(RsrpInitialization &initialize) :
 {
 }
 
-float RsrpCalculation::calculateRsrp(PixelFinder &pixel)
+float RsrpCalculation::calculateRsrp(SectorsControler & sectors)
 {
     float rsrp = 0;
     float buffRsrp = 0;
@@ -15,12 +15,14 @@ float RsrpCalculation::calculateRsrp(PixelFinder &pixel)
     double bandwithOfSector = 0;
     std::vector<float> rsrpFromSectors;
 
-    for (unsigned int i = 0; i < pixel.getVectorOfSectors().size(); i++)
+    for (auto sector : sectors.getVectorOfSectors())
     {
-        powerOfSector = pixel.getPowerFromSector(i);
-        bandwithOfSector = pixel.getBandwithFromSector(i);
+        powerOfSector = sector.getPower();
+        bandwithOfSector = sector.getBandwith();
+
         buffRsrp = std::log10(powerOfSector/numberOfSubcarrer(bandwithOfSector)) * 10;
         rsrpFromSectors.push_back(buffRsrp);
+        m_rsrpFromSectors.push_back(buffRsrp); //!!!!!!!!!!!!!!
         buffRsrp = 0;
     }
     rsrp = findMaxRsrpFromSectors(rsrpFromSectors);

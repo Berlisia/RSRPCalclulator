@@ -11,12 +11,14 @@ public:
     void setFrequency(int newFrequency);
 
     float getPower();
-    //std::pair<int,int> getPosition();
+    int getTilt();
+    std::pair<int,int> getPosition();
 
 private:
     float power;
     int tilt;
     int frequency; //MHz
+    std::pair<int,int> position;
 };
 
 #endif // ANTENNA_H

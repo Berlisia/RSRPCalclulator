@@ -19,8 +19,12 @@ public:
     void setBandwidth(double newBandwith);
     void setMimo(MIMO newMimo);
 
+    int getAzimuth();
     float getPower();
     double getBandwith();
+    float getAntennaHeight();
+    int getAntennaTilt();
+    std::pair<int,int> getPossitonOfBaseStation();
 
 private:
     int azimuth;      //stopnie

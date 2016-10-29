@@ -2,7 +2,7 @@
 #include "RSRP/IRsrpCalculation.h"
 #include "RSRP/RsrpCalculation.h"
 #include "RSRP/RsrpInitialization.h"
-#include "Core/PixelFinder.h"
+#include "Core/PixelControler.h"
 
 #include <memory>
 #include <vector>
@@ -11,8 +11,8 @@ using namespace std;
 
 void RsrpTestCase::rsrpCalculationTest()
 {
-    BaseStation base1;
-    BaseStation base2;
+    BaseStation base1(std::make_pair<int,int>(1500,1500), 120.0);
+    BaseStation base2(std::make_pair<int,int>(1800,1800), 130.0);
 
     std::vector<std::pair<int,int>> area;
 
@@ -49,10 +49,10 @@ void RsrpTestCase::rsrpCalculationTest()
 
     RsrpInitialization rsrpInit;
     unique_ptr<IRsrpCalculation> calculator(new RsrpCalculation(rsrpInit));
-    unique_ptr<PixelPoint> pixel =
-            std::make_unique<PixelPoint>(std::make_pair<int,int>(1024,1999));
-    PixelFinder finder(areaCalc, sectorControler);
-    finder.changePixel(std::move(pixel));
-    float maxValue = calculator->calculateRsrp(finder);
+//    shared_ptr<PixelXY> pixel =
+//            std::make_shared<PixelXY>(std::make_pair<int,int>(1024,1999));
+//    PixelControler finder(areaCalc, sectorControler);
+//    finder.changePixel(pixel);
+    float maxValue = calculator->calculateRsrp(sectorControler);
     cout << "Max Value from rsrp vector: " << maxValue << endl;
 }

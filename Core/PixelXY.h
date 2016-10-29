@@ -1,12 +1,11 @@
-#ifndef PIXELPOINT_H
-#define PIXELPOINT_H
-#include "Sector.h"
+#ifndef PIXELXY_H
+#define PIXELXY_H
 #include <vector>
 
-class PixelPoint
+class PixelXY
 {
 public:
-    PixelPoint(std::pair<int, int> p_xy);
+    PixelXY(std::pair<int, int> p_xy);
 
     int getX() const;
     int getY() const;
@@ -16,4 +15,4 @@ private:
     std::pair<int, int> m_xy;
 };
 
-#endif // PIXEL_H
+#endif // PIXELXY_H
