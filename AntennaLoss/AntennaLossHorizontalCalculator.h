@@ -10,7 +10,7 @@ public:
 
     float calculateAntennaLoss() override;
     int calculateAzimuth();
-    int setAzimuth(int p_azimuth);
+    void setAzimuth(int p_azimuth);
 
 private:
     int relativeAzimuth(int p_azimuthForZeroDeegres);

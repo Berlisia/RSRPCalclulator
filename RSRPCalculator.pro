@@ -50,7 +50,8 @@ SOURCES += main.cpp\
     Core/PixelControler.cpp \
     Core/PixelXY.cpp \
     Core/Receiver.cpp \
-    utest/calculatersrpwithoughtpathloss.cpp
+    utest/calculatersrpwithoughtpathloss.cpp \
+    Image.cpp
 
 HEADERS  += mainwindow.h \
     Pathloss/Pathloss.h \
@@ -91,7 +92,8 @@ HEADERS  += mainwindow.h \
     Core/HorizontalCalculation.h \
     Core/PixelControler.h \
     Core/PixelXY.h \
-    Core/Receiver.h
+    Core/Receiver.h \
+    Image.h
 
 FORMS    += mainwindow.ui \
     dialog.ui

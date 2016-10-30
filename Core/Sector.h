@@ -20,8 +20,8 @@ public:
     void setMimo(MIMO newMimo);
 
     int getAzimuth();
-    float getPower();
-    double getBandwith();
+    float getPower() const;
+    double getBandwith() const;
     float getAntennaHeight();
     int getAntennaTilt();
     std::pair<int,int> getPossitonOfBaseStation();

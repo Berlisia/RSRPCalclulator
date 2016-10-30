@@ -7,25 +7,11 @@ RsrpCalculation::RsrpCalculation(RsrpInitialization &initialize) :
 {
 }
 
-float RsrpCalculation::calculateRsrp(SectorsControler & sectors)
+float RsrpCalculation::calculateRsrp(Sector const& sector)
 {
     float rsrp = 0;
-    float buffRsrp = 0;
-    float powerOfSector = 0;
-    double bandwithOfSector = 0;
-    std::vector<float> rsrpFromSectors;
-
-    for (auto sector : sectors.getVectorOfSectors())
-    {
-        powerOfSector = sector.getPower();
-        bandwithOfSector = sector.getBandwith();
-
-        buffRsrp = std::log10(powerOfSector/numberOfSubcarrer(bandwithOfSector)) * 10;
-        rsrpFromSectors.push_back(buffRsrp);
-        m_rsrpFromSectors.push_back(buffRsrp); //!!!!!!!!!!!!!!
-        buffRsrp = 0;
-    }
-    rsrp = findMaxRsrpFromSectors(rsrpFromSectors);
+    rsrp = std::log10(sector.getPower()/numberOfSubcarrer(sector.getBandwith())) * 10;
+    //rsrp = findMaxRsrpFromSectors(rsrpFromSectors);
     rsrp = rsrp + 30; //dB na dBm
     return rsrp;
 }

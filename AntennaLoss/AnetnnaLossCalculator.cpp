@@ -4,6 +4,7 @@
 
 const int AntenaLossCalculator::stopnie = 180;
 const float AntenaLossCalculator::PI = 3.14;
+const int AntenaLossCalculator::circle = 360;
 
 AntenaLossCalculator::AntenaLossCalculator(IMapDataProvider & p_mapProvider,
                                             IAntennaLossFileProvider & p_AntennafileProvider) :

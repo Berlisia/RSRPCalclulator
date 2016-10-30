@@ -29,12 +29,12 @@ int Sector::getAzimuth()
     return azimuth;
 }
 
-float Sector::getPower()
+float Sector::getPower() const
 {
     return antenna.getPower();
 }
 
-double Sector::getBandwith()
+double Sector::getBandwith() const
 {
     return bandwidth;
 }

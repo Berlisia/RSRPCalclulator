@@ -6,8 +6,8 @@
 class IRsrpCalculation
 {
 public:
-    virtual float calculateRsrp(SectorsControler & sectors) = 0;
-    std::vector<float> m_rsrpFromSectors;
+    virtual float calculateRsrp(const Sector & sectors) = 0;
+    virtual float findMaxRsrpFromSectors(std::vector<float> & vectorRsrp) = 0;
 };
 
 #endif // IRSRPCALCULATION_H

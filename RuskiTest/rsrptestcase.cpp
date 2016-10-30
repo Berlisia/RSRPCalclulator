@@ -49,10 +49,11 @@ void RsrpTestCase::rsrpCalculationTest()
 
     RsrpInitialization rsrpInit;
     unique_ptr<IRsrpCalculation> calculator(new RsrpCalculation(rsrpInit));
-//    shared_ptr<PixelXY> pixel =
-//            std::make_shared<PixelXY>(std::make_pair<int,int>(1024,1999));
-//    PixelControler finder(areaCalc, sectorControler);
-//    finder.changePixel(pixel);
-    float maxValue = calculator->calculateRsrp(sectorControler);
+    std::vector<float> rsrpFromSectors;
+    for(auto sec : sectors)
+    {
+        rsrpFromSectors.push_back(calculator->calculateRsrp(sec));
+    }
+    float maxValue = calculator->findMaxRsrpFromSectors(rsrpFromSectors);
     cout << "Max Value from rsrp vector: " << maxValue << endl;
 }

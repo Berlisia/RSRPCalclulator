@@ -25,6 +25,7 @@ protected:
 
     static const int stopnie;
     static const float PI;
+    static const int circle;
 };
 
 #endif // ANETNNALOSSCALCULATOR_H

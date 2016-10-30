@@ -13,6 +13,8 @@
 #include "AntennaLoss/AntennaLossHorizontalCalculator.h"
 #include "AntennaLoss/AntennaLossVerticalCalculator.h"
 
+#include "Image.h"
+
 #include <memory>
 #include <iostream>
 
@@ -68,7 +70,16 @@ TEST_F(CalculateRSRPWithoughtPathLoss, ForOneAntennaBaseAnd3SectorsAndOnePixel)
     //RSRP
     RsrpInitialization rsrpInit;
     std::unique_ptr<IRsrpCalculation> rsrpCalculator(std::make_unique<RsrpCalculation>(rsrpInit));
-    float maxValue = rsrpCalculator->calculateRsrp(sectorsControler);
+    std::vector<float> rsrpFromSectors;
+    for(auto sec : sector)
+    {
+        rsrpFromSectors.push_back(rsrpCalculator->calculateRsrp(sec));
+    }
+
+    for(auto d : rsrpFromSectors)
+    {
+        std::cout << d << std::endl;
+    }
 
     //HorizontalLoss
     std::unique_ptr<AntennaLossHorizontalCalculator> antennaLossCalculator(
@@ -82,6 +93,11 @@ TEST_F(CalculateRSRPWithoughtPathLoss, ForOneAntennaBaseAnd3SectorsAndOnePixel)
         antennaLossCalculator->setAzimuth(sec.getAzimuth());
         float loss = antennaLossCalculator->calculateAntennaLoss();
         antennaHorizontalLoss.push_back(loss);
+    }
+
+    for(auto d : antennaHorizontalLoss)
+    {
+        std::cout << d << std::endl;
     }
 
     //VerticalLoss
@@ -100,11 +116,15 @@ TEST_F(CalculateRSRPWithoughtPathLoss, ForOneAntennaBaseAnd3SectorsAndOnePixel)
         antennaVerticalLoss.push_back(loss);
     }
 
-    std::vector<float> endedLoss;
-    for(unsigned int i = 0; i < 3; i++) //sprawdz, czemu size nie dziala i poprawnosc wynikow (refaktor RSRP)
+    for(auto d : antennaVerticalLoss)
     {
-        endedLoss.push_back(rsrpCalculator->m_rsrpFromSectors[i] - antennaHorizontalLoss[i] - antennaVerticalLoss[i]);
-        std::cout << i << std::endl;
+        std::cout << d << std::endl;
+    }
+
+    std::vector<float> endedLoss;
+    for(unsigned int i = 0; i < 3; i++)
+    {
+        endedLoss.push_back(rsrpFromSectors[i] - antennaHorizontalLoss[i] - antennaVerticalLoss[i]);
     }
 
     for(auto rsrp : endedLoss)
@@ -112,3 +132,9 @@ TEST_F(CalculateRSRPWithoughtPathLoss, ForOneAntennaBaseAnd3SectorsAndOnePixel)
         std::cout << rsrp << std::endl;
     }
 }
+
+TEST_F(CalculateRSRPWithoughtPathLoss, ForOneAntennaBaseAnd3SectorsWhithChangingPixels)
+{
+
+}
+
