@@ -25,6 +25,11 @@ void AntenaLossCalculator::setAntenna(std::pair<int, int> p_antenna)
     antenna = p_antenna;
 }
 
+std::pair<int, int> AntenaLossCalculator::getAntennaPossiton()
+{
+    return antenna;
+}
+
 int AntenaLossCalculator::arcTangens(const float value)
 {
     float angle = 0;

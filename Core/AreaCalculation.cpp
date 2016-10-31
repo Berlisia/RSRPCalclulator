@@ -12,3 +12,23 @@ PixelXY AreaCalculation::getPixel(int index)
 {
     return area[index];
 }
+
+int AreaCalculation::beginX()
+{
+    return area[0].getX();
+}
+
+int AreaCalculation::beginY()
+{
+    return area[0].getY();
+}
+
+int AreaCalculation::endX()
+{
+    return area[1].getX();
+}
+
+int AreaCalculation::endY()
+{
+    return area[3].getY();
+}

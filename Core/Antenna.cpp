@@ -1,9 +1,11 @@
 #include "Antenna.h"
 
-Antenna::Antenna(float power, int tilt, int frequency) :
+Antenna::Antenna(float power, int tilt, int frequency, std::string fileH, std::string fileV) :
     power(power),
     tilt(tilt),
-    frequency(frequency)
+    frequency(frequency),
+    fileNameH(fileH),
+    fileNameV(fileV)
 {
     position = std::pair<int,int>(position);
 }
@@ -37,3 +39,14 @@ std::pair<int, int> Antenna::getPosition()
 {
     return position;
 }
+
+std::string Antenna::getFileNameH()
+{
+    return fileNameH;
+}
+
+std::string Antenna::getFileNameV()
+{
+    return fileNameV;
+}
+

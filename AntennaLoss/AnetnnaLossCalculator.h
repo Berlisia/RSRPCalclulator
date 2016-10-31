@@ -14,6 +14,8 @@ public:
     void setReceiver(std::pair<int,int> p_receiver);
     void setAntenna(std::pair<int,int> p_antenna);
 
+    std::pair<int,int> getAntennaPossiton();
+
 protected:
     int arcTangens(const float distance);
 

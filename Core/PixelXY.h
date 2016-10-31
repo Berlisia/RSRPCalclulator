@@ -6,6 +6,7 @@ class PixelXY
 {
 public:
     PixelXY(std::pair<int, int> p_xy);
+    PixelXY(unsigned int i, unsigned int j);
 
     int getX() const;
     int getY() const;

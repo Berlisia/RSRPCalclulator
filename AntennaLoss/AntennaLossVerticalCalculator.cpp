@@ -28,6 +28,16 @@ void AntennaLossVerticalCalculator::setTilt(int p_tilt)
     tilt = p_tilt;
 }
 
+float AntennaLossVerticalCalculator::getAntennaHeight()
+{
+    return antennaHeight;
+}
+
+int AntennaLossVerticalCalculator::getTilt()
+{
+    return tilt;
+}
+
 int AntennaLossVerticalCalculator::calculateAngle()
 {
     float angle = 0;

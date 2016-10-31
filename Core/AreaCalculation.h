@@ -9,6 +9,10 @@ public:
     AreaCalculation(std::vector<std::pair<int,int>> vectorOfPixels);
 
     PixelXY getPixel(int index);
+    int beginX();
+    int beginY();
+    int endX();
+    int endY();
 
 private:
     std::vector<PixelXY> area;

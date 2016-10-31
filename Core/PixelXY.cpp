@@ -6,6 +6,11 @@ PixelXY::PixelXY(std::pair<int, int> p_xy) :
 
 }
 
+PixelXY::PixelXY(unsigned int i, unsigned int j)
+{
+    m_xy = std::make_pair<int,int>(i,j);
+}
+
 int PixelXY::getX() const
 {
     return m_xy.first;

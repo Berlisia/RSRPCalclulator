@@ -33,6 +33,11 @@ void AntennaLossHorizontalCalculator::setAzimuth(int p_azimuth)
     azimuth = p_azimuth;
 }
 
+int AntennaLossHorizontalCalculator::getAzimuth()
+{
+    return azimuth;
+}
+
 int AntennaLossHorizontalCalculator::relativeAzimuth(int p_azimuthForZeroDeegres)
 {
     int l_azimuth = 0;

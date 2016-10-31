@@ -12,6 +12,9 @@ public:
     void setAntennaHeight(float p_antennaHeight); //względem UE!!!!
     void setTilt(int p_tilt);
 
+    float getAntennaHeight();
+    int getTilt();
+
 private:
     int calculateAngle();
     void calculateAntennaHeight();

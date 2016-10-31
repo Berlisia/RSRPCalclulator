@@ -1,7 +1,7 @@
 #include <iostream>
 #include "RuskiTest/rsrptestcase.h"
 #include "RuskiTest/AntennaLossFileParserTest.h"
-#include <gtest/gtest.h>
+//#include <gtest/gtest.h>
 using namespace std;
 
 #include "Core/BaseStation.h"
@@ -45,9 +45,9 @@ public:
         PixelXY possitionOfBaseStation(std::make_pair<int,int>(1018,1018));
         BaseStation baseStation(possitionOfBaseStation.getXy(),120);
 
-        Antenna antenna1(30,1,1800);
-        Antenna antenna2(20,2,1800);
-        Antenna antenna3(10,3,1800);
+        Antenna antenna1(30,1,1800, "742266V02_pozioma.csv","742266V02_pionowa.csv");
+        Antenna antenna2(20,2,1800, "742266V02_pozioma.csv","742266V02_pionowa.csv");
+        Antenna antenna3(10,3,1800, "742266V02_pozioma.csv","742266V02_pionowa.csv");
 
         std::vector<Sector> sector
         {
@@ -148,7 +148,7 @@ int main(int argc, char *argv[])
     CalculateRSRPWithoughtPathLoss calk;
     calk.cos();
 
-    Image image(3000, 3000);
+    Image image(3802, 3942);
 
     image.setMaxValue(calk.max);
     image.setMinValue(calk.min);

@@ -12,6 +12,8 @@ public:
     int calculateAzimuth();
     void setAzimuth(int p_azimuth);
 
+    int getAzimuth();
+
 private:
     int relativeAzimuth(int p_azimuthForZeroDeegres);
     int azimuth;

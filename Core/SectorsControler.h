@@ -4,6 +4,7 @@
 #include "Antenna.h"
 #include "BaseStation.h"
 #include <vector>
+#include <memory>
 
 class SectorsControler
 {
@@ -12,12 +13,12 @@ public:
 
     float getPowerFromSector(int indexOfSector);
     double getBandwithFromSector(int indexOfSector);
-    std::vector<Sector> &getVectorOfSectors();
+    std::shared_ptr<std::vector<Sector> > getVectorOfSectors();
     void addSector(Antenna & antenna, BaseStation & base);
     void addSector(Sector p_sector);
 
 private:
-    std::vector<Sector> & sector;
+    std::shared_ptr<std::vector<Sector>> sector;
 };
 
 #endif // SECTORSCONTROLER_H

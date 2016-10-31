@@ -11,9 +11,9 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = RSRPCalculator
 TEMPLATE = app
-DEFINES += GTEST_LINKED_AS_SHARED_LIBRARY=1
+#DEFINES += GTEST_LINKED_AS_SHARED_LIBRARY=1
 
-LIBS += -lgtest -L/usr/lib/
+#LIBS += -lgtest -L/usr/lib/
 
 
 SOURCES += main.cpp\
@@ -32,26 +32,23 @@ SOURCES += main.cpp\
     AntennaLoss/AntennaLossFileParser.cpp \
     RuskiTest/AntennaLossFileParserTest.cpp \
     AntennaLoss/AntennaLossFileProvider.cpp \
-    utest/antennalossfileprovidertest.cpp \
     MapProvider/MapDataProvider.cpp \
     MapProvider/MapParser.cpp \
     MapProvider/Pixel.cpp \
-    utest/mapdataprovidertest.cpp \
     AntennaLoss/AntennaLossVerticalCalculator.cpp \
-    utest/antennalossverticalclaculatortest.cpp \
     AntennaLoss/AntennaLossHorizontalCalculator.cpp \
     AntennaLoss/AnetnnaLossCalculator.cpp \
-    utest/antennalosshorizontalcalculatortest.cpp \
     AntennaLoss/AnetnnaLossProvider.cpp \
-    utest/pixelfindertest.cpp \
     Core/SectorsControler.cpp \
     Core/AreaCalculation.cpp \
-    Core/HorizontalCalculation.cpp \
-    Core/PixelControler.cpp \
     Core/PixelXY.cpp \
     Core/Receiver.cpp \
-    utest/calculatersrpwithoughtpathloss.cpp \
-    Image.cpp
+    Image.cpp \
+    JobQueue.cpp \
+    ThreadPool.cpp \
+    PixelWorker.cpp \
+    AntennaLoss/AntennaLossCalculation.cpp \
+    Worker.cpp
 
 HEADERS  += mainwindow.h \
     Pathloss/Pathloss.h \
@@ -74,7 +71,6 @@ HEADERS  += mainwindow.h \
     RuskiTest/AntennaLossFileParserTest.h \
     AntennaLoss/AntennaLossFileProvider.h \
     AntennaLoss/IAntennaLossFileProvider.h \
-    utest/antennalossfileparsermock.h \
     MapProvider/Enviroment.h \
     MapProvider/IMapDataProvider.h \
     MapProvider/MapDataProvider.h \
@@ -82,18 +78,19 @@ HEADERS  += mainwindow.h \
     MapProvider/Pixel.h \
     Pathloss/okumurahatapathlossmap.h \
     AntennaLoss/AntennaLossVerticalCalculator.h \
-    utest/imapdataprovidermock.h \
-    utest/antennalossfileprovidermock.h \
     AntennaLoss/AntennaLossHorizontalCalculator.h \
     AntennaLoss/AnetnnaLossCalculator.h \
     AntennaLoss/AnetnnaLossProvider.h \
     Core/SectorsControler.h \
     Core/AreaCalculation.h \
-    Core/HorizontalCalculation.h \
-    Core/PixelControler.h \
     Core/PixelXY.h \
     Core/Receiver.h \
-    Image.h
+    Image.h \
+    JobQueue.h \
+    ThreadPool.h \
+    PixelWorker.h \
+    AntennaLoss/AntennaLossCalculation.h \
+    Worker.h
 
 FORMS    += mainwindow.ui \
     dialog.ui
