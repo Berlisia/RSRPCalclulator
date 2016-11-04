@@ -1,12 +1,12 @@
 #include "Sector.h"
 
-Sector::Sector(Antenna & antenna, BaseStation & baseStation) :
+Sector::Sector(Antenna & p_antenna, std::shared_ptr<BaseStation> baseStation) :
                 azimuth(0),
                 bandwidth(0),
                 mimo(MIMO::Nan),
-                antenna(antenna),
                 baseStation(baseStation)
 {
+    antenna = std::make_shared<Antenna>(std::move(p_antenna));
 }
 
 void Sector::setAzimuth(int newAzimuth)
@@ -31,7 +31,7 @@ int Sector::getAzimuth()
 
 float Sector::getPower() const
 {
-    return antenna.getPower();
+    return antenna->getPower();
 }
 
 double Sector::getBandwith() const
@@ -41,16 +41,16 @@ double Sector::getBandwith() const
 
 float Sector::getAntennaHeight()
 {
-    return baseStation.getAntennaHeight();
+    return baseStation->getAntennaHeight();
 }
 
 int Sector::getAntennaTilt()
 {
-    return antenna.getTilt();
+    return antenna->getTilt();
 }
 
 std::pair<int, int> Sector::getPossitonOfBaseStation()
 {
-    return baseStation.getPossition();
+    return baseStation->getPossition();
 }
 

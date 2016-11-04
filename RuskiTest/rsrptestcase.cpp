@@ -11,8 +11,10 @@ using namespace std;
 
 void RsrpTestCase::rsrpCalculationTest()
 {
-    BaseStation base1(std::make_pair<int,int>(1500,1500), 120.0);
-    BaseStation base2(std::make_pair<int,int>(1800,1800), 130.0);
+    std::shared_ptr<BaseStation> base1 =
+            std::make_shared<BaseStation>(std::make_pair<int,int>(1500,1500), 120.0);
+    std::shared_ptr<BaseStation> base2 =
+            std::make_shared<BaseStation>(std::make_pair<int,int>(1800,1800), 130.0);
 
     std::vector<std::pair<int,int>> area;
 

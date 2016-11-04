@@ -43,24 +43,27 @@ void ThreadPool::start()
 
 void ThreadPool::stop()
 {
+    int i = 0;
     for (auto job : threads)
     {
       (*job).join();
+        i++;
+      std::cout << "join "<< i << std::endl;
     }
 
     threads.clear();
 }
 
-void ThreadPool::add(const Task & task)
+void ThreadPool::add(const Task & task, const PixelXY &pixel)
 {
-    queue.push(task);
+    queue.push(task, pixel);
 }
 
 void ThreadPool::threadFunc()
 {
-    while (1)
+    while (!queue.empty())
     {
-      std::shared_ptr<Task> task = queue.waitForJob();
-      (*task)();
+      std::pair<Task, PixelXY> exec = queue.waitForJob(); //popraw TODO
+      exec.first(exec.second);
     }
 }

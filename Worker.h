@@ -9,11 +9,13 @@ public:
     Worker();
 
     void doCalculation();
+    void listInCoutRSPR();
 
 private:
     void fakeInit(); //TODO whit QT UI
     //klasa InitObject -> zasięg do nazw plików (vector<Antenna>)
     void calculateRsrpForSectors();
+    void executeCalculationForPixel(PixelXY pixel);
 
     std::unique_ptr<ThreadPool> pool;
     std::shared_ptr<SectorsControler> sectors;
@@ -24,7 +26,9 @@ private:
 
     std::vector<float> rsrpForSectors;
 
-    std::vector<float> RSRP;
+    RSRPForPixel RSRP;
+
+    std::mutex mut;
 
 };
 

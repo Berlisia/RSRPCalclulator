@@ -8,18 +8,20 @@
 #include <queue>
 #include <string>
 
-typedef std::function<void()> Task;
+#include "Core/PixelXY.h"
+
+typedef std::function<void(PixelXY)> Task;
 
 class JobQueue
 {
 public:
-    void push(Task task);
-    std::shared_ptr<Task> waitForJob();
+    void push(const Task task, const PixelXY&);
+    std::pair<Task, PixelXY> waitForJob();
     bool empty() const;
 
 private:
     mutable std::mutex mut;
-    std::queue<Task> dataQueue;
+    std::queue<std::pair<Task, PixelXY>> dataQueue;
     std::condition_variable dataCond;
 };
 

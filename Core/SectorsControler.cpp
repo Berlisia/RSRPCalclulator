@@ -20,10 +20,10 @@ std::shared_ptr<std::vector<Sector> > SectorsControler::getVectorOfSectors()
     return sector;
 }
 
-void SectorsControler::addSector(Antenna &antenna, BaseStation &base)
-{
-    sector->push_back(Sector(antenna,base));
-}
+//void SectorsControler::addSector(Antenna &antenna, BaseStation &base)
+//{
+//    sector->push_back(Sector(antenna,base));
+//}
 
 void SectorsControler::addSector(Sector p_sector)
 {

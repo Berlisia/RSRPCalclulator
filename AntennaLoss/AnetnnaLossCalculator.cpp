@@ -6,8 +6,8 @@ const int AntenaLossCalculator::stopnie = 180;
 const float AntenaLossCalculator::PI = 3.14;
 const int AntenaLossCalculator::circle = 360;
 
-AntenaLossCalculator::AntenaLossCalculator(IMapDataProvider & p_mapProvider,
-                                            IAntennaLossFileProvider & p_AntennafileProvider) :
+AntenaLossCalculator::AntenaLossCalculator(std::shared_ptr<IMapDataProvider> p_mapProvider,
+                                            std::shared_ptr<IAntennaLossFileProvider> p_AntennafileProvider) :
     mapProvider(p_mapProvider),
     antennafileProvider(p_AntennafileProvider),
     receiver(0,0),

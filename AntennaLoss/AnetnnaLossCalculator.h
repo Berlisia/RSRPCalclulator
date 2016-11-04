@@ -4,13 +4,15 @@
 #include "MapProvider/IMapDataProvider.h"
 #include "Core/Antenna.h"
 #include "IAntennaLossFileProvider.h"
+#include <memory>
 
 class AntenaLossCalculator
 {
 public:
-    AntenaLossCalculator(IMapDataProvider & p_mapProvider, IAntennaLossFileProvider & p_AntennafileProvider);
+    AntenaLossCalculator(std::shared_ptr<IMapDataProvider> p_mapProvider,
+                         std::shared_ptr<IAntennaLossFileProvider> p_AntennafileProvider);
 
-    virtual float calculateAntennaLoss() = 0;
+    //float calculateAntennaLoss();
     void setReceiver(std::pair<int,int> p_receiver);
     void setAntenna(std::pair<int,int> p_antenna);
 
@@ -19,8 +21,8 @@ public:
 protected:
     int arcTangens(const float distance);
 
-    IMapDataProvider & mapProvider;
-    IAntennaLossFileProvider & antennafileProvider;
+    std::shared_ptr<IMapDataProvider> mapProvider;
+    std::shared_ptr<IAntennaLossFileProvider> antennafileProvider;
 
     std::pair<int,int> receiver;
     std::pair<int,int> antenna;

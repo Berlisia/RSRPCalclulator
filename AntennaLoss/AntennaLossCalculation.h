@@ -8,13 +8,6 @@
 
 typedef std::shared_ptr<std::vector<float>> AntennaLossForSectors;
 
-//struct Parameters
-//{
-//   std::pair<int,int> baseStationPossition;
-//   float baseStationHeight;
-//   std::pair<int,int> receiverPossition;
-//};
-
 class AntennaLossCalculation
 {
 public:
@@ -22,11 +15,8 @@ public:
                            std::shared_ptr<IAntennaLossFileProvider> p_antennaLossDataProvider,
                            SectorsControler & p_sectors);
 
-//    void setParam(std::pair<int,int> p_baseStationPossition,
-//                  float p_baseStationHeight,
-//                  std::pair<int,int> p_receiverPossition);
-
     AntennaLossForSectors calculate();
+    void setReciver(PixelXY pixel);
 private:
     void check(Sector & sector);
 

@@ -2,10 +2,10 @@
 #include <cmath>
 #include <functional>
 #include <iostream>
-using namespace std;
 
-AntennaLossHorizontalCalculator::AntennaLossHorizontalCalculator(IMapDataProvider & p_mapProvider, IAntennaLossFileProvider & p_AntennafileProvider) :
-    AntenaLossCalculator(p_mapProvider,p_AntennafileProvider)
+AntennaLossHorizontalCalculator::AntennaLossHorizontalCalculator(std::shared_ptr<IMapDataProvider> p_mapProvider,
+                                                                 std::shared_ptr<IAntennaLossFileProvider> p_AntennafileProvider) :
+    AntenaLossCalculator(p_mapProvider, p_AntennafileProvider)
 {
 }
 
@@ -14,7 +14,7 @@ float AntennaLossHorizontalCalculator::calculateAntennaLoss()
     int azimuthForZeroDeegres = calculateAzimuth();
     int l_azimuth = relativeAzimuth(azimuthForZeroDeegres);
 
-    float loss = antennafileProvider.getLossFromFile(l_azimuth, Charakteristic::horizontal);
+    float loss = antennafileProvider->getLossFromFile(l_azimuth, Charakteristic::horizontal);
     return loss;
 }
 

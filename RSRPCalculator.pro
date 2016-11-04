@@ -38,7 +38,6 @@ SOURCES += main.cpp\
     AntennaLoss/AntennaLossVerticalCalculator.cpp \
     AntennaLoss/AntennaLossHorizontalCalculator.cpp \
     AntennaLoss/AnetnnaLossCalculator.cpp \
-    AntennaLoss/AnetnnaLossProvider.cpp \
     Core/SectorsControler.cpp \
     Core/AreaCalculation.cpp \
     Core/PixelXY.cpp \
@@ -80,7 +79,6 @@ HEADERS  += mainwindow.h \
     AntennaLoss/AntennaLossVerticalCalculator.h \
     AntennaLoss/AntennaLossHorizontalCalculator.h \
     AntennaLoss/AnetnnaLossCalculator.h \
-    AntennaLoss/AnetnnaLossProvider.h \
     Core/SectorsControler.h \
     Core/AreaCalculation.h \
     Core/PixelXY.h \

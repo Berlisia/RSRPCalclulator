@@ -6,9 +6,10 @@
 class AntennaLossHorizontalCalculator : public AntenaLossCalculator
 {
 public:
-    AntennaLossHorizontalCalculator(IMapDataProvider & p_mapProvider, IAntennaLossFileProvider & p_AntennafileProvider);
+    AntennaLossHorizontalCalculator(std::shared_ptr<IMapDataProvider> p_mapProvider,
+                                    std::shared_ptr<IAntennaLossFileProvider> p_AntennafileProvider);
 
-    float calculateAntennaLoss() override;
+    float calculateAntennaLoss();
     int calculateAzimuth();
     void setAzimuth(int p_azimuth);
 

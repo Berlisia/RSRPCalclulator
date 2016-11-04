@@ -2,6 +2,7 @@
 #define SECTOR_H
 #include "Antenna.h"
 #include "BaseStation.h"
+#include <memory>
 
 enum class MIMO
 {
@@ -13,7 +14,7 @@ enum class MIMO
 class Sector
 {
 public:
-    Sector(Antenna & antenna, BaseStation & baseStation);
+    Sector(Antenna & antenna, std::shared_ptr<BaseStation> baseStation);
 
     void setAzimuth(int newAzimuth);
     void setBandwidth(double newBandwith);
@@ -30,8 +31,8 @@ private:
     int azimuth;      //stopnie
     double bandwidth; //MHz
     MIMO mimo;
-    Antenna & antenna;
-    BaseStation & baseStation;
+    std::shared_ptr<Antenna> antenna;
+    std::shared_ptr<BaseStation> baseStation;
 };
 
 #endif // SECTOR_H

@@ -5,16 +5,9 @@ AntennaLossCalculation::AntennaLossCalculation(std::shared_ptr<IMapDataProvider>
                                                SectorsControler & p_sectors) :
     mapDataProvider(p_mapDataProvider), antennaLossDataProvider(p_antennaLossDataProvider), sectors(p_sectors)
 {
-    horizontalCalculator = std::make_shared<AntennaLossHorizontalCalculator>(*mapDataProvider, *antennaLossDataProvider);
-    verticalCalculator = std::make_shared<AntennaLossVerticalCalculator>(*mapDataProvider, *antennaLossDataProvider);
+    horizontalCalculator = std::make_shared<AntennaLossHorizontalCalculator>(mapDataProvider, antennaLossDataProvider);
+    verticalCalculator = std::make_shared<AntennaLossVerticalCalculator>(mapDataProvider, antennaLossDataProvider);
 }
-
-//void AntennaLossCalculation::setParam(std::pair<int, int> p_baseStationPossition, float p_baseStationHeight, std::pair<int, int> p_receiverPossition)
-//{
-//    param.baseStationHeight = p_baseStationHeight;
-//    param.baseStationPossition = p_baseStationPossition;
-//    param.receiverPossition = p_receiverPossition;
-//}
 
 AntennaLossForSectors AntennaLossCalculation::calculate()
 {
@@ -32,6 +25,12 @@ AntennaLossForSectors AntennaLossCalculation::calculate()
     }
     AntennaLossForSectors lossPtr = std::make_shared<std::vector<float>>(std::move(loss));
     return lossPtr;
+}
+
+void AntennaLossCalculation::setReciver(PixelXY pixel)
+{
+    horizontalCalculator->setReceiver(pixel.getXy());
+    verticalCalculator->setReceiver(pixel.getXy());
 }
 
 void AntennaLossCalculation::check(Sector & sector)

@@ -6,10 +6,14 @@
 
 Worker::Worker()
 {
-    pool = std::make_unique<ThreadPool>(1024);
+    unsigned int n = std::thread::hardware_concurrency();
+    std::cout << "Thread: " << n << std::endl;
+    pool = std::make_unique<ThreadPool>(n-1);
     dataProvider = std::make_shared<MapDataProvider>();
     antennaProvider = std::make_shared<AntennaLossFileProvider>("742266V02_pozioma.csv",
-                                                               "742266V02_pionowa.csv"); //Tymczasowo
+                                                                "742266V02_pionowa.csv"); //Tymczasowo
+    fakeInit();
+    calculateRsrpForSectors();
 }
 
 void Worker::doCalculation()
@@ -18,18 +22,30 @@ void Worker::doCalculation()
     {
         for(unsigned int i = areaCalculation->beginX(); i < areaCalculation->endX(); i++)//x
         {
-            PixelWorker pixelWorker(RSRP, rsrpForSectors, PixelXY(i,j), dataProvider, antennaProvider, *sectors);
-            pool->add(std::bind(&PixelWorker::executeCalculationForPixel, pixelWorker));
+            PixelXY pixel(i,j);
+            //executeCalculationForPixel(pixel);
+            //std::cout << i << std::endl;
+            pool->add(std::bind(&Worker::executeCalculationForPixel, this, pixel), pixel);
         }
     }
 
     pool->start();
+    pool->stop();
+}
+
+void Worker::listInCoutRSPR()
+{
+    for(auto rsrp : RSRP)
+    {
+        std::cout << rsrp.second << " " << rsrp.first.getX() << " " << rsrp.first.getY() << std::endl;
+    }
 }
 
 void Worker::fakeInit()
 {
-    PixelXY possitionOfBaseStation(std::make_pair<int,int>(1018,1018));
-    BaseStation baseStation(possitionOfBaseStation.getXy(), 120);
+    PixelXY possitionOfBaseStation(std::make_pair<int,int>(2000,2000));
+    std::shared_ptr<BaseStation> baseStation =
+            std::make_shared<BaseStation>(std::move(possitionOfBaseStation.getXy()), 120);
 
     Antenna antenna1(30,1,1800, "742266V02_pozioma.csv","742266V02_pionowa.csv");
     Antenna antenna2(20,2,1800, "742266V02_pozioma.csv","742266V02_pionowa.csv");
@@ -54,9 +70,9 @@ void Worker::fakeInit()
 
     std::vector<std::pair<int,int>> area;
     area.push_back(std::make_pair<int,int>(1000,1000));
-    area.push_back(std::make_pair<int,int>(1026,1000));
-    area.push_back(std::make_pair<int,int>(1000,1026));
-    area.push_back(std::make_pair<int,int>(1026,1026));
+    area.push_back(std::make_pair<int,int>(3000,1000));
+    area.push_back(std::make_pair<int,int>(1000,3000));
+    area.push_back(std::make_pair<int,int>(3000,3000));
 
     areaCalculation = std::make_unique<AreaCalculation>(area);
 }
@@ -72,4 +88,10 @@ void Worker::calculateRsrpForSectors()
             rsrpForSectors.push_back(rsrpCalculator->calculateRsrp(sec));
         }
     }
+}
+
+void Worker::executeCalculationForPixel(PixelXY pixel)
+{
+    PixelWorker pixelWorker(RSRP, rsrpForSectors, pixel, dataProvider, antennaProvider, *sectors);
+    pixelWorker.executeCalculation();
 }

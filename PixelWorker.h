@@ -5,16 +5,18 @@
 #include "ThreadPool.h"
 
 typedef std::vector<float>& RsrpValueForSectorRef;
+typedef std::vector<std::pair<PixelXY,float>> RSRPForPixel;
 
 class PixelWorker
 {
 public:
-    PixelWorker(std::vector<float> & p_RSRP, RsrpValueForSectorRef p_rsrpSectors, PixelXY p_pixel,
+    PixelWorker(RSRPForPixel & p_RSRP, RsrpValueForSectorRef p_rsrpSectors, PixelXY p_pixel,
                 std::shared_ptr<IMapDataProvider> p_mapDataProvider,
                 std::shared_ptr<IAntennaLossFileProvider> p_antennaLossDataProvider,
                 SectorsControler & p_sectors);
 
-    void executeCalculationForPixel();
+    void executeCalculation();
+    float findMaxFrom(const std::vector<float> & vector);
 
 private:
     void calculateAntennaLossForOnePixel();
@@ -22,10 +24,12 @@ private:
     AntennaLossForSectors antennaLossFromSectorsPerOnePixel;
     std::vector<float> pathLossFromSectorsPerOnePixel; //zmien na sharedPtr
 
-    std::vector<float> & RSRP;
+    RSRPForPixel & RSRP;
     RsrpValueForSectorRef rsrpSectors;
     PixelXY pixel;
     AntennaLossCalculation antennaCalculation;
+
+    static std::mutex mutex;
 };
 
 #endif // PIXELWORKER_H

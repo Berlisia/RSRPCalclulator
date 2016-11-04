@@ -8,7 +8,7 @@ using namespace std;
 
 const int AntennaLossFileParser::numberOfLine = 360;
 
-AntennaLossFileParser::AntennaLossFileParser(std::string fileName) :
+AntennaLossFileParser::AntennaLossFileParser(string fileName) :
     fileName(fileName)
 {
     getDataFromFile();

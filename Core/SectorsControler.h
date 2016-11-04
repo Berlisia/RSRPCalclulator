@@ -14,7 +14,7 @@ public:
     float getPowerFromSector(int indexOfSector);
     double getBandwithFromSector(int indexOfSector);
     std::shared_ptr<std::vector<Sector> > getVectorOfSectors();
-    void addSector(Antenna & antenna, BaseStation & base);
+    //void addSector(Antenna & antenna, BaseStation & base);
     void addSector(Sector p_sector);
 
 private:

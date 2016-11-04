@@ -9,6 +9,7 @@ class AntennaLossFileProvider : public IAntennaLossFileProvider
 public:
     AntennaLossFileProvider(std::string horizontalFileName, std::string verticalFileName);
     float getLossFromFile(int angle, Charakteristic type) override;
+    ~AntennaLossFileProvider(){}
 
 private:
     std::unique_ptr<AntennaLossFileParser> horizontal;

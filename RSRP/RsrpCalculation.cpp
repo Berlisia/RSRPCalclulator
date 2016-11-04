@@ -11,7 +11,6 @@ float RsrpCalculation::calculateRsrp(Sector const& sector)
 {
     float rsrp = 0;
     rsrp = std::log10(sector.getPower()/numberOfSubcarrer(sector.getBandwith())) * 10;
-    //rsrp = findMaxRsrpFromSectors(rsrpFromSectors);
     rsrp = rsrp + 30; //dB na dBm
     return rsrp;
 }

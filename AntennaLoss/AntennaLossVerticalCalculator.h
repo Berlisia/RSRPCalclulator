@@ -5,9 +5,10 @@
 class AntennaLossVerticalCalculator : public AntenaLossCalculator
 {
 public:
-    AntennaLossVerticalCalculator(IMapDataProvider & p_mapProvider, IAntennaLossFileProvider & p_AntennafileProvider);
+    AntennaLossVerticalCalculator(std::shared_ptr<IMapDataProvider> p_mapProvider,
+                                  std::shared_ptr<IAntennaLossFileProvider> p_AntennafileProvider);
 
-    float calculateAntennaLoss() override;
+    float calculateAntennaLoss();
 
     void setAntennaHeight(float p_antennaHeight); //względem UE!!!!
     void setTilt(int p_tilt);

@@ -2,7 +2,8 @@
 #include <cmath>
 #include <functional>
 
-AntennaLossVerticalCalculator::AntennaLossVerticalCalculator(IMapDataProvider & p_mapProvider, IAntennaLossFileProvider & p_AntennafileProvider) :
+AntennaLossVerticalCalculator::AntennaLossVerticalCalculator(std::shared_ptr<IMapDataProvider> p_mapProvider,
+                                                             std::shared_ptr<IAntennaLossFileProvider> p_AntennafileProvider) :
     AntenaLossCalculator(p_mapProvider,p_AntennafileProvider),
     antennaHeight(0),
     tilt(0)
@@ -13,7 +14,7 @@ float AntennaLossVerticalCalculator::calculateAntennaLoss()
 {
    int angle = calculateAngle();
    calculateAngleWithTilt(angle);
-   float loss = antennafileProvider.getLossFromFile(angle, Charakteristic::vertical);
+   float loss = antennafileProvider->getLossFromFile(angle, Charakteristic::vertical);
    return loss;
 }
 
@@ -41,15 +42,15 @@ int AntennaLossVerticalCalculator::getTilt()
 int AntennaLossVerticalCalculator::calculateAngle()
 {
     float angle = 0;
-    const float distance = mapProvider.coutDistance(receiver,antenna);
+    const float distance = mapProvider->coutDistance(receiver,antenna);
     angle = atangens(distance);
     return angle;
 }
 
 void AntennaLossVerticalCalculator::calculateAntennaHeight()
 {
-    antennaHeight = (mapProvider.pixelHeight(antenna) + antennaHeight)
-                    - mapProvider.pixelHeight(receiver);
+    antennaHeight = (mapProvider->pixelHeight(antenna) + antennaHeight)
+                    - mapProvider->pixelHeight(receiver);
 }
 
 void AntennaLossVerticalCalculator::calculateAngleWithTilt(int & angle)

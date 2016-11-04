@@ -16,7 +16,7 @@ public:
 
     void start();
     void stop();
-    void add(const Task & task);
+    void add(const Task & task, const PixelXY & pixel);
 
 private:
     void threadFunc();
