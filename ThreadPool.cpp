@@ -8,7 +8,7 @@ ThreadPool::ThreadPool(size_t p_size) : size(p_size)
 
 ThreadPool::~ThreadPool()
 {
-    stop();
+    //stop();
 }
 
 void ThreadPool::start()

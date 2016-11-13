@@ -10,17 +10,14 @@ public:
                                     std::shared_ptr<IAntennaLossFileProvider> p_AntennafileProvider);
 
     float calculateAntennaLoss();
-    int calculateAzimuth();
     void setAzimuth(int p_azimuth);
 
     int getAzimuth();
 
 private:
     int relativeAzimuth(int p_azimuthForZeroDeegres);
+    int calcAzimuth();
     int azimuth;
-    int valueOfX();
-    int valueOfY();
-
 };
 
 #endif // ANTENNALOSSHORIZONTALCALCULATOR_H

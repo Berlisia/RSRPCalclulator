@@ -11,21 +11,11 @@ AntennaLossHorizontalCalculator::AntennaLossHorizontalCalculator(std::shared_ptr
 
 float AntennaLossHorizontalCalculator::calculateAntennaLoss()
 {
-    int azimuthForZeroDeegres = calculateAzimuth();
+    int azimuthForZeroDeegres = calcAzimuth(); //calculateAzimuth();
     int l_azimuth = relativeAzimuth(azimuthForZeroDeegres);
 
     float loss = antennafileProvider->getLossFromFile(l_azimuth, Charakteristic::horizontal);
     return loss;
-}
-
-int AntennaLossHorizontalCalculator::calculateAzimuth()
-{
-    int angle = 0;
-    const float x = valueOfX();
-    const float y = valueOfY();
-    const float value = x/y;
-    angle = arcTangens(value);
-    return angle;
 }
 
 void AntennaLossHorizontalCalculator::setAzimuth(int p_azimuth)
@@ -41,43 +31,46 @@ int AntennaLossHorizontalCalculator::getAzimuth()
 int AntennaLossHorizontalCalculator::relativeAzimuth(int p_azimuthForZeroDeegres)
 {
     int l_azimuth = 0;
-
-    if(azimuth < p_azimuthForZeroDeegres)
-    {
-        l_azimuth = p_azimuthForZeroDeegres - azimuth;
-    }
-    else if((azimuth <= 180) and (azimuth >= 0))
+    if(p_azimuthForZeroDeegres < azimuth)
     {
         l_azimuth = azimuth - p_azimuthForZeroDeegres;
     }
-    else if((azimuth > 180) and (azimuth < circle))
+    else if(p_azimuthForZeroDeegres > azimuth)
     {
-        l_azimuth = circle - azimuth + p_azimuthForZeroDeegres;
+        l_azimuth = p_azimuthForZeroDeegres - azimuth;
     }
-
     return l_azimuth;
 }
 
-int AntennaLossHorizontalCalculator::valueOfX()
+int AntennaLossHorizontalCalculator::calcAzimuth()
 {
-    int x = 0;
-    x = receiver.first - antenna.first;
-    if(x < 0)
+    float x = antenna.first - receiver.first;
+    float y = antenna.second - receiver.second;
+    int azimuth = 0;
+    if(x == 0)
     {
-        x = -x;
+        if(y < 0) return 180;
+        else return 0;
     }
-    return x;
-}
-
-int AntennaLossHorizontalCalculator::valueOfY()
-{
-    int y = 0;
-    y = receiver.second - antenna.second;
-    if(y < 0)
+    if(y != 0 )
     {
-        y = -y;
+        azimuth = arcTangens(x/y);
     }
-    return y;
+    else
+    {
+        if(x > 0) return azimuth = 270;
+        else return azimuth = 90;
+    }
+
+    if(x > 0)
+    {
+        if (y > 0) azimuth = 360 - azimuth;
+        else  azimuth = - azimuth + 180;
+    }
+    else if(x < 0)
+    {
+        if(y < 0) azimuth = 180 - azimuth;
+        else azimuth = - azimuth;
+    }
+    return azimuth;
 }
-
-

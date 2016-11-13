@@ -5,11 +5,15 @@
 class Receiver
 {
 public:
-    Receiver(std::pair<int,int> p_possition);
+    Receiver();
     PixelXY getPossition();
+    float getHeight();
+
     void setPossition(std::pair<int,int> p_possition);
+    void setHeight(float value);
 private:
     PixelXY possition;
+    float height;
 };
 
 #endif // RECEIVER_H

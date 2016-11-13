@@ -34,6 +34,11 @@ float Sector::getPower() const
     return antenna->getPower();
 }
 
+int Sector::getFrequency() const
+{
+    return antenna->getFrequency();
+}
+
 double Sector::getBandwith() const
 {
     return bandwidth;
@@ -52,5 +57,10 @@ int Sector::getAntennaTilt()
 std::pair<int, int> Sector::getPossitonOfBaseStation()
 {
     return baseStation->getPossition();
+}
+
+std::string Sector::getBaseStationName()
+{
+    return baseStation->getName();
 }
 

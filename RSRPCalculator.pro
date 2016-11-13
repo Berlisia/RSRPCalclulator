@@ -22,7 +22,6 @@ SOURCES += main.cpp\
     Pathloss/PathlossModel.cpp \
     Pathloss/OkumuraHataPathlossModel.cpp \
     Pathloss/PathlossCalculation.cpp \
-    Pathloss/OkumuraParameterForSector.cpp \
     Core/BaseStation.cpp \
     Core/Antenna.cpp \
     Core/Sector.cpp \
@@ -47,7 +46,12 @@ SOURCES += main.cpp\
     ThreadPool.cpp \
     PixelWorker.cpp \
     AntennaLoss/AntennaLossCalculation.cpp \
-    Worker.cpp
+    Worker.cpp \
+    BaseStationForm.cpp \
+    SectorForm.cpp \
+    SelectBaseStationForm.cpp \
+    ImagePainter.cpp \
+    Pathloss/Cost231HataModel.cpp
 
 HEADERS  += mainwindow.h \
     Pathloss/Pathloss.h \
@@ -57,8 +61,6 @@ HEADERS  += mainwindow.h \
     Pathloss/OkumuraHataPathlossModel.h \
     myunorderedmap.h \
     Pathloss/PathlossCalculation.h \
-    Pathloss/OkumuraHataPathlossMap.h \
-    Pathloss/OkumuraParameterForSector.h \
     Core/Sector.h \
     Core/BaseStation.h \
     Core/Antenna.h \
@@ -75,7 +77,6 @@ HEADERS  += mainwindow.h \
     MapProvider/MapDataProvider.h \
     MapProvider/MapParser.h \
     MapProvider/Pixel.h \
-    Pathloss/okumurahatapathlossmap.h \
     AntennaLoss/AntennaLossVerticalCalculator.h \
     AntennaLoss/AntennaLossHorizontalCalculator.h \
     AntennaLoss/AnetnnaLossCalculator.h \
@@ -88,9 +89,18 @@ HEADERS  += mainwindow.h \
     ThreadPool.h \
     PixelWorker.h \
     AntennaLoss/AntennaLossCalculation.h \
-    Worker.h
+    Worker.h \
+    BaseStationForm.h \
+    SectorForm.h \
+    DataProvider.h \
+    SelectBaseStationForm.h \
+    customstyle.h \
+    ImagePainter.h \
+    Pathloss/Cost231HataModel.h
 
 FORMS    += mainwindow.ui \
-    dialog.ui
+    BaseStationForm.ui \
+    SectorForm.ui \
+    SelectBaseStationForm.ui
 
 DISTFILES +=

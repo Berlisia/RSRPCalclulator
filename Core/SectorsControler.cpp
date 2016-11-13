@@ -2,20 +2,20 @@
 
 SectorsControler::SectorsControler(std::vector<Sector> & p_sector)
 {
-    sector = std::make_shared<std::vector<Sector>>(std::move(p_sector));
+    sector = std::move(p_sector);
 }
 
 float SectorsControler::getPowerFromSector(int indexOfSector)
 {
-    return (*sector)[indexOfSector].getPower();
+    return sector[indexOfSector].getPower();
 }
 
 double SectorsControler::getBandwithFromSector(int indexOfSector)
 {
-    return (*sector)[indexOfSector].getBandwith();
+    return sector[indexOfSector].getBandwith();
 }
 
-std::shared_ptr<std::vector<Sector> > SectorsControler::getVectorOfSectors()
+const std::vector<Sector>& SectorsControler::getVectorOfSectors()
 {
     return sector;
 }
@@ -27,5 +27,5 @@ std::shared_ptr<std::vector<Sector> > SectorsControler::getVectorOfSectors()
 
 void SectorsControler::addSector(Sector p_sector)
 {
-    sector->push_back(p_sector);
+    sector.push_back(p_sector);
 }

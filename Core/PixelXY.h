@@ -5,6 +5,7 @@
 class PixelXY
 {
 public:
+    PixelXY(){}
     PixelXY(std::pair<int, int> p_xy);
     PixelXY(unsigned int i, unsigned int j);
 

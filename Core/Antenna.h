@@ -12,7 +12,7 @@ public:
 
     float getPower();
     int getTilt();
-    std::pair<int,int> getPosition();
+    int getFrequency();
     std::string getFileNameH();
     std::string getFileNameV();
 
@@ -21,7 +21,6 @@ private:
     float power;
     int tilt;
     int frequency; //MHz
-    std::pair<int,int> position;
     std::string fileNameH;
     std::string fileNameV;
 };

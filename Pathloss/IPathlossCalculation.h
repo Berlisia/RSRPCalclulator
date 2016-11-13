@@ -7,7 +7,7 @@
 class IPathlossCalculation
 {
 public:
-    virtual Pathloss calculatePathloss(PathlossModel & model) = 0;
+    virtual std::vector<float> calculatePathloss() = 0;
 };
 
 #endif // IPATHLOSSCALCULATION_H

@@ -7,7 +7,6 @@ Antenna::Antenna(float power, int tilt, int frequency, std::string fileH, std::s
     fileNameH(fileH),
     fileNameV(fileV)
 {
-    position = std::pair<int,int>(position);
 }
 
 void Antenna::setPower(float newPower)
@@ -35,9 +34,9 @@ int Antenna::getTilt()
     return tilt;
 }
 
-std::pair<int, int> Antenna::getPosition()
+int Antenna::getFrequency()
 {
-    return position;
+    return frequency;
 }
 
 std::string Antenna::getFileNameH()

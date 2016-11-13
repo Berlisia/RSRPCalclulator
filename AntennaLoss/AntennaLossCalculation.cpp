@@ -12,7 +12,7 @@ AntennaLossCalculation::AntennaLossCalculation(std::shared_ptr<IMapDataProvider>
 AntennaLossForSectors AntennaLossCalculation::calculate()
 {
     std::vector<float> loss;
-    for(auto sector : *sectors.getVectorOfSectors())
+    for(auto sector : sectors.getVectorOfSectors())
     {
         check(sector);
 

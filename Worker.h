@@ -2,22 +2,33 @@
 #define WORKER_H
 #include "PixelWorker.h"
 #include "Core/AreaCalculation.h"
+#include "Core/Receiver.h"
+#include "DataProvider.h"
+#include <QObject>
 
-class Worker
+class Worker : public QObject
 {
-public:
-    Worker();
+    Q_OBJECT
 
-    void doCalculation();
+public:
+    Worker(DataProvider & p_data);
+
     void listInCoutRSPR();
+
+signals:
+    void done();
+public slots:
+    void doCalculation();
 
 private:
     void fakeInit(); //TODO whit QT UI
     //klasa InitObject -> zasięg do nazw plików (vector<Antenna>)
     void calculateRsrpForSectors();
     void executeCalculationForPixel(PixelXY pixel);
+    bool isBaseStation(PixelXY pixel);
 
     std::unique_ptr<ThreadPool> pool;
+    DataProvider & data;
     std::shared_ptr<SectorsControler> sectors;
     std::unique_ptr<AreaCalculation> areaCalculation;
 

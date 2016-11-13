@@ -3,6 +3,7 @@
 #include "Antenna.h"
 #include "BaseStation.h"
 #include <memory>
+#include <string>
 
 enum class MIMO
 {
@@ -22,10 +23,12 @@ public:
 
     int getAzimuth();
     float getPower() const;
+    int getFrequency() const;
     double getBandwith() const;
     float getAntennaHeight();
     int getAntennaTilt();
     std::pair<int,int> getPossitonOfBaseStation();
+    std::string getBaseStationName();
 
 private:
     int azimuth;      //stopnie

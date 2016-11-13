@@ -26,8 +26,6 @@ private:
 
     std::shared_ptr<AntennaLossHorizontalCalculator> horizontalCalculator;
     std::shared_ptr<AntennaLossVerticalCalculator> verticalCalculator;
-
-    //Parameters param;
 };
 
 #endif // ANTENNALOSSCALCULATION_H

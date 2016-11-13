@@ -2,8 +2,8 @@
 
 
 AntennaLossFileProvider::AntennaLossFileProvider(std::string horizontalFileName, std::string verticalFileName) :
-    horizontal(std::make_unique<AntennaLossFileParser>("742266V02_pozioma.csv")),
-    vertical(std::make_unique<AntennaLossFileParser>("742266V02_pionowa.csv"))
+    horizontal(std::make_unique<AntennaLossFileParser>(horizontalFileName)),
+    vertical(std::make_unique<AntennaLossFileParser>(verticalFileName))
 {
 }
 
