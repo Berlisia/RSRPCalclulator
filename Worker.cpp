@@ -8,7 +8,8 @@ Worker::Worker(DataProvider & p_data) :
     data(p_data), sectors(p_data.sectorControler)
 {
     unsigned int n = std::thread::hardware_concurrency();
-    pool = std::make_unique<ThreadPool>(3);
+    n = n-2;
+    pool = std::make_unique<ThreadPool>(n);
 
     dataProvider = std::make_shared<MapDataProvider>();
     antennaProvider = std::make_shared<AntennaLossFileProvider>("742266V02_pozioma.csv",
@@ -30,33 +31,39 @@ void Worker::doCalculation()
     }
 
     pool->start();
+    emit poolStarted();
     pool->stop();
 
     std::fstream plik;
     plik.open("wartosci.txt", std::ios::out );
     if( plik.good() == true )
     {
-        for(auto r : RSRP)
-    {
-        plik << r.first.getX() << " "
-              << r.first.getY() << " "
-              << r.second;
-        plik << "\n";
+        for(auto r : RSRP.vector)
+        {
+            plik << r.first.getX() << " "
+                  << r.first.getY() << " "
+                  << r.second;
+            plik << "\n";
         }
     }
     plik.close();
 
-    data.getRsrp(RSRP);
-    if(!data.rsrp.empty())
+    data.getRsrp(RSRP.vector);
+    if(!data.rsrp.vector.empty())
         emit done();
 }
 
-void Worker::listInCoutRSPR()
+void Worker:: listInCoutRSPR()
 {
-    for(auto rsrp : RSRP)
+    for(auto rsrp : RSRP.vector)
     {
         std::cout << rsrp.second << " " << rsrp.first.getX() << " " << rsrp.first.getY() << std::endl;
     }
+}
+
+int Worker::getQueueSize() const
+{
+    return pool->getTaskQueueSize();
 }
 
 void Worker::fakeInit()
@@ -87,8 +94,8 @@ void Worker::executeCalculationForPixel(PixelXY pixel)
 {
     Receiver receiver;
     receiver.setPossition(pixel.getXy());
-    receiver.setHeight(1); //jakos pobrać i globalnie dać!
-    PixelWorker pixelWorker(RSRP, rsrpForSectors, dataProvider, antennaProvider, *sectors, receiver);
+    receiver.setHeight(data.receiver.getHeight());
+    PixelWorker pixelWorker(RSRP, rsrpForSectors, dataProvider, antennaProvider, *sectors, receiver, data.minValueOfRSRP);
     pixelWorker.executeCalculation();
 }
 
@@ -104,4 +111,12 @@ bool Worker::isBaseStation(PixelXY pixel)
         }
     }
     return isBase;
+}
+
+void Worker::deleteNanValue()
+{
+    RSRP.vector.erase(std::remove_if(RSRP.vector.begin(), RSRP.vector.end(),
+                              [](const std::pair<PixelXY,float> & dataObj) {
+                                    return dataObj.second == std::nanf("");
+                                 }));
 }

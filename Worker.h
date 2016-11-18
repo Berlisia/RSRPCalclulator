@@ -14,9 +14,12 @@ public:
     Worker(DataProvider & p_data);
 
     void listInCoutRSPR();
+    int getQueueSize() const;
 
 signals:
     void done();
+    void poolStarted();
+
 public slots:
     void doCalculation();
 
@@ -26,6 +29,7 @@ private:
     void calculateRsrpForSectors();
     void executeCalculationForPixel(PixelXY pixel);
     bool isBaseStation(PixelXY pixel);
+    void deleteNanValue();
 
     std::unique_ptr<ThreadPool> pool;
     DataProvider & data;

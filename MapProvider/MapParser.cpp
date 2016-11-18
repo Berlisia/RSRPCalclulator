@@ -2,12 +2,16 @@
 #include <iostream>
 #include <fstream>
 #include <limits>
+//#include <boost/progress.hpp>
 
+namespace
+{
 void goToLine(std::fstream& file, int num){
     file.seekg(std::ios::beg);
     for(int i=0; i < num - 1; ++i){
         file.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
     }
+}
 }
 
 MapParser::MapParser(): m_fileName("asd.pgm"){loadMapFromFile();}
@@ -34,8 +38,8 @@ void MapParser::getMapSizeFromFile(std::fstream &file)
     goToLine(file, 3);
     file >> m_mapSize.first;
     file >> m_mapSize.second;
-    m_pixelMap.resize(m_mapSize.second, std::vector<Pixel>(m_mapSize.first));
-    std::cout << "Wczytuje mape x:" << m_mapSize.second<< " y:" << m_mapSize.first << std::endl;
+    m_pixelMap.resize(m_mapSize.first, std::vector<Pixel>(m_mapSize.second));
+    std::cout << "Wczytuje mape x:" << m_mapSize.first<< " y:" << m_mapSize.second << std::endl;
 }
 
 void MapParser::getMapContentFromFile(std::fstream &file)
@@ -45,12 +49,14 @@ void MapParser::getMapContentFromFile(std::fstream &file)
     int l_x;
     int l_y;
     std::cout << "Wczytywanie mapy"<<std::endl;
-    for (int i=0;i<m_mapSize.first*m_mapSize.second;i++)
+    //boost::progress_display show_progress(m_mapSize.first * m_mapSize.second);
+    for (int i=0; i<m_mapSize.first*m_mapSize.second; i++)
     {
-        l_y = i/m_mapSize.second;
-        l_x = i-l_y*m_mapSize.second;
+        l_y = i/m_mapSize.first;
+        l_x = i-l_y*m_mapSize.first;
         file >> l_height;
         std::pair<int, int> l_xy(l_x, l_y);
         m_pixelMap[l_x][l_y] = Pixel(l_xy, l_height, Enviroment_NotDefined);
+        //++show_progress;
     }
 }

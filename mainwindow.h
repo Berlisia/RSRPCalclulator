@@ -4,7 +4,9 @@
 #include <QMainWindow>
 #include <QUndoStack>
 #include <memory>
+#include <QAction>
 #include "DataProvider.h"
+#include "ScribbleArea.h"
 
 class QWidget;
 class QLabel;
@@ -17,7 +19,10 @@ class QGraphicsScene;
 class QGraphicsView;
 class QGraphicsPixmapItem;
 class QTreeWidgetItem;
+class ImagePainter;
 class Worker;
+class ReceiverForm;
+class QGraphicsSceneMouseEvent;
 namespace Ui {
 class MainWindow;
 }
@@ -44,6 +49,9 @@ private:
     void addMenu();
     BaseStations::iterator getIndexOfBaseStation();
     void setTreeView();
+    void barFinished();
+    void showScale(ImagePainter &paint, float max, float min);
+    void createActions();
 
     Ui::MainWindow *ui;
     QUndoStack m_Stack;
@@ -52,9 +60,22 @@ private:
     QGraphicsScene * scene;
     QGraphicsPixmapItem * item;
 
+    QGraphicsScene * scaleScene;
+    QGraphicsPixmapItem * scaleItem;
+
+    const Worker * worker;
+
     std::unique_ptr<BaseStationForm> baseStationForm;
     std::unique_ptr<SectorForm> sectorForm;
     std::unique_ptr<SelectBaseStationForm> selectBaseStation;
+    std::unique_ptr<ReceiverForm> receiver;
+
+    std::unique_ptr<ImagePainter> paint;
+    ScribbleArea * mapArea;
+
+    int initBarSize;
+    float maxFromData;
+    float minFromData;
 
 private slots:
     void on_actionUndo_The_Last_Action_triggered();
@@ -69,6 +90,12 @@ private slots:
     void selectBase();
     void updateTree();
     void drawImage();
+
+    void barChanged();
+    void progressBarStart();
+    void receiverClicked();
+    void changeMinRSRPValueInData(double);
+    void updateMap(int);
 
 };
 

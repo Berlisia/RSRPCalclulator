@@ -1,5 +1,6 @@
 #ifndef SECTORFORM_H
 #define SECTORFORM_H
+#include "Pathloss/PathlossModel.h"
 
 #include <QDialog>
 #include <memory>
@@ -7,6 +8,7 @@
 class IAntennaLossFileProvider;
 class SectorsControler;
 class BaseStation;
+class Sector;
 enum class MIMO;
 namespace Ui {
 class SectorForm;
@@ -32,11 +34,16 @@ public slots:
 private slots:
     void applayHorizontalFile();
     void applayVerticalFile();
+    void editRadioBoxes(int band);
 
 private:
     void createAntennaProvider();
     void setVariatforBandwidth();
     void setVariantForMimo();
+    void setVariantForEnvironent();
+    void chooseModel(Sector & sector);
+    bool errorMessageForUncheckRadioBoxes();
+    Environment converQEnvironment(int index);
 
     Ui::SectorForm *ui;
     std::shared_ptr<IAntennaLossFileProvider> antennaProvider;

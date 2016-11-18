@@ -5,6 +5,7 @@
 #include "Core/SectorsControler.h"
 #include <QFileDialog>
 #include <QTreeWidgetItem>
+#include <QMessageBox>
 
 SectorForm::SectorForm(std::shared_ptr<SectorsControler> p_sectors,
                        std::shared_ptr<BaseStation> p_baseStation,
@@ -24,9 +25,11 @@ SectorForm::SectorForm(std::shared_ptr<SectorsControler> p_sectors,
 
     connect(ui->HorizontalToolButton, SIGNAL(pressed()), this, SLOT(applayHorizontalFile()));
     connect(ui->VerticalToolButton, SIGNAL(pressed()), this, SLOT(applayVerticalFile()));
+    connect(ui->bandSpinBox, SIGNAL(valueChanged(int)), this, SLOT(editRadioBoxes(int)));
 
     setVariatforBandwidth();
     setVariantForMimo();
+    setVariantForEnvironent();
 }
 
 SectorForm::~SectorForm()
@@ -43,6 +46,7 @@ void SectorForm::accept()
 
 void SectorForm::commit()
 {
+    errorMessageForUncheckRadioBoxes();
     Antenna antenna(ui->powerDoubleSpinBox->value(),
                     ui->tiltSpinBox->value(),
                     ui->bandSpinBox->value(),
@@ -54,7 +58,8 @@ void SectorForm::commit()
     sector.setBandwidth(ui->bandwidthBox->itemData(ui->bandwidthBox->currentIndex()).toDouble());
     sector.setAzimuth(ui->azimuthSpinBox->value());
     sector.setMimo(convertQMimo(ui->mimoBox->currentIndex())); //TODO dodaj w obliczeniach i konwersje do MIMO
-
+    sector.setEnvironment(converQEnvironment(ui->environmentComboBox->currentIndex()));
+    chooseModel(sector);
     sectors->addSector(sector);
 }
 
@@ -66,6 +71,19 @@ void SectorForm::applayHorizontalFile()
 void SectorForm::applayVerticalFile()
 {
     nameVerticalFile = QFileDialog::getOpenFileName().toStdString();
+}
+
+void SectorForm::editRadioBoxes(int band)
+{
+    if(band > 1500)
+    {
+        ui->okumyraRadioButton->setEnabled(false);
+    }
+    else
+    {
+        ui->okumyraRadioButton->setEnabled(true);
+        ui->costRadioButton->setEnabled(true);
+    }
 }
 
 void SectorForm::createAntennaProvider()
@@ -89,6 +107,50 @@ void SectorForm::setVariantForMimo() //TODO
     ui->mimoBox->addItem("Nan", QVariant(0));
     ui->mimoBox->addItem("2x2", QVariant(1));
     ui->mimoBox->addItem("4x4", QVariant(2));
+}
+
+void SectorForm::setVariantForEnvironent()
+{
+    ui->environmentComboBox->addItem("Small and medium size cities", QVariant(0));
+    ui->environmentComboBox->addItem("Metropolitan areas", QVariant(1));
+    ui->environmentComboBox->addItem("Suburban evironments", QVariant(2));
+    ui->environmentComboBox->addItem("Rural aera", QVariant(3));
+}
+
+void SectorForm::chooseModel(Sector & sector)
+{
+    if(ui->okumyraRadioButton->isChecked())
+        sector.setModel(Model::OkumuraHata);
+    else if(ui->costRadioButton->isChecked())
+        sector.setModel(Model::Cost231Hata);
+}
+
+bool SectorForm::errorMessageForUncheckRadioBoxes()
+{
+    if(!ui->okumyraRadioButton->isChecked() and !ui->costRadioButton->isChecked())
+    {
+        QMessageBox messageBox;
+        messageBox.information(this,"Error","Choose propagation model!");
+        messageBox.setFixedSize(500,200);
+    }
+    return false;
+}
+
+Environment SectorForm::converQEnvironment(int index)
+{
+    switch (index)
+    {
+    case 0:
+        return Environment::SmallAndMediumSizeCities;
+    case 1:
+        return Environment::MetropolitanAreas;
+    case 2:
+        return Environment::SuburbanEvironments;
+    case 3:
+        return Environment::RuralAera;
+    default:
+        return Environment::Idle;
+    }
 }
 
 MIMO SectorForm::convertQMimo(int index)

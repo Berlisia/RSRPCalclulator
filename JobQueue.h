@@ -18,6 +18,7 @@ public:
     void push(const Task task, const PixelXY&);
     std::pair<Task, PixelXY> waitForJob();
     bool empty() const;
+    int size();
 
 private:
     mutable std::mutex mut;

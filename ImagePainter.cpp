@@ -91,5 +91,5 @@ const QColor ImagePainter::getColor(float L)
     { //podczerwień
         r = g = b = 0;
     }
-    return QColor(r, g, b, 128);
+    return QColor(r, g, b);
 }

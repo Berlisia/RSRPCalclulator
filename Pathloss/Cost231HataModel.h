@@ -20,6 +20,7 @@ private:
     float factorA();
     float factorB();
     float factorAh();
+    float executeC();
 };
 
 #endif // COST231HATAMODEL_H

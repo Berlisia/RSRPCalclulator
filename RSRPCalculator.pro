@@ -51,7 +51,9 @@ SOURCES += main.cpp\
     SectorForm.cpp \
     SelectBaseStationForm.cpp \
     ImagePainter.cpp \
-    Pathloss/Cost231HataModel.cpp
+    Pathloss/Cost231HataModel.cpp \
+    ScribbleArea.cpp \
+    ReceiverForm.cpp
 
 HEADERS  += mainwindow.h \
     Pathloss/Pathloss.h \
@@ -96,11 +98,14 @@ HEADERS  += mainwindow.h \
     SelectBaseStationForm.h \
     customstyle.h \
     ImagePainter.h \
-    Pathloss/Cost231HataModel.h
+    Pathloss/Cost231HataModel.h \
+    ScribbleArea.h \
+    ReceiverForm.h
 
 FORMS    += mainwindow.ui \
     BaseStationForm.ui \
     SectorForm.ui \
-    SelectBaseStationForm.ui
+    SelectBaseStationForm.ui \
+    ReceiverForm.ui
 
 DISTFILES +=

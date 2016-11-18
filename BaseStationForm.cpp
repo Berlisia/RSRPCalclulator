@@ -47,13 +47,3 @@ void BaseStationForm::commit()
                                            ui->nameLineEdit->text().toStdString());
     data.addBaseStation(baseStation);
 }
-
-void BaseStationForm::on_AntennasView_currentChanged(int index)
-{
-
-}
-
-void BaseStationForm::on_addSector_triggered()
-{
-
-}

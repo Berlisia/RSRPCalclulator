@@ -12,6 +12,7 @@ public:
 
 private:
     int numberOfSubcarrer(double bandwidth);
+    float mimo(Sector const& sector);
     RsrpInitialization & init;
 };
 

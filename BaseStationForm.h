@@ -31,10 +31,6 @@ public slots:
 signals:
     void baseStationCreated();
 
-private slots:
-    void on_AntennasView_currentChanged(int index);
-    void on_addSector_triggered();
-
 private:
     DataProvider & data;
     Ui::BaseStationForm *ui;

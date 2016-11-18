@@ -12,6 +12,7 @@ public:
     MapDataProvider();
     unsigned int pixelHeight(std::pair<int,int> p_pixel) override;
     float coutDistance(std::pair<int,int> p_pixel1, std::pair<int,int> p_pixel2) override;
+    float coutMediumHeightBetwenTwoPixels(std::pair<int,int> p_pixel1, std::pair<int,int> p_pixel2, int p_interwal);
     ~MapDataProvider(){}
 private:
     std::unique_ptr<MapParser> m_mapParser;

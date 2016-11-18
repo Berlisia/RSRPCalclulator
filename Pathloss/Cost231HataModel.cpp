@@ -16,7 +16,8 @@ Cost231HataModel::Cost231HataModel() :
 Pathloss Cost231HataModel::pathloss()
 {
     Pathloss pathloss = 0;
-    pathloss = factorA() + (factorB() * log10(distance.getValue())) + 0;
+    float C = executeC();
+    pathloss = factorA() + (factorB() * log10(distance.getValue())) + C;
     return pathloss;
 }
 
@@ -32,7 +33,6 @@ void Cost231HataModel::changeCurrentEnvironment(Environment newEnvironment)
 
 void Cost231HataModel::changeEffectiveBSAntennaHeight(float newValue)
 {
-    //Na podstawie mapy
     effectiveBSAntennaHeight.setValue(newValue);
 }
 
@@ -68,5 +68,24 @@ float Cost231HataModel::factorAh()
     factorAh = (((1.1 * log10(carrierFrequency.getValue())) - 0.7) * effectiveMSAntennaHeight.getValue()) -
                ((1.56 * log10(carrierFrequency.getValue())) - 0.8);
     return factorAh;
+}
+
+float Cost231HataModel::executeC()
+{
+    float C = 0;
+    switch(currentEnvironment)
+    {
+    case Environment::MetropolitanAreas:
+        C = 3;
+        break;
+    case Environment::SuburbanEvironments:
+    case Environment::SmallAndMediumSizeCities:
+    case Environment::RuralAera:
+    case Environment::Idle:
+    default:
+        C = 0;
+        break;
+    }
+    return C;
 }
 

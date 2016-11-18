@@ -13,14 +13,21 @@ public:
                         Receiver & p_receiver);
 
     std::vector<float> calculatePathloss(); //Wybierz model
-    float effectiveBAntennaHeight(Sector & sector);
+    float effectiveBAntennaHeight(Sector const& sector);
     ~PathlossCalculation(){}
 
 private:
-    void setUpParameters(PathlossModel & model, Sector & sector);
+    void setUpParameters(PathlossModel & model, Sector const& sector);
+    Model choosePropagarionModel(const Sector &sector);
+    Pathloss okumuraCalculation(const Sector &sector);
+    Pathloss costCalculation(const Sector &sector);
+
     std::shared_ptr<IMapDataProvider> mapProvider;
     SectorsControler & sectors;
     Receiver & receiver;
+
+    std::unique_ptr<PathlossModel> okumuryModel;
+    std::unique_ptr<PathlossModel> hataModel;
 
 };
 

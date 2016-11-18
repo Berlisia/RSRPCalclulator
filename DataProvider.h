@@ -3,26 +3,37 @@
 #include "Core/BaseStation.h"
 #include "Core/SectorsControler.h"
 #include "Core/Receiver.h"
+#include <QObject>
 #include <memory>
 
 typedef std::vector<std::shared_ptr<BaseStation>> BaseStations;
 typedef std::shared_ptr<SectorsControler> SectorsControlerPtr;
 
-class DataProvider
-{   
-    //Q_OBJECT
+class RSRPForPixel : public QObject
+{
+    Q_OBJECT
 
 public:
-    DataProvider()
+    std::vector<std::pair<PixelXY,float>> vector;
+signals:
+    void rsrpSizeChanged();
+};
+
+class DataProvider
+{   
+public:
+    DataProvider() : minValueOfRSRP(-140)
     {
         sectorControler = std::make_shared<SectorsControler>();
+        receiver.setHeight(1);
     }
 
     BaseStations baseStations;
     SectorsControlerPtr sectorControler;
     Receiver receiver;
+    double minValueOfRSRP;
 
-    std::vector<std::pair<PixelXY,float>> rsrp;
+    RSRPForPixel rsrp;
 
     void addBaseStation(std::shared_ptr<BaseStation> base) {
         baseStations.push_back(base);
@@ -34,8 +45,8 @@ public:
     }
 
     void getRsrp(std::vector<std::pair<PixelXY,float>> & p_rsrp){
-        rsrp = std::move(p_rsrp);
+        rsrp.vector = std::move(p_rsrp);
     }
 };
 
-#endif // DATASAVER_H
+#endif // DATAProvider_H

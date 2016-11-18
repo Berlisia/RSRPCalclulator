@@ -59,6 +59,11 @@ void ThreadPool::add(const Task & task, const PixelXY &pixel)
     queue.push(task, pixel);
 }
 
+int ThreadPool::getTaskQueueSize() const
+{
+    return queue.size();
+}
+
 void ThreadPool::threadFunc()
 {
     while (!queue.empty())

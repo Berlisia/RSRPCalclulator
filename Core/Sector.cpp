@@ -24,7 +24,17 @@ void Sector::setMimo(MIMO newMimo)
     mimo = newMimo;
 }
 
-int Sector::getAzimuth()
+void Sector::setEnvironment(Environment newEnv)
+{
+    environment = newEnv;
+}
+
+void Sector::setModel(Model newModel)
+{
+    model = newModel;
+}
+
+int Sector::getAzimuth() const
 {
     return azimuth;
 }
@@ -44,22 +54,37 @@ double Sector::getBandwith() const
     return bandwidth;
 }
 
-float Sector::getAntennaHeight()
+float Sector::getAntennaHeight() const
 {
     return baseStation->getAntennaHeight();
 }
 
-int Sector::getAntennaTilt()
+int Sector::getAntennaTilt() const
 {
     return antenna->getTilt();
 }
 
-std::pair<int, int> Sector::getPossitonOfBaseStation()
+Environment Sector::getEnvironment() const
+{
+    return environment;
+}
+
+MIMO Sector::getMimo() const
+{
+    return mimo;
+}
+
+Model Sector::getModel() const
+{
+    return model;
+}
+
+std::pair<int, int> Sector::getPossitonOfBaseStation() const
 {
     return baseStation->getPossition();
 }
 
-std::string Sector::getBaseStationName()
+std::string Sector::getBaseStationName() const
 {
     return baseStation->getName();
 }

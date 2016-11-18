@@ -12,7 +12,10 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QTreeWidgetItem>
+#include <QGraphicsSceneMouseEvent>
 #include "ImagePainter.h"
+#include <QMouseEvent>
+#include "ReceiverForm.h"
 #include "Worker.h"
 
 using namespace std;
@@ -20,14 +23,37 @@ using namespace std;
 MainWindow::MainWindow(DataProvider & p_data, const Worker * p_worker, QWidget * parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    data(p_data)
+    data(p_data),
+    scene(nullptr),
+    worker(p_worker)
 {
     ui->setupUi(this);
     QPixmap img;
-    img.load("asd.pgm");
+    img.load("asd.ppm");
     displayImage(img);
 
     QWidget::setWindowTitle("RSRP Calculator @created by Ewelina Berlicka");
+
+    ui->progressBar->setMinimum(0);
+    ui->progressBar->setMaximum(100);
+    //ui->progressBar->hide();
+
+    ui->label2->hide();
+    ui->label3->hide();;
+    ui->label4->hide();
+    ui->maxLabel->setText(" ");
+    ui->minLabel->setText(" ");
+    ui->scalaGraphicsView->hide();
+    ui->valueLabel->setText(" ");
+    ui->minRSRPFromSlider->setText("0");
+    ui->minimumRSRSPdoubleSpinBox->setRange(-200,0);
+    ui->minimumRSRSPdoubleSpinBox->setValue(-140);
+    ui->minRSRPFromSlider_2->setText("-140");
+
+    ui->rsrpHorizontalSlider->setTickPosition(QSlider::TicksRight);
+    ui->rsrpHorizontalSlider->setSingleStep(1);
+    ui->rsrpHorizontalSlider->setMinimum(-140);
+    ui->rsrpHorizontalSlider->setMaximum(0);
 
     addMenu();
 
@@ -35,6 +61,11 @@ MainWindow::MainWindow(DataProvider & p_data, const Worker * p_worker, QWidget *
     connect(ui->sectorToolButton, SIGNAL(pressed()), this, SLOT(selectBase()));
     connect(ui->calculatePushButton, SIGNAL(pressed()), p_worker, SLOT(doCalculation()));
     connect(p_worker, SIGNAL(done()), this, SLOT(drawImage()));
+    connect(&data.rsrp, SIGNAL(rsrpSizeChanged()), this, SLOT(barChanged()));
+    connect(worker, SIGNAL(poolStarted()), this, SLOT(progressBarStart()));
+    connect(ui->receiverButton, SIGNAL(pressed()), this, SLOT(receiverClicked()));
+    connect(ui->minimumRSRSPdoubleSpinBox, SIGNAL(valueChanged(double)), this, SLOT(changeMinRSRPValueInData(double)));
+    connect(ui->rsrpHorizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(updateMap(int)));
 }
 
 void MainWindow::closeEvent(QCloseEvent * event)
@@ -49,10 +80,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::displayImage(const QPixmap & img)
 {
+    if(scene != nullptr)
+        scene->clear();
     scene = new QGraphicsScene();
-    item = new QGraphicsPixmapItem(img);
-    scene->addItem(item);
-    QSize size = ui->mapGraphicsView->size();
+    mapArea = new ScribbleArea(ui->checkBox, data, ui->valueLabel,img);
+    mapArea->setFlags(QGraphicsItem::ItemIsMovable);
+    scene->addItem(mapArea);
     ui->mapGraphicsView->setScene(scene);
     ui->mapGraphicsView->show();
 }
@@ -72,19 +105,112 @@ void MainWindow::addMenu()
 
 void MainWindow::drawImage()
 {
-    ImagePainter paint(data.rsrp, this);
+    ui->progressBar->setValue(100);
+    ImagePainter paint(data.rsrp.vector, this);
     QPixmap px;
     px.load("asd.ppm");
     QPainter painter(&px);
-    float max = paint.findMax();
-    float min = paint.findMin();
-    float roznica = max - min;
+    maxFromData = paint.findMax();
+    minFromData = paint.findMin();
+    float roznica = maxFromData - minFromData;
     float wspolczynnik = 100/roznica;
-    for(auto dat : data.rsrp)
+    for(auto dat : data.rsrp.vector)
     {
-        float color = (dat.second - min)*wspolczynnik;
+        float color = (dat.second - minFromData)*wspolczynnik;
         painter.setPen(paint.getColor(color));
         painter.drawPoint(dat.first.getX(), dat.first.getY());
+    }
+    painter.end();
+    displayImage(px);
+    barFinished();
+    showScale(paint, maxFromData, minFromData);
+}
+
+void MainWindow::barFinished()
+{
+    ui->progressBar->hide();
+}
+
+void MainWindow::showScale(ImagePainter & paint, float max, float min)
+{
+    QPixmap px;
+    px.load("scala.ppm");
+    QPainter painter(&px);
+
+    for(int i = 1; i <= 200; i++)
+    {
+        painter.setPen(paint.getColor(i*0.5));
+        painter.drawLine(10,i,50,i);
+    }
+    painter.end();
+
+    scaleScene = new QGraphicsScene();
+    scaleItem = new QGraphicsPixmapItem(px);
+    scaleScene->addItem(scaleItem);
+
+    ui->scalaGraphicsView->setScene(scaleScene);
+    std::string Str = to_string(min) + "[dBm] ";
+    ui->minLabel->setText(Str.c_str());
+    ui->label2->setText(" ");
+    ui->label2->show();
+    ui->label3->setText(" ");
+    ui->label3->show();
+    ui->label4->setText(" ");
+    ui->label4->show();
+    Str = to_string(max) + "[dBm] ";
+    ui->maxLabel->setText(Str.c_str());
+    ui->scalaGraphicsView->show();
+}
+
+void MainWindow::createActions()
+{
+}
+
+void MainWindow::barChanged()
+{
+    int size = worker->getQueueSize();
+    ui->progressBar->setValue(size/initBarSize);
+}
+
+void MainWindow::progressBarStart()
+{
+    ui->progressBar->show();
+    initBarSize = worker->getQueueSize();
+}
+
+void MainWindow::receiverClicked()
+{
+    if(!receiver)
+    {
+        receiver = std::make_unique<ReceiverForm>(data,this);
+    }
+    receiver->show();
+}
+
+void MainWindow::changeMinRSRPValueInData(double minRsrpValue)
+{
+    data.minValueOfRSRP = minRsrpValue;
+    ui->rsrpHorizontalSlider->setMinimum(minRsrpValue);
+    ui->minRSRPFromSlider_2->setText(to_string(minRsrpValue).c_str());
+}
+
+void MainWindow::updateMap(int slideValue)
+{
+    ui->minRSRPFromSlider->setText(to_string(slideValue).c_str());
+    ImagePainter paint(data.rsrp.vector, this);
+    QPixmap px;
+    px.load("asd.ppm");
+    QPainter painter(&px);
+    float roznica = maxFromData - minFromData;
+    float wspolczynnik = 100/roznica;
+    for(auto dat : data.rsrp.vector)
+    {
+        if(dat.second >= slideValue)
+        {
+            float color = (dat.second - minFromData)*wspolczynnik;
+            painter.setPen(paint.getColor(color));
+            painter.drawPoint(dat.first.getX(), dat.first.getY());
+        }
     }
     painter.end();
     displayImage(px);
@@ -121,6 +247,7 @@ void MainWindow::updateTree()
         QList<QTreeWidgetItem*> items = ui->treeWidget->findItems(name, Qt::MatchExactly, 0);
         addTreeChild(items.front(), "Power", QVariant(sector.getPower()).toString());
     }
+    ui->treeWidget->show();
 }
 
 BaseStations::iterator MainWindow::getIndexOfBaseStation()

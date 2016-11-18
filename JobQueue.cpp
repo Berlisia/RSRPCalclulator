@@ -23,3 +23,9 @@ bool JobQueue::empty() const
     lock_guard<mutex> lk(mut);
     return dataQueue.empty();
 }
+
+int JobQueue::size()
+{
+   unique_lock<mutex> lk(mut);
+   return dataQueue.size();
+}

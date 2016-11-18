@@ -32,7 +32,6 @@ void OkumuraHataPathlossModel::changeCurrentEnvironment(Environment newEnvironme
 
 void OkumuraHataPathlossModel::changeEffectiveBSAntennaHeight(float newValue)
 {
-    //Na podstawie mapy
     effectiveBSAntennaHeight.setValue(newValue);
 }
 
