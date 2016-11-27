@@ -1,5 +1,5 @@
 #include "MapDataProvider.h"
-#include <math.h>
+#include <cmath>
 
 namespace
 {
@@ -29,7 +29,9 @@ namespace
 }
 
 MapDataProvider::MapDataProvider():
-    m_mapParser(std::make_unique<MapParser>()){}
+    m_mapParser(std::make_unique<MapParser>())
+{
+}
 
 unsigned int MapDataProvider::pixelHeight(std::pair<int, int> p_pixel)
 {
@@ -64,4 +66,31 @@ float MapDataProvider::coutMediumHeightBetwenTwoPixels(std::pair<int, int> p_pix
     }
 
     return (l_sumaryHeight + pixelHeight(p_pixel2)) / (l_jumps + 1);
+}
+
+std::vector<std::pair<int, int> > MapDataProvider::getVectorOfPixels(std::pair<int, int> p_pixel1,
+                                                                     std::pair<int, int> p_pixel2,
+                                                                     int p_interwal)
+{
+    int l_jumps = coutDistance(p_pixel1, p_pixel2) / p_interwal;
+
+    if(l_jumps<1)
+    {
+        std::vector<std::pair<int, int>> vector;
+        vector.push_back(p_pixel1);
+        vector.push_back(p_pixel2);
+        return std::move(vector);
+    }
+
+    auto l_jumper = (p_pixel2 - p_pixel1) / l_jumps;
+
+    std::pair<float,float> l_last = p_pixel1;
+    std::vector<std::pair<int, int>> vector;
+    for(int i = 0; i < l_jumps; i++)
+    {
+        vector.push_back(l_last);
+        l_last = l_last + l_jumper;
+    }
+
+    return std::move(vector);
 }

@@ -8,6 +8,7 @@ ReceiverForm::ReceiverForm(DataProvider & p_data, QWidget *parent) :
     ui(new Ui::ReceiverForm)
 {
     ui->setupUi(this);
+    QWidget::setWindowTitle("Receiver");
 }
 
 ReceiverForm::~ReceiverForm()

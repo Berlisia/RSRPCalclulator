@@ -7,6 +7,9 @@
 #include <QAction>
 #include "DataProvider.h"
 #include "ScribbleArea.h"
+#include "DrawRectangle.h"
+#include "Canvas.h"
+#include "MapProvider/GeographicalCoordinatesConverter.h"
 
 class QWidget;
 class QLabel;
@@ -51,7 +54,7 @@ private:
     void setTreeView();
     void barFinished();
     void showScale(ImagePainter &paint, float max, float min);
-    void createActions();
+    void setPixelsArea(QRectF rect);
 
     Ui::MainWindow *ui;
     QUndoStack m_Stack;
@@ -73,18 +76,21 @@ private:
     std::unique_ptr<ImagePainter> paint;
     ScribbleArea * mapArea;
 
+    std::unique_ptr<DrawRectangle> drawRectangle;
+    std::unique_ptr<QPainter> rectanglePainter;
+    std::shared_ptr<QPixmap> areaCalculationPixmap;
+    Canvas * canvas;
+
+    QGraphicsItem * currenItemInScene;
+    GeographicalCoordinatesConverter geoConverter;
+    std::shared_ptr<TerrainProfile> terProfile;
+
     int initBarSize;
     float maxFromData;
     float minFromData;
 
 private slots:
-    void on_actionUndo_The_Last_Action_triggered();
-    void on_actionSave_triggered();
-    void on_saveButton_clicked();
-    void on_undoButton_clicked();
-
     void on_baseStationUi_clicked();
-    void on_viewCreatedObject_clicked();
     void on_sectorUI_clliced();
 
     void selectBase();
@@ -96,6 +102,14 @@ private slots:
     void receiverClicked();
     void changeMinRSRPValueInData(double);
     void updateMap(int);
+
+    void actionRectangleTriggered();
+    void showRectangle();
+    void drawTerrainLine();
+    void drawBaseStationPossition();
+    void zoomIn();
+    void zoomOut();
+    void terrainProfileTriggered(bool);
 
 };
 

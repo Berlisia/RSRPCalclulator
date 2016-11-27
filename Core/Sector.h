@@ -40,7 +40,7 @@ public:
     Environment getEnvironment() const;
     MIMO getMimo() const;
     Model getModel() const;
-    std::pair<int,int> getPossitonOfBaseStation() const;
+    std::pair<int, int> getPossitonOfBaseStation() const;
     std::string getBaseStationName() const;
 
 private:

@@ -17,6 +17,7 @@ SelectBaseStationForm::SelectBaseStationForm(const DataProvider & p_data,
     ui->baseListView->setAutoScroll(true);
     setWindowModality(Qt::WindowModal);
     update();
+    QWidget::setWindowTitle("Select base station");
 }
 
 SelectBaseStationForm::~SelectBaseStationForm()

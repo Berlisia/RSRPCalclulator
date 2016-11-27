@@ -30,6 +30,7 @@ SectorForm::SectorForm(std::shared_ptr<SectorsControler> p_sectors,
     setVariatforBandwidth();
     setVariantForMimo();
     setVariantForEnvironent();
+    QWidget::setWindowTitle("New sector");
 }
 
 SectorForm::~SectorForm()

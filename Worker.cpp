@@ -8,18 +8,19 @@ Worker::Worker(DataProvider & p_data) :
     data(p_data), sectors(p_data.sectorControler)
 {
     unsigned int n = std::thread::hardware_concurrency();
-    n = n-2;
+    n = n-1;
     pool = std::make_unique<ThreadPool>(n);
 
-    dataProvider = std::make_shared<MapDataProvider>();
+    mapDataProvider = std::make_shared<MapDataProvider>();
     antennaProvider = std::make_shared<AntennaLossFileProvider>("742266V02_pozioma.csv",
                                                                 "742266V02_pionowa.csv"); //Tymczasowo
-    fakeInit();
+    //fakeInit();
 }
 
 void Worker::doCalculation()
 {
     calculateRsrpForSectors();
+    areaCalculation = std::make_unique<AreaCalculation>(data.areaPixels);
     for(unsigned int j = areaCalculation->beginY(); j < areaCalculation->endY(); j++)//y
     {
         for(unsigned int i = areaCalculation->beginX(); i < areaCalculation->endX(); i++)//x
@@ -66,6 +67,11 @@ int Worker::getQueueSize() const
     return pool->getTaskQueueSize();
 }
 
+std::shared_ptr<IMapDataProvider> Worker::getMapDataProvider() const
+{
+    return mapDataProvider;
+}
+
 void Worker::fakeInit()
 {
     std::vector<std::pair<int,int>> area;
@@ -95,7 +101,7 @@ void Worker::executeCalculationForPixel(PixelXY pixel)
     Receiver receiver;
     receiver.setPossition(pixel.getXy());
     receiver.setHeight(data.receiver.getHeight());
-    PixelWorker pixelWorker(RSRP, rsrpForSectors, dataProvider, antennaProvider, *sectors, receiver, data.minValueOfRSRP);
+    PixelWorker pixelWorker(RSRP, rsrpForSectors, mapDataProvider, antennaProvider, *sectors, receiver, data.minValueOfRSRP);
     pixelWorker.executeCalculation();
 }
 

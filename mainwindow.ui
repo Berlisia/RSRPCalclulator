@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1271</width>
-    <height>913</height>
+    <width>1347</width>
+    <height>946</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,8 +21,8 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>400</y>
-      <width>261</width>
+      <y>320</y>
+      <width>271</width>
       <height>461</height>
      </rect>
     </property>
@@ -41,9 +41,9 @@
    <widget class="QWidget" name="horizontalLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>280</x>
+      <x>290</x>
       <y>50</y>
-      <width>911</width>
+      <width>901</width>
       <height>731</height>
      </rect>
     </property>
@@ -63,9 +63,9 @@
    <widget class="QWidget" name="verticalLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>280</x>
+      <x>290</x>
       <y>0</y>
-      <width>82</width>
+      <width>111</width>
       <height>51</height>
      </rect>
     </property>
@@ -73,7 +73,7 @@
      <item>
       <widget class="QPushButton" name="calculatePushButton">
        <property name="text">
-        <string>Push</string>
+        <string>RUN</string>
        </property>
       </widget>
      </item>
@@ -84,7 +84,7 @@
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>261</width>
+      <width>269</width>
       <height>51</height>
      </rect>
     </property>
@@ -115,44 +115,11 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget_4">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>0</y>
-      <width>341</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_4">
-     <item>
-      <widget class="Line" name="line_2">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QProgressBar" name="progressBar">
-       <property name="value">
-        <number>24</number>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="Line" name="line">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
    <widget class="QWidget" name="horizontalLayoutWidget_5">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>160</y>
+      <x>150</x>
+      <y>80</y>
       <width>131</width>
       <height>241</height>
      </rect>
@@ -174,7 +141,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>160</y>
+      <y>80</y>
       <width>131</width>
       <height>241</height>
      </rect>
@@ -217,38 +184,12 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget_6">
-    <property name="geometry">
-     <rect>
-      <x>400</x>
-      <y>780</y>
-      <width>141</width>
-      <height>80</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_6">
-     <item>
-      <widget class="QLabel" name="labelValueS">
-       <property name="text">
-        <string>  [dBm]: </string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="valueLabel">
-       <property name="text">
-        <string>TextLabel</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
    <widget class="QWidget" name="verticalLayoutWidget_3">
     <property name="geometry">
      <rect>
-      <x>280</x>
+      <x>290</x>
       <y>780</y>
-      <width>121</width>
+      <width>126</width>
       <height>80</height>
      </rect>
     </property>
@@ -260,14 +201,21 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QCheckBox" name="terrainCheckBox">
+       <property name="text">
+        <string>Terrain profile</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget_4">
     <property name="geometry">
      <rect>
-      <x>540</x>
+      <x>730</x>
       <y>780</y>
-      <width>81</width>
+      <width>101</width>
       <height>80</height>
      </rect>
     </property>
@@ -284,7 +232,7 @@
    <widget class="QWidget" name="verticalLayoutWidget_5">
     <property name="geometry">
      <rect>
-      <x>690</x>
+      <x>900</x>
       <y>780</y>
       <width>221</width>
       <height>80</height>
@@ -303,7 +251,7 @@
    <widget class="QWidget" name="verticalLayoutWidget_6">
     <property name="geometry">
      <rect>
-      <x>910</x>
+      <x>1120</x>
       <y>780</y>
       <width>71</width>
       <height>80</height>
@@ -324,8 +272,8 @@
      <rect>
       <x>10</x>
       <y>50</y>
-      <width>261</width>
-      <height>80</height>
+      <width>271</width>
+      <height>31</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout">
@@ -344,7 +292,7 @@
    <widget class="QWidget" name="verticalLayoutWidget_7">
     <property name="geometry">
      <rect>
-      <x>620</x>
+      <x>830</x>
       <y>780</y>
       <width>71</width>
       <height>80</height>
@@ -360,6 +308,104 @@
      </item>
     </layout>
    </widget>
+   <widget class="QToolButton" name="zoomInButton">
+    <property name="geometry">
+     <rect>
+      <x>1220</x>
+      <y>80</y>
+      <width>91</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Zoom in</string>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="zoomOutButton">
+    <property name="geometry">
+     <rect>
+      <x>1220</x>
+      <y>120</y>
+      <width>91</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Zoom out</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>780</y>
+      <width>221</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="1" column="1">
+      <widget class="QLabel" name="terrainLabel">
+       <property name="text">
+        <string> </string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="valueLabel">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0" alignment="Qt::AlignRight">
+      <widget class="QLabel" name="labelValueS">
+       <property name="text">
+        <string>  [dBm]:  </string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0" alignment="Qt::AlignRight">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>[m]:  </string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget_4">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>0</y>
+      <width>160</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="QToolButton" name="rectangleToolButton">
+       <property name="text">
+        <string>new area calculation</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QPushButton" name="terrainPushButton">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>860</y>
+      <width>121</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>show terrain profile</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QMenuBar" name="menuBar">
@@ -367,8 +413,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1271</width>
-     <height>20</height>
+     <width>1347</width>
+     <height>25</height>
     </rect>
    </property>
   </widget>

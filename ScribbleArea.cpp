@@ -8,10 +8,11 @@
 #include <cmath>
 #include <iostream>
 
-ScribbleArea::ScribbleArea(QCheckBox *p_checkBox, DataProvider &p_data, QLabel *p_valueLabel,
+ScribbleArea::ScribbleArea(QCheckBox *p_checkBox, QCheckBox *p_TerrainCheckBox, DataProvider &p_data, QLabel *p_valueLabel,
                            const QPixmap & parent) :
     QGraphicsPixmapItem(parent),
     checkBox(p_checkBox),
+    terrainCheckBox(p_TerrainCheckBox),
     data(p_data),
     valueLabel(p_valueLabel)
 {
@@ -22,11 +23,20 @@ ScribbleArea::ScribbleArea(QCheckBox *p_checkBox, DataProvider &p_data, QLabel *
     valueLabel->show();
 }
 
+void ScribbleArea::setTerriainProfile(std::shared_ptr<TerrainProfile> p_terProfile)
+{
+    terProfile = p_terProfile;
+}
+
 void ScribbleArea::selectEvent(QGraphicsSceneMouseEvent *event)
 {
     if(checkBox->isChecked())
     {
         findPossitionForValue(event);
+    }
+    else if(terrainCheckBox->isChecked())
+    {
+        choosePixelForTerrainProfile(event);
     }
 }
 
@@ -39,9 +49,33 @@ float ScribbleArea::findFromData(PixelXY pixel)
     return finded->second;
 }
 
+void ScribbleArea::choosePixelForTerrainProfile(QGraphicsSceneMouseEvent *event)
+{
+    QPointF mousePosition = event->scenePos();
+    //PixelXY px(static_cast<int>(mousePosition.rx()), static_cast<int>(mousePosition.ry()));
+    terProfile->addPixel(mousePosition);
+}
+
 void ScribbleArea::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     selectEvent(event);
+}
+
+void ScribbleArea::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    selectEvent(event);
+}
+
+void ScribbleArea::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    if(terrainCheckBox->isChecked())
+    {
+        if(terProfile->getPixelsSize() == 1)
+        {
+            terProfile->setCurrentPixel(event->scenePos());
+            emit terProfile->drawLine();
+        }
+    }
 }
 
 void ScribbleArea::findPossitionForValue(QGraphicsSceneMouseEvent *event)

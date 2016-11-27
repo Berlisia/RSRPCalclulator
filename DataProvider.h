@@ -8,6 +8,7 @@
 
 typedef std::vector<std::shared_ptr<BaseStation>> BaseStations;
 typedef std::shared_ptr<SectorsControler> SectorsControlerPtr;
+typedef std::vector<std::pair<int,int>> BoundaryPixelsInArea;
 
 class RSRPForPixel : public QObject
 {
@@ -32,6 +33,8 @@ public:
     SectorsControlerPtr sectorControler;
     Receiver receiver;
     double minValueOfRSRP;
+    BoundaryPixelsInArea areaPixels;
+
 
     RSRPForPixel rsrp;
 

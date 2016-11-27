@@ -17,6 +17,7 @@
 #include <QMouseEvent>
 #include "ReceiverForm.h"
 #include "Worker.h"
+#include "Rectangle.h"
 
 using namespace std;
 
@@ -25,7 +26,8 @@ MainWindow::MainWindow(DataProvider & p_data, const Worker * p_worker, QWidget *
     ui(new Ui::MainWindow),
     data(p_data),
     scene(nullptr),
-    worker(p_worker)
+    worker(p_worker),
+    currenItemInScene(nullptr)
 {
     ui->setupUi(this);
     QPixmap img;
@@ -33,10 +35,6 @@ MainWindow::MainWindow(DataProvider & p_data, const Worker * p_worker, QWidget *
     displayImage(img);
 
     QWidget::setWindowTitle("RSRP Calculator @created by Ewelina Berlicka");
-
-    ui->progressBar->setMinimum(0);
-    ui->progressBar->setMaximum(100);
-    //ui->progressBar->hide();
 
     ui->label2->hide();
     ui->label3->hide();;
@@ -50,7 +48,7 @@ MainWindow::MainWindow(DataProvider & p_data, const Worker * p_worker, QWidget *
     ui->minimumRSRSPdoubleSpinBox->setValue(-140);
     ui->minRSRPFromSlider_2->setText("-140");
 
-    ui->rsrpHorizontalSlider->setTickPosition(QSlider::TicksRight);
+    ui->rsrpHorizontalSlider->setTickPosition(QSlider::TicksLeft);
     ui->rsrpHorizontalSlider->setSingleStep(1);
     ui->rsrpHorizontalSlider->setMinimum(-140);
     ui->rsrpHorizontalSlider->setMaximum(0);
@@ -66,6 +64,12 @@ MainWindow::MainWindow(DataProvider & p_data, const Worker * p_worker, QWidget *
     connect(ui->receiverButton, SIGNAL(pressed()), this, SLOT(receiverClicked()));
     connect(ui->minimumRSRSPdoubleSpinBox, SIGNAL(valueChanged(double)), this, SLOT(changeMinRSRPValueInData(double)));
     connect(ui->rsrpHorizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(updateMap(int)));
+    connect(ui->rectangleToolButton, SIGNAL(pressed()), this, SLOT(actionRectangleTriggered()));
+    connect(ui->zoomInButton, SIGNAL(pressed()), this, SLOT(zoomIn()));
+    connect(ui->zoomOutButton, SIGNAL(pressed()), this, SLOT(zoomOut()));
+    connect(ui->terrainCheckBox, SIGNAL(clicked(bool)), this, SLOT(terrainProfileTriggered(bool)));
+
+    std::pair<int,int> dupa = geoConverter.geographicalCoordinatesToPixel(std::pair<double,double>(50.3185, 17.3645));
 }
 
 void MainWindow::closeEvent(QCloseEvent * event)
@@ -81,9 +85,11 @@ MainWindow::~MainWindow()
 void MainWindow::displayImage(const QPixmap & img)
 {
     if(scene != nullptr)
+    {
         scene->clear();
+    }
     scene = new QGraphicsScene();
-    mapArea = new ScribbleArea(ui->checkBox, data, ui->valueLabel,img);
+    mapArea = new ScribbleArea(ui->checkBox, ui->terrainCheckBox, data, ui->valueLabel,img);
     mapArea->setFlags(QGraphicsItem::ItemIsMovable);
     scene->addItem(mapArea);
     ui->mapGraphicsView->setScene(scene);
@@ -93,19 +99,17 @@ void MainWindow::displayImage(const QPixmap & img)
 void MainWindow::addMenu()
 {
     QMenu * mainMenu = new QMenu(tr("&Menu"), this);
-    QMenu * tools = new QMenu(tr("&Tools"), this);
+    //QMenu * tools = new QMenu(tr("&Tools"), this);
 
     QMainWindow::menuBar()->addMenu(mainMenu);
     mainMenu->addAction(tr("&Quit"), this, SLOT(close()));
 
-    QMainWindow::menuBar()->addMenu(tools);
-    tools->addAction(tr("&Add Base Station"), this, SLOT(on_baseStationUi_clicked()), tr("Ctrl+B"));
-    tools->addAction(tr("&View created objects"), this, SLOT(on_viewCreatedObject_clicked()), tr("&Ctrl+V"));
+    //QMainWindow::menuBar()->addMenu(tools);
+    //tools->addAction(tr("&Add Base Station"), this, SLOT(on_baseStationUi_clicked()), tr("Ctrl+B"));
 }
 
 void MainWindow::drawImage()
 {
-    ui->progressBar->setValue(100);
     ImagePainter paint(data.rsrp.vector, this);
     QPixmap px;
     px.load("asd.ppm");
@@ -128,7 +132,7 @@ void MainWindow::drawImage()
 
 void MainWindow::barFinished()
 {
-    ui->progressBar->hide();
+
 }
 
 void MainWindow::showScale(ImagePainter & paint, float max, float min)
@@ -160,22 +164,42 @@ void MainWindow::showScale(ImagePainter & paint, float max, float min)
     Str = to_string(max) + "[dBm] ";
     ui->maxLabel->setText(Str.c_str());
     ui->scalaGraphicsView->show();
+    currenItemInScene = nullptr; //bo nowa scene po policzeniu
 }
 
-void MainWindow::createActions()
+void MainWindow::setPixelsArea(const QRectF rect)
 {
+    data.areaPixels.clear();
+    qreal x, y;
+    qreal qwidth, qheight;
+    rect.getRect(&x, &y, &qwidth, &qheight);
+
+    int coordX = static_cast<int>(x);
+    int coordY = static_cast<int>(y);
+    int width = static_cast<int>(qwidth);
+    int height = static_cast<int>(qheight);
+
+    std::pair<int,int> coord(coordX, coordY);;
+    std::pair<int,int> coord2(coordX + width, coordY);
+    std::pair<int,int> coord3(coordX, coordY + height);
+    std::pair<int,int> coord4(coordX + width, coordY + height);
+
+    data.areaPixels.push_back(coord);
+    data.areaPixels.push_back(coord2);
+    data.areaPixels.push_back(coord3);
+    data.areaPixels.push_back(coord4);
 }
 
 void MainWindow::barChanged()
 {
-    int size = worker->getQueueSize();
-    ui->progressBar->setValue(size/initBarSize);
+//    int size = worker->getQueueSize();
+//    ui->progressBar->setValue(size/initBarSize);
 }
 
 void MainWindow::progressBarStart()
 {
-    ui->progressBar->show();
-    initBarSize = worker->getQueueSize();
+    //ui->progressBar->show();
+    //initBarSize = worker->getQueueSize();
 }
 
 void MainWindow::receiverClicked()
@@ -214,6 +238,106 @@ void MainWindow::updateMap(int slideValue)
     }
     painter.end();
     displayImage(px);
+}
+
+void MainWindow::actionRectangleTriggered()
+{
+    //uncheckAllToolbar();
+    Rectangle * r = new Rectangle();
+    if(!areaCalculationPixmap)
+        areaCalculationPixmap = std::make_shared<QPixmap>();
+    areaCalculationPixmap->load("asd.ppm");
+    if(!rectanglePainter)
+    {
+        rectanglePainter = std::make_unique<QPainter>(areaCalculationPixmap.get());
+    }
+    canvas = new Canvas(*areaCalculationPixmap);
+    if(!drawRectangle)
+    {
+        drawRectangle = std::make_unique<DrawRectangle>();
+        connect(drawRectangle.get(), SIGNAL(drawingDone()), this, SLOT(showRectangle()));
+    }
+    drawRectangle->setRectangle(r);
+    drawRectangle->setPainter(rectanglePainter.get());
+    canvas->setTool(drawRectangle.get());
+
+    canvas->setFlags(QGraphicsItem::ItemIsMovable);
+
+    scene->addItem(canvas);
+    ui->mapGraphicsView->setScene(scene);
+    ui->mapGraphicsView->show();
+    drawBaseStationPossition();
+}
+
+void MainWindow::showRectangle()
+{
+    rectanglePainter->end();
+    if(currenItemInScene != nullptr)
+    {
+        scene->removeItem(currenItemInScene);
+    }
+    QRectF rect(drawRectangle->getRect()->getPosition().x(),
+                           drawRectangle->getRect()->getPosition().y(),
+                           drawRectangle->getRect()->getWidth(),
+                           drawRectangle->getRect()->getHeight());
+    currenItemInScene = scene->addRect(rect);
+    ui->mapGraphicsView->setScene(scene);
+    ui->mapGraphicsView->show();
+    setPixelsArea(rect);
+}
+
+void MainWindow::drawTerrainLine()
+{
+    if(currenItemInScene != nullptr)
+    {
+        scene->removeItem(currenItemInScene);
+    }
+    QLineF line(terProfile->getFirstPixel(), terProfile->getCurrentPixel());
+    std::pair<int,int> px1(terProfile->getFirstPixel().x(), terProfile->getFirstPixel().y());
+    std::pair<int,int> px2(terProfile->getCurrentPixel().x(), terProfile->getCurrentPixel().y());
+    ui->terrainLabel->setText(to_string(worker->getMapDataProvider()->coutDistance(px1,px2)).c_str());
+    currenItemInScene = scene->addLine(line);
+    ui->mapGraphicsView->setScene(scene);
+    ui->mapGraphicsView->show();
+}
+
+void MainWindow::drawBaseStationPossition()
+{
+    QPixmap img;
+    img.load("baseStation.png");
+    for(auto base : data.baseStations)
+    {
+        QGraphicsPixmapItem* item = scene->addPixmap(img);
+        item->setPos(base->getPossition().first, base->getPossition().second);
+    }
+    ui->mapGraphicsView->setScene(scene);
+    ui->mapGraphicsView->show();
+}
+
+void MainWindow::zoomIn()
+{
+    ui->mapGraphicsView->scale(2,2);
+}
+
+void MainWindow::zoomOut()
+{
+    ui->mapGraphicsView->scale(0.5,0.5);
+}
+
+void MainWindow::terrainProfileTriggered(bool checked)
+{
+    if(checked == true)
+    {
+        terProfile = std::make_shared<TerrainProfile>(data, worker->getMapDataProvider(), this);
+        mapArea->setTerriainProfile(terProfile);
+        connect(terProfile.get(), SIGNAL(drawLine()), this, SLOT(drawTerrainLine()));
+        connect(ui->terrainPushButton, SIGNAL(pressed()), terProfile.get(), SLOT(drawTerrainProfile()));
+    }
+    else if(checked == false)
+    {
+        scene->removeItem(currenItemInScene);
+        currenItemInScene = nullptr;
+    }
 }
 
 void MainWindow::selectBase()
@@ -281,36 +405,12 @@ void MainWindow::addTreeChild(QTreeWidgetItem *parent, QString name, QString des
     parent->addChild(treeItem);
 }
 
-void MainWindow::on_actionUndo_The_Last_Action_triggered()
-{
-
-}
-
-void MainWindow::on_actionSave_triggered()
-{
-
-}
-
-void MainWindow::on_saveButton_clicked()
-{
-
-}
-
-void MainWindow::on_undoButton_clicked()
-{
-
-}
-
 void MainWindow::on_baseStationUi_clicked()
 {
-    baseStationForm = make_unique<BaseStationForm>(data, this);
+    baseStationForm = make_unique<BaseStationForm>(geoConverter, data, this);
     connect(baseStationForm.get(), SIGNAL(baseStationCreated()), this, SLOT(updateTree()));
+    connect(baseStationForm.get(), SIGNAL(baseStationCreated()), this, SLOT(drawBaseStationPossition()));
     baseStationForm->show();
-}
-
-void MainWindow::on_viewCreatedObject_clicked()
-{
-
 }
 
 void MainWindow::on_sectorUI_clliced()

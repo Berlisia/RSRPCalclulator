@@ -11,6 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = RSRPCalculator
 TEMPLATE = app
+#QMAKE_CXXFLAGS_RELEASE += -O3
 #DEFINES += GTEST_LINKED_AS_SHARED_LIBRARY=1
 
 #LIBS += -lgtest -L/usr/lib/
@@ -53,7 +54,15 @@ SOURCES += main.cpp\
     ImagePainter.cpp \
     Pathloss/Cost231HataModel.cpp \
     ScribbleArea.cpp \
-    ReceiverForm.cpp
+    ReceiverForm.cpp \
+    Rectangle.cpp \
+    Canvas.cpp \
+    DrawRectangle.cpp \
+    MouseEventTool.cpp \
+    MapProvider/wgs84_do_puwg92.cc \
+    MapProvider/GeographicalCoordinatesConverter.cpp \
+    TerrainProfile.cpp \
+    TerrainCanvas.cpp
 
 HEADERS  += mainwindow.h \
     Pathloss/Pathloss.h \
@@ -100,12 +109,21 @@ HEADERS  += mainwindow.h \
     ImagePainter.h \
     Pathloss/Cost231HataModel.h \
     ScribbleArea.h \
-    ReceiverForm.h
+    ReceiverForm.h \
+    Rectangle.h \
+    Canvas.h \
+    DrawRectangle.h \
+    MouseEventTool.h \
+    MapProvider/wgs84_do_puwg92.h \
+    MapProvider/GeographicalCoordinatesConverter.h \
+    TerrainProfile.h \
+    TerrainCanvas.h
 
 FORMS    += mainwindow.ui \
     BaseStationForm.ui \
     SectorForm.ui \
     SelectBaseStationForm.ui \
-    ReceiverForm.ui
+    ReceiverForm.ui \
+    TerrainProfile.ui
 
 DISTFILES +=

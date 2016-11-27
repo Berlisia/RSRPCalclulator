@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>456</width>
-    <height>542</height>
+    <height>585</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>80</x>
-     <y>490</y>
+     <y>540</y>
      <width>341</width>
      <height>32</height>
     </rect>
@@ -46,7 +46,7 @@
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>410</y>
+     <y>450</y>
      <width>55</width>
      <height>16</height>
     </rect>
@@ -72,7 +72,7 @@
    <property name="geometry">
     <rect>
      <x>70</x>
-     <y>250</y>
+     <y>290</y>
      <width>81</width>
      <height>16</height>
     </rect>
@@ -90,12 +90,15 @@
      <height>25</height>
     </rect>
    </property>
+   <property name="maximum">
+    <number>359</number>
+   </property>
   </widget>
   <widget class="QLabel" name="horizonstaLabel">
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>380</y>
+     <y>420</y>
      <width>71</width>
      <height>16</height>
     </rect>
@@ -112,6 +115,12 @@
      <width>91</width>
      <height>25</height>
     </rect>
+   </property>
+   <property name="maximum">
+    <double>50.000000000000000</double>
+   </property>
+   <property name="value">
+    <double>41.000000000000000</double>
    </property>
   </widget>
   <widget class="QLabel" name="antennaLabel">
@@ -154,7 +163,7 @@
    <property name="geometry">
     <rect>
      <x>200</x>
-     <y>380</y>
+     <y>420</y>
      <width>81</width>
      <height>23</height>
     </rect>
@@ -177,7 +186,7 @@
    <property name="geometry">
     <rect>
      <x>70</x>
-     <y>350</y>
+     <y>390</y>
      <width>151</width>
      <height>21</height>
     </rect>
@@ -190,7 +199,7 @@
    <property name="geometry">
     <rect>
      <x>200</x>
-     <y>410</y>
+     <y>450</y>
      <width>81</width>
      <height>23</height>
     </rect>
@@ -216,17 +225,20 @@
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>220</y>
+     <y>260</y>
      <width>46</width>
      <height>25</height>
     </rect>
+   </property>
+   <property name="maximum">
+    <number>180</number>
    </property>
   </widget>
   <widget class="QLabel" name="tiltLabel">
    <property name="geometry">
     <rect>
      <x>70</x>
-     <y>220</y>
+     <y>260</y>
      <width>91</width>
      <height>16</height>
     </rect>
@@ -239,10 +251,19 @@
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>250</y>
+     <y>290</y>
      <width>91</width>
      <height>25</height>
     </rect>
+   </property>
+   <property name="minimum">
+    <number>150</number>
+   </property>
+   <property name="maximum">
+    <number>2000</number>
+   </property>
+   <property name="displayIntegerBase">
+    <number>10</number>
    </property>
   </widget>
   <widget class="QLabel" name="label">
@@ -272,8 +293,8 @@
    <property name="geometry">
     <rect>
      <x>70</x>
-     <y>280</y>
-     <width>101</width>
+     <y>320</y>
+     <width>131</width>
      <height>16</height>
     </rect>
    </property>
@@ -285,8 +306,8 @@
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>300</y>
-     <width>101</width>
+     <y>340</y>
+     <width>131</width>
      <height>18</height>
     </rect>
    </property>
@@ -298,13 +319,42 @@
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>330</y>
-     <width>101</width>
+     <y>370</y>
+     <width>151</width>
      <height>18</height>
     </rect>
    </property>
    <property name="text">
     <string>Cost 231 - Hata</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>230</y>
+     <width>55</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Gain [dBi]</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>230</y>
+     <width>91</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="minimum">
+    <double>10.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>30.000000000000000</double>
    </property>
   </widget>
  </widget>

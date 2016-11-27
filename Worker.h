@@ -15,6 +15,7 @@ public:
 
     void listInCoutRSPR();
     int getQueueSize() const;
+    std::shared_ptr<IMapDataProvider> getMapDataProvider() const;
 
 signals:
     void done();
@@ -36,7 +37,7 @@ private:
     std::shared_ptr<SectorsControler> sectors;
     std::unique_ptr<AreaCalculation> areaCalculation;
 
-    std::shared_ptr<IMapDataProvider> dataProvider;
+    std::shared_ptr<IMapDataProvider> mapDataProvider;
     std::shared_ptr<IAntennaLossFileProvider> antennaProvider; //-> rozszerzyć do kilku anten
 
     std::vector<float> rsrpForSectors;
