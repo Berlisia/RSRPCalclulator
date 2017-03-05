@@ -2,12 +2,15 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::WindowModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1347</width>
-    <height>946</height>
+    <width>1186</width>
+    <height>776</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,7 +26,7 @@
       <x>10</x>
       <y>320</y>
       <width>271</width>
-      <height>461</height>
+      <height>401</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -43,8 +46,8 @@
      <rect>
       <x>290</x>
       <y>50</y>
-      <width>901</width>
-      <height>731</height>
+      <width>761</width>
+      <height>561</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -188,13 +191,13 @@
     <property name="geometry">
      <rect>
       <x>290</x>
-      <y>780</y>
+      <y>610</y>
       <width>126</width>
       <height>80</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_3">
-     <item alignment="Qt::AlignRight">
+     <item alignment="Qt::AlignLeft">
       <widget class="QCheckBox" name="checkBox">
        <property name="text">
         <string>Value from point</string>
@@ -213,8 +216,8 @@
    <widget class="QWidget" name="verticalLayoutWidget_4">
     <property name="geometry">
      <rect>
-      <x>730</x>
-      <y>780</y>
+      <x>640</x>
+      <y>610</y>
       <width>101</width>
       <height>80</height>
      </rect>
@@ -232,8 +235,8 @@
    <widget class="QWidget" name="verticalLayoutWidget_5">
     <property name="geometry">
      <rect>
-      <x>900</x>
-      <y>780</y>
+      <x>810</x>
+      <y>610</y>
       <width>221</width>
       <height>80</height>
      </rect>
@@ -251,8 +254,8 @@
    <widget class="QWidget" name="verticalLayoutWidget_6">
     <property name="geometry">
      <rect>
-      <x>1120</x>
-      <y>780</y>
+      <x>1030</x>
+      <y>610</y>
       <width>71</width>
       <height>80</height>
      </rect>
@@ -292,8 +295,8 @@
    <widget class="QWidget" name="verticalLayoutWidget_7">
     <property name="geometry">
      <rect>
-      <x>830</x>
-      <y>780</y>
+      <x>740</x>
+      <y>610</y>
       <width>71</width>
       <height>80</height>
      </rect>
@@ -311,8 +314,8 @@
    <widget class="QToolButton" name="zoomInButton">
     <property name="geometry">
      <rect>
-      <x>1220</x>
-      <y>80</y>
+      <x>1070</x>
+      <y>60</y>
       <width>91</width>
       <height>23</height>
      </rect>
@@ -324,9 +327,9 @@
    <widget class="QToolButton" name="zoomOutButton">
     <property name="geometry">
      <rect>
-      <x>1220</x>
-      <y>120</y>
-      <width>91</width>
+      <x>1070</x>
+      <y>110</y>
+      <width>90</width>
       <height>23</height>
      </rect>
     </property>
@@ -338,7 +341,7 @@
     <property name="geometry">
      <rect>
       <x>420</x>
-      <y>780</y>
+      <y>610</y>
       <width>221</width>
       <height>80</height>
      </rect>
@@ -347,7 +350,7 @@
      <item row="1" column="1">
       <widget class="QLabel" name="terrainLabel">
        <property name="text">
-        <string> </string>
+        <string/>
        </property>
       </widget>
      </item>
@@ -397,7 +400,7 @@
     <property name="geometry">
      <rect>
       <x>290</x>
-      <y>860</y>
+      <y>700</y>
       <width>121</width>
       <height>25</height>
      </rect>
@@ -413,8 +416,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1347</width>
-     <height>25</height>
+     <width>1186</width>
+     <height>20</height>
     </rect>
    </property>
   </widget>

@@ -31,6 +31,7 @@ private:
     void executeCalculationForPixel(PixelXY pixel);
     bool isBaseStation(PixelXY pixel);
     void deleteNanValue();
+    void saveInFile();
 
     std::unique_ptr<ThreadPool> pool;
     DataProvider & data;
@@ -38,7 +39,7 @@ private:
     std::unique_ptr<AreaCalculation> areaCalculation;
 
     std::shared_ptr<IMapDataProvider> mapDataProvider;
-    std::shared_ptr<IAntennaLossFileProvider> antennaProvider; //-> rozszerzyć do kilku anten
+    //std::shared_ptr<IAntennaLossFileProvider> antennaProvider; //-> rozszerzyć do kilku anten
 
     std::vector<float> rsrpForSectors;
 

@@ -12,20 +12,20 @@ class AntennaLossCalculation
 {
 public:
     AntennaLossCalculation(std::shared_ptr<IMapDataProvider> p_mapDataProvider,
-                           std::shared_ptr<IAntennaLossFileProvider> p_antennaLossDataProvider,
                            SectorsControler & p_sectors);
 
     AntennaLossForSectors calculate();
-    void setReciver(PixelXY pixel);
+    void setReciver(PixelXY p_pixel);
 private:
-    void check(Sector & sector);
+    void check(const Sector & sector, AntennaLossHorizontalCalculator & horizontalCalculator);
+    void check(const Sector & sector, AntennaLossVerticalCalculator & verticalCalculator);
+
+    float lossVertical(const Sector & sector);
+    float lossHorizontal(const Sector & sector);
 
     std::shared_ptr<IMapDataProvider> mapDataProvider;
-    std::shared_ptr<IAntennaLossFileProvider> antennaLossDataProvider;
     SectorsControler & sectors;
-
-    std::shared_ptr<AntennaLossHorizontalCalculator> horizontalCalculator;
-    std::shared_ptr<AntennaLossVerticalCalculator> verticalCalculator;
+    PixelXY pixel;
 };
 
 #endif // ANTENNALOSSCALCULATION_H

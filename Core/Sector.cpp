@@ -89,3 +89,28 @@ std::string Sector::getBaseStationName() const
     return baseStation->getName();
 }
 
+double Sector::getGain() const
+{
+    return antenna->getGain();
+}
+
+std::shared_ptr<IAntennaLossFileProvider> Sector::getAntennaCharacteristic() const
+{
+    return antennaCharacteristic;
+}
+
+void Sector::setAntennaCharacteristic(const std::shared_ptr<IAntennaLossFileProvider> &value)
+{
+    antennaCharacteristic = value;
+}
+
+std::string Sector::getVerticalFileName() const
+{
+    return antenna->getFileNameV();
+}
+
+std::string Sector::getHorizontalFileName() const
+{
+    return antenna->getFileNameH();
+}
+

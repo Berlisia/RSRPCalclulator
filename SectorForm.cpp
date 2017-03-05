@@ -49,17 +49,22 @@ void SectorForm::commit()
 {
     errorMessageForUncheckRadioBoxes();
     Antenna antenna(ui->powerDoubleSpinBox->value(),
+                    ui->gainDoubleSpinBox->value(),
                     ui->tiltSpinBox->value(),
                     ui->bandSpinBox->value(),
                     nameHorizontalFile,
                     nameVerticalFile);
-    createAntennaProvider();
 
     Sector sector(antenna, baseStation);
     sector.setBandwidth(ui->bandwidthBox->itemData(ui->bandwidthBox->currentIndex()).toDouble());
     sector.setAzimuth(ui->azimuthSpinBox->value());
-    sector.setMimo(convertQMimo(ui->mimoBox->currentIndex())); //TODO dodaj w obliczeniach i konwersje do MIMO
+    sector.setMimo(convertQMimo(ui->mimoBox->currentIndex()));
     sector.setEnvironment(converQEnvironment(ui->environmentComboBox->currentIndex()));
+    createAntennaProvider();
+    if(antennaProvider)
+    {
+        sector.setAntennaCharacteristic(antennaProvider);
+    }
     chooseModel(sector);
     sectors->addSector(sector);
 }
@@ -89,8 +94,15 @@ void SectorForm::editRadioBoxes(int band)
 
 void SectorForm::createAntennaProvider()
 {
-    antennaProvider = std::make_shared<AntennaLossFileProvider>(nameHorizontalFile,
-                                                                nameVerticalFile);
+    if(!antennaFileProviderIsInMemory())
+    {
+        antennaProvider = std::make_shared<AntennaLossFileProvider>(nameHorizontalFile,
+                                                                    nameVerticalFile);
+    }
+    else
+    {
+        antennaProvider = findSuitableCharacteristic();
+    }
 }
 
 void SectorForm::setVariatforBandwidth()
@@ -136,6 +148,35 @@ bool SectorForm::errorMessageForUncheckRadioBoxes()
     }
     return false;
 }
+
+bool SectorForm::antennaFileProviderIsInMemory()
+{
+    bool isFile = false;
+    for (auto sector : sectors->getVectorOfSectors())
+    {
+        if (sector.getVerticalFileName() == nameVerticalFile and
+            sector.getHorizontalFileName() == nameHorizontalFile)
+        {
+            isFile = true;
+        }
+    }
+    return isFile;
+}
+
+std::shared_ptr<IAntennaLossFileProvider> SectorForm::findSuitableCharacteristic()
+{
+    std::shared_ptr<IAntennaLossFileProvider> antennaLossFileProvider;
+    for (auto sector : sectors->getVectorOfSectors())
+    {
+        if (sector.getVerticalFileName() == nameVerticalFile and
+            sector.getHorizontalFileName() == nameHorizontalFile)
+        {
+           antennaLossFileProvider = sector.getAntennaCharacteristic();
+        }
+    }
+    return antennaLossFileProvider;
+}
+
 
 Environment SectorForm::converQEnvironment(int index)
 {

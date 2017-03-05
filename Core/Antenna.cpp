@@ -1,7 +1,8 @@
 #include "Antenna.h"
 
-Antenna::Antenna(float power, int tilt, int frequency, std::string fileH, std::string fileV) :
+Antenna::Antenna(float power, double gain, int tilt, int frequency, std::string fileH, std::string fileV) :
     power(power),
+    gain(gain),
     tilt(tilt),
     frequency(frequency),
     fileNameH(fileH),
@@ -47,5 +48,15 @@ std::string Antenna::getFileNameH()
 std::string Antenna::getFileNameV()
 {
     return fileNameV;
+}
+
+double Antenna::getGain() const
+{
+    return gain;
+}
+
+void Antenna::setGain(double value)
+{
+    gain = value;
 }
 

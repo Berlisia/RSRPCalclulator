@@ -5,6 +5,7 @@
 #include "Core/Receiver.h"
 #include <QObject>
 #include <memory>
+#include <mutex>
 
 typedef std::vector<std::shared_ptr<BaseStation>> BaseStations;
 typedef std::shared_ptr<SectorsControler> SectorsControlerPtr;
@@ -23,10 +24,12 @@ signals:
 class DataProvider
 {   
 public:
-    DataProvider() : minValueOfRSRP(-140)
+    DataProvider() : minValueOfRSRP(-120)
     {
         sectorControler = std::make_shared<SectorsControler>();
         receiver.setHeight(1);
+        receiver.setGain(0);
+        receiver.setOtherLosses(0);
     }
 
     BaseStations baseStations;

@@ -7,14 +7,13 @@
 #include "DataProvider.h"
 #include "ThreadPool.h"
 
-typedef std::vector<float>& RsrpValueForSectorRef;
+typedef std::vector<float> & RsrpValueForSectorRef;
 
 class PixelWorker
 {
 public:
     PixelWorker(RSRPForPixel & p_RSRP, RsrpValueForSectorRef p_rsrpSectors,
                 std::shared_ptr<IMapDataProvider> p_mapDataProvider,
-                std::shared_ptr<IAntennaLossFileProvider> p_antennaLossDataProvider,
                 SectorsControler & p_sectors,
                 Receiver & p_receiver,
                 double p_minValueRSRP);

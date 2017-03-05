@@ -30,7 +30,7 @@ std::vector<float> PathlossCalculation::calculatePathloss()
         default:
             break;
         }
-        loss.push_back(pathloss);
+        loss.push_back(pathloss - sector.getGain());
     }
     return std::move(loss);
 }

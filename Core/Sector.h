@@ -3,6 +3,7 @@
 #include "Antenna.h"
 #include "BaseStation.h"
 #include "Pathloss/PathlossModel.h"
+#include "AntennaLoss/IAntennaLossFileProvider.h"
 #include <memory>
 #include <string>
 
@@ -42,6 +43,11 @@ public:
     Model getModel() const;
     std::pair<int, int> getPossitonOfBaseStation() const;
     std::string getBaseStationName() const;
+    double getGain() const;
+    std::shared_ptr<IAntennaLossFileProvider> getAntennaCharacteristic() const;
+    void setAntennaCharacteristic(const std::shared_ptr<IAntennaLossFileProvider> &value);
+    std::string getVerticalFileName() const;
+    std::string getHorizontalFileName() const;
 
 private:
     int azimuth;      //stopnie
@@ -51,6 +57,7 @@ private:
     Model model;
     std::shared_ptr<Antenna> antenna;
     std::shared_ptr<BaseStation> baseStation;
+    std::shared_ptr<IAntennaLossFileProvider> antennaCharacteristic;
 };
 
 #endif // SECTOR_H

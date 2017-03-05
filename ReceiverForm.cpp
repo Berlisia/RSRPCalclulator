@@ -30,4 +30,6 @@ void ReceiverForm::update()
 void ReceiverForm::commit()
 {
     data.receiver.setHeight(ui->receiverSpinBox->value());
+    data.receiver.setGain(ui->gainDoubleSpinBox->value());
+    data.receiver.setOtherLosses(ui->lossesDoubleSpinBox->value());
 }

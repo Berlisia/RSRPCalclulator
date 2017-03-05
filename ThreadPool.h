@@ -17,11 +17,11 @@ public:
     void start();
     void stop();
     void add(const Task & task, const PixelXY & pixel);
-    int getTaskQueueSize() const;
+    //int getTaskQueueSize() const;
 
 private:
     void threadFunc();
-    mutable JobQueue queue;
+    JobQueue queue;
     Threads threads;
     size_t size;
 

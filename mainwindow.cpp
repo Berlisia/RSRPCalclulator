@@ -45,12 +45,12 @@ MainWindow::MainWindow(DataProvider & p_data, const Worker * p_worker, QWidget *
     ui->valueLabel->setText(" ");
     ui->minRSRPFromSlider->setText("0");
     ui->minimumRSRSPdoubleSpinBox->setRange(-200,0);
-    ui->minimumRSRSPdoubleSpinBox->setValue(-140);
-    ui->minRSRPFromSlider_2->setText("-140");
+    ui->minimumRSRSPdoubleSpinBox->setValue(-120);
+    ui->minRSRPFromSlider_2->setText("-120");
 
     ui->rsrpHorizontalSlider->setTickPosition(QSlider::TicksLeft);
     ui->rsrpHorizontalSlider->setSingleStep(1);
-    ui->rsrpHorizontalSlider->setMinimum(-140);
+    ui->rsrpHorizontalSlider->setMinimum(-120);
     ui->rsrpHorizontalSlider->setMaximum(0);
 
     addMenu();
@@ -69,7 +69,21 @@ MainWindow::MainWindow(DataProvider & p_data, const Worker * p_worker, QWidget *
     connect(ui->zoomOutButton, SIGNAL(pressed()), this, SLOT(zoomOut()));
     connect(ui->terrainCheckBox, SIGNAL(clicked(bool)), this, SLOT(terrainProfileTriggered(bool)));
 
-    std::pair<int,int> dupa = geoConverter.geographicalCoordinatesToPixel(std::pair<double,double>(50.3185, 17.3645));
+    int y = 3942;
+    int x = 3802;
+    std::pair<double,double> dupa = geoConverter.pixelToGeographicalCoordinates(std::pair<int,int>(x,y));
+    std::cout << x << " " << y << " " << dupa.first << " " << dupa.second << std::endl;
+    std::pair<int,int> dupa2 = geoConverter.geographicalCoordinatesToPixel(dupa);
+    std::cout << x << " " << y << " " << dupa2.first << " " << dupa2.second << std::endl;
+
+
+    dupa2 = geoConverter.geographicalCoordinatesToPixel(std::pair<double,double>(50.8719, 16.7052));
+    dupa = geoConverter.pixelToGeographicalCoordinates(std::pair<int,int>(2624, 1916));
+    std::cout << " 50.8719 " << "16.7052 " << dupa2.first << " " << dupa2.second << std::endl;
+    std::cout << "2624 " << "1916 " << dupa.first << " " << dupa.second << std::endl;
+
+
+    //std::pair<int,int> dupa = geoConverter.geographicalCoordinatesToPixel(std::pair<double,double>(50.3185, 17.3645));
 }
 
 void MainWindow::closeEvent(QCloseEvent * event)
@@ -307,7 +321,7 @@ void MainWindow::drawBaseStationPossition()
     img.load("baseStation.png");
     for(auto base : data.baseStations)
     {
-        QGraphicsPixmapItem* item = scene->addPixmap(img);
+        QGraphicsItem* item = scene->addPixmap(img);
         item->setPos(base->getPossition().first, base->getPossition().second);
     }
     ui->mapGraphicsView->setScene(scene);

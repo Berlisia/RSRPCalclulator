@@ -25,8 +25,8 @@ void RsrpTestCase::rsrpCalculationTest()
 
     AreaCalculation areaCalc(area);
 
-    Antenna antenna(20,0,1800, "742266V02_pozioma.csv","742266V02_pionowa.csv");
-    Antenna antenna2(20,0,1800, "742266V02_pozioma.csv","742266V02_pionowa.csv");
+    Antenna antenna(20,0,1800,18, "742266V02_pozioma.csv","742266V02_pionowa.csv");
+    Antenna antenna2(20,0,1800,18, "742266V02_pozioma.csv","742266V02_pionowa.csv");
     Sector sec11(antenna, base1);
     Sector sec21(antenna, base1);
     Sector sec31(antenna, base1);

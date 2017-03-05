@@ -71,7 +71,7 @@
     <string>Antenna gain [dBi]</string>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleSpinBox">
+  <widget class="QDoubleSpinBox" name="gainDoubleSpinBox">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -100,7 +100,7 @@
     <string>Other loss [dB]</string>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleSpinBox_2">
+  <widget class="QDoubleSpinBox" name="lossesDoubleSpinBox">
    <property name="geometry">
     <rect>
      <x>180</x>

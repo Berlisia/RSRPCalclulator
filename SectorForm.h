@@ -43,6 +43,8 @@ private:
     void setVariantForEnvironent();
     void chooseModel(Sector & sector);
     bool errorMessageForUncheckRadioBoxes();
+    bool antennaFileProviderIsInMemory();
+    std::shared_ptr<IAntennaLossFileProvider> findSuitableCharacteristic();
     Environment converQEnvironment(int index);
 
     Ui::SectorForm *ui;

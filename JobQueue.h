@@ -23,7 +23,7 @@ public:
 private:
     mutable std::mutex mut;
     std::queue<std::pair<Task, PixelXY>> dataQueue;
-    std::condition_variable dataCond;
+    //std::condition_variable dataCond;
 };
 
 #endif // JOBQUEUE_H

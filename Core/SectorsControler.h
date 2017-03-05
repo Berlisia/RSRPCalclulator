@@ -3,8 +3,10 @@
 #include "Sector.h"
 #include "Antenna.h"
 #include "BaseStation.h"
+#include "AntennaLoss/AntennaLossFileProvider.h"
 #include <vector>
 #include <memory>
+#include <map>
 
 class SectorsControler
 {
@@ -20,6 +22,7 @@ public:
 
 private:
     std::vector<Sector> sector;
+    std::map<std::shared_ptr<AntennaLossFileParser>, int> characteristicMap;
 };
 
 #endif // SECTORSCONTROLER_H

@@ -341,7 +341,7 @@
     <string>Gain [dBi]</string>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleSpinBox">
+  <widget class="QDoubleSpinBox" name="gainDoubleSpinBox">
    <property name="geometry">
     <rect>
      <x>170</x>
@@ -355,6 +355,9 @@
    </property>
    <property name="maximum">
     <double>30.000000000000000</double>
+   </property>
+   <property name="value">
+    <double>15.000000000000000</double>
    </property>
   </widget>
  </widget>

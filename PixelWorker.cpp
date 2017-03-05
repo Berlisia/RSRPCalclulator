@@ -11,12 +11,11 @@ std::mutex PixelWorker::mutex;
 PixelWorker::PixelWorker(RSRPForPixel & p_RSRP,
                          RsrpValueForSectorRef p_rsrpSectors,
                          std::shared_ptr<IMapDataProvider> p_mapDataProvider,
-                         std::shared_ptr<IAntennaLossFileProvider> p_antennaLossDataProvider,
                          SectorsControler & p_sectors,
                          Receiver & p_receiver,
                          double p_minValueRSRP) :
     RSRP(p_RSRP), rsrpSectors(p_rsrpSectors), receiver(p_receiver), minValueRSRP(p_minValueRSRP),
-    antennaCalculation(AntennaLossCalculation(p_mapDataProvider, p_antennaLossDataProvider, p_sectors))
+    antennaCalculation(AntennaLossCalculation(p_mapDataProvider, p_sectors))
 {
     pathlossCalculation = std::make_unique<PathlossCalculation>(p_mapDataProvider, p_sectors, p_receiver);
 }
@@ -25,16 +24,17 @@ void PixelWorker::executeCalculation()
 {
     std::vector<float> rsrpFromSectors;
     calculateAntennaLossForOnePixel();
-    calculatePathlossForOnePixel();
+    calculatePathlossForOnePixel(); //wraz z zyskiem anteny
 
     for (unsigned int i = 0; i < antennaLossFromSectorsPerOnePixel->size(); i++) //for po wszystkich sectorach
     {
         float pathL = pathLossFromSectorsPerOnePixel[i];
-        if(!std::isnan(pathL) and !std::isinf(pathL)) //dBm | weź od użytkownika
+        if(!std::isnan(pathL) and !std::isinf(pathL)) //dBm
         {
             float rsrp = rsrpSectors[i] -
                     (*antennaLossFromSectorsPerOnePixel)[i] -
-                     pathL;
+                     pathL +
+                     receiver.getGain() - receiver.getOtherLosses();
             if(rsrp > (minValueRSRP))
             {
                 rsrpFromSectors.push_back(rsrp);

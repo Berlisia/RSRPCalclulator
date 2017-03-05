@@ -1,12 +1,9 @@
 #include "AntennaLossCalculation.h"
 
 AntennaLossCalculation::AntennaLossCalculation(std::shared_ptr<IMapDataProvider> p_mapDataProvider,
-                                               std::shared_ptr<IAntennaLossFileProvider> p_antennaLossDataProvider,
                                                SectorsControler & p_sectors) :
-    mapDataProvider(p_mapDataProvider), antennaLossDataProvider(p_antennaLossDataProvider), sectors(p_sectors)
+    mapDataProvider(p_mapDataProvider), sectors(p_sectors)
 {
-    horizontalCalculator = std::make_shared<AntennaLossHorizontalCalculator>(mapDataProvider, antennaLossDataProvider);
-    verticalCalculator = std::make_shared<AntennaLossVerticalCalculator>(mapDataProvider, antennaLossDataProvider);
 }
 
 AntennaLossForSectors AntennaLossCalculation::calculate()
@@ -14,33 +11,51 @@ AntennaLossForSectors AntennaLossCalculation::calculate()
     std::vector<float> loss;
     for(auto sector : sectors.getVectorOfSectors())
     {
-        check(sector);
-
-        horizontalCalculator->setAzimuth(sector.getAzimuth());
-        float lossH = horizontalCalculator->calculateAntennaLoss();
-
-        verticalCalculator->setTilt(sector.getAntennaTilt());
-        float lossV = verticalCalculator->calculateAntennaLoss();
+        float lossH = lossHorizontal(sector);
+        float lossV = lossVertical(sector);
         loss.push_back(lossH + lossV);
     }
     AntennaLossForSectors lossPtr = std::make_shared<std::vector<float>>(std::move(loss));
     return lossPtr;
 }
 
-void AntennaLossCalculation::setReciver(PixelXY pixel)
+void AntennaLossCalculation::setReciver(PixelXY p_pixel)
 {
-    horizontalCalculator->setReceiver(pixel.getXy());
-    verticalCalculator->setReceiver(pixel.getXy());
+    pixel = p_pixel;
 }
 
-void AntennaLossCalculation::check(Sector & sector)
+void AntennaLossCalculation::check(const Sector & sector, AntennaLossHorizontalCalculator &horizontalCalculator)
 {
-    if(sector.getPossitonOfBaseStation() != horizontalCalculator->getAntennaPossiton())
+    if(sector.getPossitonOfBaseStation() != horizontalCalculator.getAntennaPossiton())
     {
-        horizontalCalculator->setAntenna(sector.getPossitonOfBaseStation());
+        horizontalCalculator.setAntenna(sector.getPossitonOfBaseStation());
     }
-    if(sector.getAntennaHeight() != verticalCalculator->getAntennaHeight())
+}
+
+void AntennaLossCalculation::check(const Sector &sector, AntennaLossVerticalCalculator & verticalCalculator)
+{
+    if(sector.getAntennaHeight() != verticalCalculator.getAntennaHeight())
     {
-        verticalCalculator->setAntennaHeight(sector.getAntennaHeight());
+        verticalCalculator.setAntennaHeight(sector.getAntennaHeight());
     }
+}
+
+float AntennaLossCalculation::lossVertical(const Sector &sector)
+{
+    AntennaLossVerticalCalculator verticalCalculator(mapDataProvider, sector.getAntennaCharacteristic());
+    verticalCalculator.setTilt(sector.getAntennaTilt());
+    check(sector, verticalCalculator);
+    verticalCalculator.setReceiver(pixel.getXy());
+    float lossV = verticalCalculator.calculateAntennaLoss();
+    return lossV;
+}
+
+float AntennaLossCalculation::lossHorizontal(const Sector &sector)
+{
+    AntennaLossHorizontalCalculator horizontalCalculator(mapDataProvider, sector.getAntennaCharacteristic());
+    horizontalCalculator.setAzimuth(sector.getAzimuth());
+    check(sector, horizontalCalculator);
+    horizontalCalculator.setReceiver(pixel.getXy());
+    float lossH = horizontalCalculator.calculateAntennaLoss();
+    return lossH;
 }

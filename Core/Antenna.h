@@ -5,7 +5,7 @@
 class Antenna
 {
 public:
-    Antenna(float power, int tilt, int frequency, std::string horizonral, std::string vertical);
+    Antenna(float power, double gain, int tilt, int frequency, std::string horizonral, std::string vertical);
     void setPower(float newPower);
     void setTilt(int newTilt);
     void setFrequency(int newFrequency);
@@ -15,10 +15,13 @@ public:
     int getFrequency();
     std::string getFileNameH();
     std::string getFileNameV();
+    double getGain() const;
+    void setGain(double value);
 
 private:
 
     float power;
+    double gain;
     int tilt;
     int frequency; //MHz
     std::string fileNameH;

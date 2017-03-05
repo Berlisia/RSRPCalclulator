@@ -45,7 +45,9 @@ void BaseStationForm::update()
 
 void BaseStationForm::commit()
 {
-    std::pair<int,int> pixel = geoConverter.geographicalCoordinatesToPixel(std::pair<double,double>(ui->xSpinBox->value(),ui->ySpinBox->value()));
+    double x = ui->xSpinBox->value();
+    double y = ui->ySpinBox->value();
+    std::pair<int,int> pixel = geoConverter.geographicalCoordinatesToPixel(std::pair<double,double>(x,y));
     PixelXY possition(pixel);
     baseStation = make_shared<BaseStation>(std::move(possition.getXy()),
                                            ui->heightBox->value(),

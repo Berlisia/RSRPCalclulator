@@ -8,12 +8,12 @@ Worker::Worker(DataProvider & p_data) :
     data(p_data), sectors(p_data.sectorControler)
 {
     unsigned int n = std::thread::hardware_concurrency();
-    n = n-1;
+    //n = 1;
     pool = std::make_unique<ThreadPool>(n);
 
     mapDataProvider = std::make_shared<MapDataProvider>();
-    antennaProvider = std::make_shared<AntennaLossFileProvider>("742266V02_pozioma.csv",
-                                                                "742266V02_pionowa.csv"); //Tymczasowo
+    //antennaProvider = std::make_shared<AntennaLossFileProvider>("742266V02_pozioma.csv",
+                                                               // "742266V02_pionowa.csv"); //Tymczasowo
     //fakeInit();
 }
 
@@ -35,19 +35,7 @@ void Worker::doCalculation()
     emit poolStarted();
     pool->stop();
 
-    std::fstream plik;
-    plik.open("wartosci.txt", std::ios::out );
-    if( plik.good() == true )
-    {
-        for(auto r : RSRP.vector)
-        {
-            plik << r.first.getX() << " "
-                  << r.first.getY() << " "
-                  << r.second;
-            plik << "\n";
-        }
-    }
-    plik.close();
+    saveInFile();
 
     data.getRsrp(RSRP.vector);
     if(!data.rsrp.vector.empty())
@@ -64,7 +52,7 @@ void Worker:: listInCoutRSPR()
 
 int Worker::getQueueSize() const
 {
-    return pool->getTaskQueueSize();
+    return 0; //pool->getTaskQueueSize();
 }
 
 std::shared_ptr<IMapDataProvider> Worker::getMapDataProvider() const
@@ -100,8 +88,10 @@ void Worker::executeCalculationForPixel(PixelXY pixel)
 {
     Receiver receiver;
     receiver.setPossition(pixel.getXy());
+    receiver.setGain(data.receiver.getGain());
+    receiver.setOtherLosses(data.receiver.getOtherLosses());
     receiver.setHeight(data.receiver.getHeight());
-    PixelWorker pixelWorker(RSRP, rsrpForSectors, mapDataProvider, antennaProvider, *sectors, receiver, data.minValueOfRSRP);
+    PixelWorker pixelWorker(RSRP, rsrpForSectors, mapDataProvider, *sectors, receiver, data.minValueOfRSRP);
     pixelWorker.executeCalculation();
 }
 
@@ -124,5 +114,22 @@ void Worker::deleteNanValue()
     RSRP.vector.erase(std::remove_if(RSRP.vector.begin(), RSRP.vector.end(),
                               [](const std::pair<PixelXY,float> & dataObj) {
                                     return dataObj.second == std::nanf("");
-                                 }));
+    }));
+}
+
+void Worker::saveInFile()
+{
+    std::fstream plik;
+    plik.open("wartosci.txt", std::ios::out );
+    if( plik.good() == true )
+    {
+        for(auto r : RSRP.vector)
+        {
+            plik << r.first.getX() << " "
+                  << r.first.getY() << " "
+                  << r.second;
+            plik << "\n";
+        }
+    }
+    plik.close();
 }
