@@ -3,6 +3,7 @@
 #include "RSRP/RsrpInitialization.h"
 #include "MapProvider/MapDataProvider.h"
 #include "AntennaLoss/AntennaLossFileProvider.h"
+#include <math.h>
 
 Worker::Worker(DataProvider & p_data) :
     data(p_data), sectors(p_data.sectorControler)
