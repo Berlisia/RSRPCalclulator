@@ -291,10 +291,13 @@ void MainWindow::showRectangle()
     {
         scene->removeItem(currenItemInScene);
     }
-    QRectF rect(drawRectangle->getRect()->getPosition().x(),
-                           drawRectangle->getRect()->getPosition().y(),
-                           drawRectangle->getRect()->getWidth(),
-                           drawRectangle->getRect()->getHeight());
+//    QRectF rect(drawRectangle->getRect()->getPosition().x(),
+//                           drawRectangle->getRect()->getPosition().y(),
+//                           drawRectangle->getRect()->getWidth(),
+//                           drawRectangle->getRect()->getHeight());
+
+    QRectF rect(360, 240, 1040, 960);
+
     currenItemInScene = scene->addRect(rect);
     ui->mapGraphicsView->setScene(scene);
     ui->mapGraphicsView->show();

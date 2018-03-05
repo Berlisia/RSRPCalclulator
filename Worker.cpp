@@ -3,6 +3,8 @@
 #include "RSRP/RsrpInitialization.h"
 #include "MapProvider/MapDataProvider.h"
 #include "AntennaLoss/AntennaLossFileProvider.h"
+#include <QDebug>
+#include <QElapsedTimer>
 #include <math.h>
 
 Worker::Worker(DataProvider & p_data) :
@@ -35,9 +37,12 @@ void Worker::doCalculation()
         }
     }
 
+    QElapsedTimer timer;
+    timer.start();
     pool->start();
     emit poolStarted();
     pool->stop();
+    qDebug() << "Elapsed time in seconds:" << timer.elapsed()/double(1000);
 
     saveInFile();
 
