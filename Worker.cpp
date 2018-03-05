@@ -20,6 +20,9 @@ Worker::Worker(DataProvider & p_data) :
 
 void Worker::doCalculation()
 {
+    if (!data.areaPixels.size()) // core dump when user click run without selected sector
+        return;
+
     calculateRsrpForSectors();
     areaCalculation = std::make_unique<AreaCalculation>(data.areaPixels);
     for(unsigned int j = areaCalculation->beginY(); j < areaCalculation->endY(); j++)//y
