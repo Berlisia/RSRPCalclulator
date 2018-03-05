@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/obrazki">
+        <file alias="baseStation">Pictures/baseStation.png</file>
+    </qresource>
+    <qresource prefix="/mapy">
+        <file alias="mapa">MapProvider/map/asd.pgm</file>
+    </qresource>
+</RCC>

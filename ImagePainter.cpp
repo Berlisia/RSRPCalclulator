@@ -11,7 +11,7 @@ ImagePainter::ImagePainter(const Rsrp & p_rsrp, QWidget *parent) :
 const QPixmap& ImagePainter::paintImage()
 {
     QPixmap px;
-    px.load("asd.ppm");
+    px.load(":/mapy/mapa");
     QPainter painter(&px);
     for(int i = 100; i < 200; i++)
     {

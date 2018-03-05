@@ -1,22 +1,22 @@
 #include "MapParser.h"
-#include <iostream>
-#include <fstream>
-#include <limits>
-//#include <boost/progress.hpp>
+#include <boost/progress.hpp>
+#include <QDebug>
+#include <QFile>
 
 namespace
 {
-void goToLine(std::fstream& file, int num){
-    file.seekg(std::ios::beg);
-    for(int i=0; i < num - 1; ++i){
-        file.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+void skipLines(QTextStream& fileStream, int num)
+{
+    for (int i = 0; i < num - 1; ++i)
+    {
+        fileStream.readLine();
     }
 }
 }
 
-MapParser::MapParser(): m_fileName("asd.pgm"){loadMapFromFile();}
+MapParser::MapParser(): m_fileName(":/mapy/mapa"){loadMapFromFile();}
 
-MapParser::MapParser(std::string p_fileName): m_fileName(p_fileName){}
+MapParser::MapParser(QString p_fileName): m_fileName(std::move(p_fileName)){}
 
 int MapParser::getPixelHight(const std::pair<int, int> &l_xy) const
 {
@@ -25,38 +25,39 @@ int MapParser::getPixelHight(const std::pair<int, int> &l_xy) const
 
 void MapParser::loadMapFromFile()
 {
-    std::fstream file(m_fileName, std::ios::in);
-    if (file.is_open())
+    QFile file(m_fileName);
+    if (file.open(QFile::ReadOnly | QFile::Text))
     {
-        getMapSizeFromFile(file);
-        getMapContentFromFile(file);
+        QTextStream in(&file);
+        getMapSizeFromFile(in);
+        getMapContentFromFile(in);
     }
 }
 
-void MapParser::getMapSizeFromFile(std::fstream &file)
+void MapParser::getMapSizeFromFile(QTextStream& fileStream)
 {
-    goToLine(file, 3);
-    file >> m_mapSize.first;
-    file >> m_mapSize.second;
+    skipLines(fileStream, 3);
+    fileStream >> m_mapSize.first;
+    fileStream >> m_mapSize.second;
     m_pixelMap.resize(m_mapSize.first, std::vector<Pixel>(m_mapSize.second));
-    std::cout << "Wczytuje mape x:" << m_mapSize.first<< " y:" << m_mapSize.second << std::endl;
+    qDebug() << "Wczytuje mape x:" << m_mapSize.first<< " y:" << m_mapSize.second;
 }
 
-void MapParser::getMapContentFromFile(std::fstream &file)
+void MapParser::getMapContentFromFile(QTextStream& fileStream)
 {
-    goToLine(file, 5);
+    skipLines(fileStream, 2);
     unsigned int l_height;
     int l_x;
     int l_y;
-    std::cout << "Wczytywanie mapy"<<std::endl;
-    //boost::progress_display show_progress(m_mapSize.first * m_mapSize.second);
+    qDebug() << "Wczytywanie mapy";
+    boost::progress_display show_progress(m_mapSize.first * m_mapSize.second);
     for (int i=0; i<m_mapSize.first*m_mapSize.second; i++)
     {
         l_y = i/m_mapSize.first;
         l_x = i-l_y*m_mapSize.first;
-        file >> l_height;
+        fileStream >> l_height;
         std::pair<int, int> l_xy(l_x, l_y);
         m_pixelMap[l_x][l_y] = Pixel(l_xy, l_height, Enviroment_NotDefined);
-        //++show_progress;
+        ++show_progress;
     }
 }

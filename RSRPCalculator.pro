@@ -127,3 +127,6 @@ FORMS    += mainwindow.ui \
     TerrainProfile.ui
 
 DISTFILES +=
+
+RESOURCES += \
+    zasoby.qrc

@@ -18,6 +18,7 @@
 #include "ReceiverForm.h"
 #include "Worker.h"
 #include "Rectangle.h"
+#include <QDebug>
 
 using namespace std;
 
@@ -31,7 +32,7 @@ MainWindow::MainWindow(DataProvider & p_data, const Worker * p_worker, QWidget *
 {
     ui->setupUi(this);
     QPixmap img;
-    img.load("asd.ppm");
+    img.load(":/mapy/mapa");
     displayImage(img);
 
     QWidget::setWindowTitle("RSRP Calculator @created by Ewelina Berlicka");
@@ -126,7 +127,7 @@ void MainWindow::drawImage()
 {
     ImagePainter paint(data.rsrp.vector, this);
     QPixmap px;
-    px.load("asd.ppm");
+    px.load(":/mapy/mapa");
     QPainter painter(&px);
     maxFromData = paint.findMax();
     minFromData = paint.findMin();
@@ -237,7 +238,7 @@ void MainWindow::updateMap(int slideValue)
     ui->minRSRPFromSlider->setText(to_string(slideValue).c_str());
     ImagePainter paint(data.rsrp.vector, this);
     QPixmap px;
-    px.load("asd.ppm");
+    px.load(":/mapy/mapa");
     QPainter painter(&px);
     float roznica = maxFromData - minFromData;
     float wspolczynnik = 100/roznica;
@@ -260,7 +261,7 @@ void MainWindow::actionRectangleTriggered()
     Rectangle * r = new Rectangle();
     if(!areaCalculationPixmap)
         areaCalculationPixmap = std::make_shared<QPixmap>();
-    areaCalculationPixmap->load("asd.ppm");
+    areaCalculationPixmap->load(":/mapy/mapa");
     if(!rectanglePainter)
     {
         rectanglePainter = std::make_unique<QPainter>(areaCalculationPixmap.get());
@@ -318,7 +319,7 @@ void MainWindow::drawTerrainLine()
 void MainWindow::drawBaseStationPossition()
 {
     QPixmap img;
-    img.load("baseStation.png");
+    img.load(":/obrazki/baseStation");
     for(auto base : data.baseStations)
     {
         QGraphicsItem* item = scene->addPixmap(img);
