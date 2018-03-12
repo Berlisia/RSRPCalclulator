@@ -69,7 +69,6 @@ HEADERS  += mainwindow.h \
     Pathloss/Parameter.h \
     Pathloss/PathlossModel.h \
     Pathloss/OkumuraHataPathlossModel.h \
-    myunorderedmap.h \
     Pathloss/PathlossCalculation.h \
     Core/Sector.h \
     Core/BaseStation.h \
