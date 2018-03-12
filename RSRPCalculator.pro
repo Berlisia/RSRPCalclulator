@@ -58,7 +58,6 @@ SOURCES += main.cpp\
     Rectangle.cpp \
     Canvas.cpp \
     DrawRectangle.cpp \
-    MouseEventTool.cpp \
     MapProvider/wgs84_do_puwg92.cc \
     MapProvider/GeographicalCoordinatesConverter.cpp \
     TerrainProfile.cpp \
@@ -113,7 +112,6 @@ HEADERS  += mainwindow.h \
     Rectangle.h \
     Canvas.h \
     DrawRectangle.h \
-    MouseEventTool.h \
     MapProvider/wgs84_do_puwg92.h \
     MapProvider/GeographicalCoordinatesConverter.h \
     TerrainProfile.h \

@@ -25,8 +25,8 @@ const QPixmap& ImagePainter::paintImage()
 
 void ImagePainter::makeScale()
 {
-    float min = findMin();
-    float max = findMax();
+    findMin();
+    findMax();
 }
 
 float ImagePainter::findMax()

@@ -69,27 +69,10 @@ MainWindow::MainWindow(DataProvider & p_data, const Worker * p_worker, QWidget *
     connect(ui->zoomInButton, SIGNAL(pressed()), this, SLOT(zoomIn()));
     connect(ui->zoomOutButton, SIGNAL(pressed()), this, SLOT(zoomOut()));
     connect(ui->terrainCheckBox, SIGNAL(clicked(bool)), this, SLOT(terrainProfileTriggered(bool)));
-
-    int y = 3942;
-    int x = 3802;
-    std::pair<double,double> dupa = geoConverter.pixelToGeographicalCoordinates(std::pair<int,int>(x,y));
-    std::cout << x << " " << y << " " << dupa.first << " " << dupa.second << std::endl;
-    std::pair<int,int> dupa2 = geoConverter.geographicalCoordinatesToPixel(dupa);
-    std::cout << x << " " << y << " " << dupa2.first << " " << dupa2.second << std::endl;
-
-
-    dupa2 = geoConverter.geographicalCoordinatesToPixel(std::pair<double,double>(50.8719, 16.7052));
-    dupa = geoConverter.pixelToGeographicalCoordinates(std::pair<int,int>(2624, 1916));
-    std::cout << " 50.8719 " << "16.7052 " << dupa2.first << " " << dupa2.second << std::endl;
-    std::cout << "2624 " << "1916 " << dupa.first << " " << dupa.second << std::endl;
-
-
-    //std::pair<int,int> dupa = geoConverter.geographicalCoordinatesToPixel(std::pair<double,double>(50.3185, 17.3645));
 }
 
-void MainWindow::closeEvent(QCloseEvent * event)
+void MainWindow::closeEvent(QCloseEvent * /*event*/)
 {
-
 }
 
 MainWindow::~MainWindow()

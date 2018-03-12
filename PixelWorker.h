@@ -31,9 +31,9 @@ private:
     RSRPForPixel & RSRP;
     RsrpValueForSectorRef rsrpSectors;
     Receiver & receiver;
+    double minValueRSRP;
     AntennaLossCalculation antennaCalculation;
     std::unique_ptr<IPathlossCalculation> pathlossCalculation;
-    double minValueRSRP;
 
     static std::mutex mutex;
 };

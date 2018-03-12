@@ -52,7 +52,7 @@ void DrawRectangle::mouseMove(QGraphicsSceneMouseEvent *event)
     }
 }
 
-void DrawRectangle::mouseRelease(QGraphicsSceneMouseEvent *event)
+void DrawRectangle::mouseRelease(QGraphicsSceneMouseEvent* /*event*/)
 {
     clickPressed = false;
 }

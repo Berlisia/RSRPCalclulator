@@ -25,9 +25,9 @@ void Worker::doCalculation()
 
     calculateRsrpForSectors();
     areaCalculation = std::make_unique<AreaCalculation>(data.areaPixels);
-    for(unsigned int j = areaCalculation->beginY(); j < areaCalculation->endY(); j++)//y
+    for(auto j = areaCalculation->beginY(); j < areaCalculation->endY(); j++)//y
     {
-        for(unsigned int i = areaCalculation->beginX(); i < areaCalculation->endX(); i++)//x
+        for(auto i = areaCalculation->beginX(); i < areaCalculation->endX(); i++)//x
         {
             PixelXY pixel(i,j);
             if(!isBaseStation(pixel))

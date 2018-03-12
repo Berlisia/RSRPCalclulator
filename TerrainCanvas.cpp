@@ -6,12 +6,12 @@ TerrainCanvas::TerrainCanvas(const QPixmap & parent) :
 
 }
 
-void TerrainCanvas::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void TerrainCanvas::mousePressEvent(QGraphicsSceneMouseEvent* /*event*/)
 {
 
 }
 
-void TerrainCanvas::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+void TerrainCanvas::mouseMoveEvent(QGraphicsSceneMouseEvent* /*event*/)
 {
 
 }
