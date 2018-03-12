@@ -21,7 +21,6 @@ class SelectBaseStationForm;
 class QGraphicsScene;
 class QGraphicsView;
 class QGraphicsPixmapItem;
-class QTreeWidgetItem;
 class ImagePainter;
 class Worker;
 class ReceiverForm;
@@ -39,9 +38,6 @@ public:
     void closeEvent(QCloseEvent * event);
     ~MainWindow();
 
-    void addTreeRoot(std::shared_ptr<QTreeWidgetItem> treeItem, QString name, QString description);
-    void addTreeChild(QTreeWidgetItem * parent, QString name, QString description);
-
 signals:
     void calculatePressed();
 
@@ -51,7 +47,6 @@ public slots:
 private:
     void addMenu();
     BaseStations::iterator getIndexOfBaseStation();
-    void setTreeView();
     void barFinished();
     void showScale(ImagePainter &paint, float max, float min);
     void setPixelsArea(QRectF rect);
@@ -94,7 +89,6 @@ private slots:
     void on_sectorUI_clliced();
 
     void selectBase();
-    void updateTree();
     void drawImage();
 
     void barChanged();

@@ -61,7 +61,10 @@ SOURCES += main.cpp\
     MapProvider/wgs84_do_puwg92.cc \
     MapProvider/GeographicalCoordinatesConverter.cpp \
     TerrainProfile.cpp \
-    TerrainCanvas.cpp
+    TerrainCanvas.cpp \
+    Display/NetworkObjectWizualizator.cpp \
+    Core/INetworkObjectData.cpp \
+    Core/NetworkObjectData.cpp
 
 HEADERS  += mainwindow.h \
     Pathloss/Pathloss.h \
@@ -114,14 +117,18 @@ HEADERS  += mainwindow.h \
     MapProvider/wgs84_do_puwg92.h \
     MapProvider/GeographicalCoordinatesConverter.h \
     TerrainProfile.h \
-    TerrainCanvas.h
+    TerrainCanvas.h \
+    Display/NetworkObjectWizualizator.h \
+    Core/INetworkObjectData.h \
+    Core/NetworkObjectData.h
 
 FORMS    += mainwindow.ui \
     BaseStationForm.ui \
     SectorForm.ui \
     SelectBaseStationForm.ui \
     ReceiverForm.ui \
-    TerrainProfile.ui
+    TerrainProfile.ui \
+    Display/NetworkObjectWizualizatorForm.ui
 
 DISTFILES +=
 

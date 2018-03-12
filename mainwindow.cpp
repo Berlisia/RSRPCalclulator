@@ -11,7 +11,6 @@
 #include <QGraphicsPixmapItem>
 #include <QGraphicsScene>
 #include <QGraphicsView>
-#include <QTreeWidgetItem>
 #include <QGraphicsSceneMouseEvent>
 #include "ImagePainter.h"
 #include <QMouseEvent>
@@ -352,26 +351,6 @@ void MainWindow::selectBase()
     selectBaseStation->show();
 }
 
-void MainWindow::updateTree()
-{
-    ui->treeWidget->clear();
-    std::vector<std::shared_ptr<QTreeWidgetItem> > treeItems;
-    for(auto base : data.baseStations)
-    {
-        std::shared_ptr<QTreeWidgetItem> treeItem =
-                std::make_shared<QTreeWidgetItem>(ui->treeWidget);
-        addTreeRoot(treeItem , base->getName().c_str(), "Stacja Bazowa");
-        treeItems.push_back(treeItem);
-    }
-    for(auto sector : data.sectorControler->getVectorOfSectors())
-    {
-        QString name(sector.getBaseStationName().c_str());
-        QList<QTreeWidgetItem*> items = ui->treeWidget->findItems(name, Qt::MatchExactly, 0);
-        addTreeChild(items.front(), "Power", QVariant(sector.getPower()).toString());
-    }
-    ui->treeWidget->show();
-}
-
 BaseStations::iterator MainWindow::getIndexOfBaseStation()
 {
     BaseStations::iterator it;
@@ -382,25 +361,6 @@ BaseStations::iterator MainWindow::getIndexOfBaseStation()
                             return base->getName() == key;
     });
     return it;
-}
-
-void MainWindow::setTreeView()
-{
-    ui->treeWidget->setColumnCount(2);
-}
-
-void MainWindow::addTreeRoot(std::shared_ptr<QTreeWidgetItem> treeItem, QString name, QString description)
-{
-    treeItem->setText(0, name);
-    treeItem->setText(1, description);
-}
-
-void MainWindow::addTreeChild(QTreeWidgetItem *parent, QString name, QString description)
-{
-    QTreeWidgetItem *treeItem = new QTreeWidgetItem();
-    treeItem->setText(0, name);
-    treeItem->setText(1, description);
-    parent->addChild(treeItem);
 }
 
 void MainWindow::on_baseStationUi_clicked()
