@@ -1,5 +1,5 @@
 #include "MapParser.h"
-#include <boost/progress.hpp>
+//#include <boost/progress.hpp>
 #include <QDebug>
 #include <QFile>
 
@@ -50,7 +50,7 @@ void MapParser::getMapContentFromFile(QTextStream& fileStream)
     int l_x;
     int l_y;
     qDebug() << "Wczytywanie mapy";
-    boost::progress_display show_progress(m_mapSize.first * m_mapSize.second);
+    //boost::progress_display show_progress(m_mapSize.first * m_mapSize.second);
     for (int i=0; i<m_mapSize.first*m_mapSize.second; i++)
     {
         l_y = i/m_mapSize.first;
@@ -58,6 +58,6 @@ void MapParser::getMapContentFromFile(QTextStream& fileStream)
         fileStream >> l_height;
         std::pair<int, int> l_xy(l_x, l_y);
         m_pixelMap[l_x][l_y] = Pixel(l_xy, l_height, Enviroment_NotDefined);
-        ++show_progress;
+        //++show_progress;
     }
 }

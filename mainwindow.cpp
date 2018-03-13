@@ -17,6 +17,7 @@
 #include "ReceiverForm.h"
 #include "Worker.h"
 #include "Rectangle.h"
+#include "Display/NetworkObjectWizualizator.h"
 #include <QDebug>
 
 using namespace std;
@@ -33,6 +34,7 @@ MainWindow::MainWindow(DataProvider & p_data, const Worker * p_worker, QWidget *
     QPixmap img;
     img.load(":/mapy/mapa");
     displayImage(img);
+    networkWizualizator = std::make_unique<NetworkObjectWizualizator>(this, p_data);
 
     QWidget::setWindowTitle("RSRP Calculator @created by Ewelina Berlicka");
 
@@ -68,6 +70,8 @@ MainWindow::MainWindow(DataProvider & p_data, const Worker * p_worker, QWidget *
     connect(ui->zoomInButton, SIGNAL(pressed()), this, SLOT(zoomIn()));
     connect(ui->zoomOutButton, SIGNAL(pressed()), this, SLOT(zoomOut()));
     connect(ui->terrainCheckBox, SIGNAL(clicked(bool)), this, SLOT(terrainProfileTriggered(bool)));
+
+    networkWizualizatorStart();
 }
 
 void MainWindow::closeEvent(QCloseEvent * /*event*/)
@@ -185,6 +189,11 @@ void MainWindow::setPixelsArea(const QRectF rect)
     data.areaPixels.push_back(coord2);
     data.areaPixels.push_back(coord3);
     data.areaPixels.push_back(coord4);
+}
+
+void MainWindow::networkWizualizatorStart()
+{
+    networkWizualizator->show();
 }
 
 void MainWindow::barChanged()
@@ -309,6 +318,7 @@ void MainWindow::drawBaseStationPossition()
     }
     ui->mapGraphicsView->setScene(scene);
     ui->mapGraphicsView->show();
+    networkWizualizator->update();
 }
 
 void MainWindow::zoomIn()
@@ -366,7 +376,6 @@ BaseStations::iterator MainWindow::getIndexOfBaseStation()
 void MainWindow::on_baseStationUi_clicked()
 {
     baseStationForm = make_unique<BaseStationForm>(geoConverter, data, this);
-    connect(baseStationForm.get(), SIGNAL(baseStationCreated()), this, SLOT(updateTree()));
     connect(baseStationForm.get(), SIGNAL(baseStationCreated()), this, SLOT(drawBaseStationPossition()));
     baseStationForm->show();
 }

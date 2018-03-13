@@ -32,15 +32,6 @@ public:
         receiver.setOtherLosses(0);
     }
 
-    BaseStations baseStations;
-    SectorsControlerPtr sectorControler;
-    Receiver receiver;
-    double minValueOfRSRP;
-    BoundaryPixelsInArea areaPixels;
-
-
-    RSRPForPixel rsrp;
-
     void addBaseStation(std::shared_ptr<BaseStation> base) {
         baseStations.push_back(base);
     }
@@ -53,6 +44,14 @@ public:
     void getRsrp(std::vector<std::pair<PixelXY,float>> & p_rsrp){
         rsrp.vector = std::move(p_rsrp);
     }
+
+    BaseStations baseStations;
+    SectorsControlerPtr sectorControler;
+    Receiver receiver;
+    double minValueOfRSRP;
+    BoundaryPixelsInArea areaPixels;
+
+    RSRPForPixel rsrp;
 };
 
 #endif // DATAProvider_H

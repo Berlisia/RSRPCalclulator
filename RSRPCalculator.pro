@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT     += core gui
 CONFIG += console c++14
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -118,9 +118,7 @@ HEADERS  += mainwindow.h \
     MapProvider/GeographicalCoordinatesConverter.h \
     TerrainProfile.h \
     TerrainCanvas.h \
-    Display/NetworkObjectWizualizator.h \
-    Core/INetworkObjectData.h \
-    Core/NetworkObjectData.h
+    Display/NetworkObjectWizualizator.h
 
 FORMS    += mainwindow.ui \
     BaseStationForm.ui \

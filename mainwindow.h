@@ -24,6 +24,7 @@ class QGraphicsPixmapItem;
 class ImagePainter;
 class Worker;
 class ReceiverForm;
+class NetworkObjectWizualizator;
 class QGraphicsSceneMouseEvent;
 namespace Ui {
 class MainWindow;
@@ -50,9 +51,9 @@ private:
     void barFinished();
     void showScale(ImagePainter &paint, float max, float min);
     void setPixelsArea(QRectF rect);
+    void networkWizualizatorStart();
 
     Ui::MainWindow *ui;
-    QUndoStack m_Stack;
     DataProvider & data;
 
     QGraphicsScene * scene;
@@ -63,6 +64,7 @@ private:
 
     const Worker * worker;
 
+    std::unique_ptr<NetworkObjectWizualizator> networkWizualizator;
     std::unique_ptr<BaseStationForm> baseStationForm;
     std::unique_ptr<SectorForm> sectorForm;
     std::unique_ptr<SelectBaseStationForm> selectBaseStation;
