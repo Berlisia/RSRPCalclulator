@@ -377,6 +377,7 @@ void MainWindow::on_baseStationUi_clicked()
 {
     baseStationForm = make_unique<BaseStationForm>(geoConverter, data, this);
     connect(baseStationForm.get(), SIGNAL(baseStationCreated()), this, SLOT(drawBaseStationPossition()));
+    connect(baseStationForm.get(), SIGNAL(baseStationCreated()), networkWizualizator.get(), SLOT(update()));
     baseStationForm->show();
 }
 
@@ -385,7 +386,7 @@ void MainWindow::on_sectorUI_clliced()
     if (baseStationForm)
     {
         sectorForm = make_unique<SectorForm>(data.sectorControler, *getIndexOfBaseStation(), this);
-        connect(sectorForm.get(), SIGNAL(sectorCreated()), this, SLOT(updateTree()));
+        connect(sectorForm.get(), SIGNAL(sectorCreated()), networkWizualizator.get(), SLOT(update()));
         sectorForm->show();
     }
     else

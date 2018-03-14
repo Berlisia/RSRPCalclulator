@@ -23,8 +23,9 @@ public slots:
     void update();
 private:
     void showNetworkElements();
-    void addTreeRoot(QString name);
-    void addChildToRoot(QTreeWidgetItem* parent, QString name);
+    QTreeWidgetItem* addTreeRoot(QString name, QString value);
+    QTreeWidgetItem* addChildToRoot(QTreeWidgetItem* parent, QString name, QString value);
+    void fillNetworElements();
 
     Ui::NetworkObjectWizualizator* ui;
     DataProvider& dataProvider;
