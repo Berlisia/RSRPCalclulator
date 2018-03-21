@@ -29,3 +29,8 @@ void SectorsControler::addSector(Sector p_sector)
 {
     sector.push_back(p_sector);
 }
+
+void SectorsControler::modify(QString p_filed, QString p_value)
+{
+
+}

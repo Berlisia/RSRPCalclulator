@@ -24,26 +24,12 @@ signals:
 class DataProvider
 {   
 public:
-    DataProvider() : minValueOfRSRP(-120)
-    {
-        sectorControler = std::make_shared<SectorsControler>();
-        receiver.setHeight(1);
-        receiver.setGain(0);
-        receiver.setOtherLosses(0);
-    }
+    DataProvider();
 
-    void addBaseStation(std::shared_ptr<BaseStation> base) {
-        baseStations.push_back(base);
-    }
-
-    void addSector(Antenna & antenna, std::shared_ptr<BaseStation> base) {
-        Sector sector(antenna, base);
-        sectorControler->addSector(sector);
-    }
-
-    void getRsrp(std::vector<std::pair<PixelXY,float>> & p_rsrp){
-        rsrp.vector = std::move(p_rsrp);
-    }
+    void addBaseStation(std::shared_ptr<BaseStation> base);
+    void addSector(Antenna& antenna, std::shared_ptr<BaseStation> base);
+    void getRsrp(std::vector<std::pair<PixelXY,float>>& p_rsrp);
+    void updateInputValue(QString, QString);
 
     BaseStations baseStations;
     SectorsControlerPtr sectorControler;

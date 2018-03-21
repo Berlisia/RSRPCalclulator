@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT     += core gui
+QT     += core gui widgets
 CONFIG += console c++14
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -63,8 +63,7 @@ SOURCES += main.cpp\
     TerrainProfile.cpp \
     TerrainCanvas.cpp \
     Display/NetworkObjectWizualizator.cpp \
-    Core/INetworkObjectData.cpp \
-    Core/NetworkObjectData.cpp
+    DataProvider.cpp
 
 HEADERS  += mainwindow.h \
     Pathloss/Pathloss.h \

@@ -7,6 +7,7 @@
 #include <vector>
 #include <memory>
 #include <map>
+#include <QString>
 
 class SectorsControler
 {
@@ -19,6 +20,7 @@ public:
     const std::vector<Sector>& getVectorOfSectors();
 
     void addSector(Sector p_sector);
+    void modify(QString p_filed, QString p_value);
 
 private:
     std::vector<Sector> sector;

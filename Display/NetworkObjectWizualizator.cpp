@@ -1,5 +1,6 @@
 #include "ui_NetworkObjectWizualizatorForm.h"
 #include <QTreeWidget>
+#include <QDebug>
 
 #include "NetworkObjectWizualizator.h"
 #include "DataProvider.h"
@@ -14,6 +15,7 @@ NetworkObjectWizualizator::NetworkObjectWizualizator(QWidget* parent, DataProvid
     ui->treeWidget->setAutoScroll(true);
     setWindowModality(Qt::NonModal);
     showNetworkElements();
+    setupConnections();
 }
 
 NetworkObjectWizualizator::~NetworkObjectWizualizator()
@@ -26,6 +28,27 @@ void NetworkObjectWizualizator::update()
     ui->treeWidget->clear();
     fillNetworElements();
     ui->treeWidget->show();
+}
+
+namespace
+{
+bool isEditable(int p_colum)
+{
+    return (p_colum == 1);
+}
+}
+
+void NetworkObjectWizualizator::itemTreeDoubleClicked(QTreeWidgetItem* p_treeItem, int p_colum)
+{
+    Qt::ItemFlags tmp = p_treeItem->flags();
+    if (isEditable(p_colum))
+    {
+        p_treeItem->setFlags(tmp | Qt::ItemIsEditable);
+    }
+    else if (tmp & Qt::ItemIsEditable)
+    {
+        p_treeItem->setFlags(tmp ^ Qt::ItemIsEditable);
+    }
 }
 
 void NetworkObjectWizualizator::showNetworkElements()
@@ -46,6 +69,7 @@ QTreeWidgetItem* NetworkObjectWizualizator::addChildToRoot(QTreeWidgetItem* pare
     QTreeWidgetItem* treeItem = new QTreeWidgetItem();
     treeItem->setText(0, name);
     treeItem->setText(1, value);
+    treeItem->setFlags(treeItem->flags() | Qt::ItemIsEditable);
     parent->addChild(treeItem);
     return treeItem;
 }
@@ -86,4 +110,18 @@ void NetworkObjectWizualizator::fillNetworElements()
         }
 
     }
+}
+
+void NetworkObjectWizualizator::changeDataFor(QTreeWidgetItem* p_treeItem)
+{
+    QString filed = p_treeItem->text(0);
+    QString value = p_treeItem->text(1);
+
+    dataProvider.updateInputValue(filed, value);
+}
+
+void NetworkObjectWizualizator::setupConnections()
+{
+    connect(ui->treeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(itemTreeDoubleClicked(QTreeWidgetItem*,int)));
+    connect(ui->treeWidget, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(changeDataFor(QTreeWidgetItem*,int)));
 }
