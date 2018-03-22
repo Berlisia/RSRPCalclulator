@@ -20,7 +20,7 @@ public:
     const std::vector<Sector>& getVectorOfSectors();
 
     void addSector(Sector p_sector);
-    void modify(const QString p_filed, const QString p_value);
+    void modify(const int ecgi, const QString p_filed, const QString p_value);
 
 private:
     std::vector<Sector> sector;

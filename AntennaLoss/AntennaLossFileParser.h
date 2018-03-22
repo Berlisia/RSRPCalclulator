@@ -12,6 +12,7 @@ class AntennaLossFileParser
 public:
     AntennaLossFileParser(std::string fileName);
     float getLoss(int angle);
+    void changefileName(std::string fileName);
 
 private:
     void getDataFromFile();

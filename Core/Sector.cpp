@@ -39,6 +39,36 @@ void Sector::setEcgi(int newEcgi)
     ecgi = newEcgi;
 }
 
+void Sector::setPower(float newPower)
+{
+    antenna->setPower(newPower);
+}
+
+void Sector::setBand(int newfrequency)
+{
+    antenna->setFrequency(newfrequency);
+}
+
+void Sector::setGain(double newGain)
+{
+    antenna->setGain(newGain);
+}
+
+void Sector::setTilt(int newTilit)
+{
+    antenna->setTilt(newTilit);
+}
+
+void Sector::setFileHName(QString newPath)
+{
+    antennaCharacteristic->changeFileHorizontal(newPath);
+}
+
+void Sector::setFileVName(QString newPath)
+{
+    antennaCharacteristic->changeFileVertical(newPath);
+}
+
 int Sector::getAzimuth() const
 {
     return azimuth;

@@ -24,6 +24,11 @@ float AntennaLossFileParser::getLoss(int angle)
     return -1;
 }
 
+void AntennaLossFileParser::changefileName(string newFileName)
+{
+    fileName = newFileName;
+}
+
 void AntennaLossFileParser::getDataFromFile()
 {
     fstream file;

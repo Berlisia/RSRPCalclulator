@@ -21,4 +21,14 @@ float AntennaLossFileProvider::getLossFromFile(int angle, Charakteristic type)
     return loss;
 }
 
+void AntennaLossFileProvider::changeFileHorizontal(QString path)
+{
+    horizontal->changefileName(path.toStdString());
+}
+
+void AntennaLossFileProvider::changeFileVertical(QString path)
+{
+    vertical->changefileName(path.toStdString());
+}
+
 

@@ -63,7 +63,8 @@ SOURCES += main.cpp\
     TerrainProfile.cpp \
     TerrainCanvas.cpp \
     Display/NetworkObjectWizualizator.cpp \
-    DataProvider.cpp
+    DataProvider.cpp \
+    Core/modeltypes.cpp
 
 HEADERS  += mainwindow.h \
     Pathloss/Pathloss.h \
@@ -118,7 +119,8 @@ HEADERS  += mainwindow.h \
     TerrainProfile.h \
     TerrainCanvas.h \
     Display/NetworkObjectWizualizator.h \
-    Display/GuiConstans.h
+    Display/GuiConstans.h \
+    Core/modeltypes.h
 
 FORMS    += mainwindow.ui \
     BaseStationForm.ui \

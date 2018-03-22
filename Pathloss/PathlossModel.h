@@ -2,18 +2,10 @@
 #define PATHLOSSMODEL_H
 #include "Parameter.h"
 #include "Pathloss.h"
+#include "Core/modeltypes.h"
 
 #include <string>
 #include <vector>
-
-enum class Environment
-{
-    Idle,
-    SmallAndMediumSizeCities,
-    MetropolitanAreas,
-    SuburbanEvironments,
-    RuralAera
-};
 
 class PathlossModel
 {

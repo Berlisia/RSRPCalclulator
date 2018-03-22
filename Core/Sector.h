@@ -8,19 +8,6 @@
 #include <memory>
 #include <string>
 
-enum class MIMO
-{
-    Nan,
-    TwoAntenna,
-    FourAntenna
-};
-
-enum class Model
-{
-    OkumuraHata,
-    Cost231Hata
-};
-
 class Sector
 {
 public:
@@ -32,6 +19,13 @@ public:
     void setEnvironment(Environment newEnv);
     void setModel(Model newModel);
     void setEcgi(int newEcgi);
+
+    void setPower(float newPower);
+    void setBand(int newfrequency);
+    void setGain(double newGain);
+    void setTilt(int newTilit);
+    void setFileHName(QString newPath);
+    void setFileVName(QString newPath);
 
     int getAzimuth() const;
     float getPower() const;

@@ -25,14 +25,12 @@ void DataProvider::getRsrp(std::vector<std::pair<PixelXY, float> > &p_rsrp)
     rsrp.vector = std::move(p_rsrp);
 }
 
-void DataProvider::updateInputValueForSector(int ecgi, QString p_filed, QString p_value)
+void DataProvider::updateInputValueForSector(const int ecgi, const QString p_filed, const QString p_value)
 {
-    qDebug() << "ecgi: " << ecgi;
-    qDebug() << "pole: " << p_filed;
-    qDebug() << "wartosc: " << p_value;
+    sectorControler->modify(ecgi, p_filed, p_value);
 }
 
-void DataProvider::updateInputValueForBaseStation(QString p_eNbId, QString p_field, QString p_value)
+void DataProvider::updateInputValueForBaseStation(const QString p_eNbId, const QString p_field, const QString p_value)
 {
     qDebug() << "enb: " << p_eNbId;
     qDebug() << "pole: " << p_field;
