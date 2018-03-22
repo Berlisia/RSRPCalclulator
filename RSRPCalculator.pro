@@ -117,7 +117,8 @@ HEADERS  += mainwindow.h \
     MapProvider/GeographicalCoordinatesConverter.h \
     TerrainProfile.h \
     TerrainCanvas.h \
-    Display/NetworkObjectWizualizator.h
+    Display/NetworkObjectWizualizator.h \
+    Display/GuiConstans.h
 
 FORMS    += mainwindow.ui \
     BaseStationForm.ui \

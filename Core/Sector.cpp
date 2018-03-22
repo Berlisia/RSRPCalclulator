@@ -34,6 +34,11 @@ void Sector::setModel(Model newModel)
     model = newModel;
 }
 
+void Sector::setEcgi(int newEcgi)
+{
+    ecgi = newEcgi;
+}
+
 int Sector::getAzimuth() const
 {
     return azimuth;
@@ -112,5 +117,10 @@ std::string Sector::getVerticalFileName() const
 std::string Sector::getHorizontalFileName() const
 {
     return antenna->getFileNameH();
+}
+
+int Sector::getEcgi() const
+{
+    return ecgi;
 }
 

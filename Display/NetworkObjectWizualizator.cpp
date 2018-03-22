@@ -4,6 +4,7 @@
 
 #include "NetworkObjectWizualizator.h"
 #include "DataProvider.h"
+#include "GuiConstans.h"
 
 NetworkObjectWizualizator::NetworkObjectWizualizator(QWidget* parent, DataProvider& p_data) :
     QDialog(parent),
@@ -78,50 +79,105 @@ void NetworkObjectWizualizator::fillNetworElements()
 {
     for(auto eNB : dataProvider.baseStations)
     {
-        QTreeWidgetItem* currentTreeItem = addTreeRoot("eNB", eNB->getName().c_str());
-        addChildToRoot(currentTreeItem, "Position", QString::number(eNB->getPossition().first) +
-                                                    ", " +
-                                                    QString::number(eNB->getPossition().second));
-        currentTreeItem = addChildToRoot(currentTreeItem, "Height [m n.p.t]", QString::number(eNB->getAntennaHeight()));
-        QTreeWidgetItem* sectorTreeItem = addChildToRoot(currentTreeItem, "Sectors", " ");
+        QTreeWidgetItem* currentTreeItem = addTreeRoot(GUI::eNbName, eNB->getName().c_str());
+        eNbTreeMap[currentTreeItem] = QString(eNB->getName().c_str());
+        addChildToRoot(currentTreeItem, GUI::position, QString::number(eNB->getPossition().first) +
+                                                       ", " +
+                                                       QString::number(eNB->getPossition().second));
+        currentTreeItem = addChildToRoot(currentTreeItem, GUI::height, QString::number(eNB->getAntennaHeight()));
+
+        QTreeWidgetItem* sectorTreeItem = addChildToRoot(currentTreeItem, GUI::sectors, " ");
         for(auto sector : dataProvider.sectorControler->getVectorOfSectors())
         {
-            int index = 1; //TODO dodaj nr sektora (np PCI)
             if(sector.getBaseStationName() == eNB->getName())
             {
-                currentTreeItem = addChildToRoot(sectorTreeItem, "Sector", QString::number(index));
-                index++;
-                addChildToRoot(currentTreeItem, "Power [dB]", QString::number(sector.getPower()));
-                addChildToRoot(currentTreeItem, "Band [MHz]", QString::number(sector.getFrequency()));
-                addChildToRoot(currentTreeItem, "Bandwidth [MHz]", QString::number(sector.getBandwith()));
-                addChildToRoot(currentTreeItem, "Azimuth [deegres]", QString::number(sector.getAzimuth()));
-                addChildToRoot(currentTreeItem, "MIMO", QString::number(int(sector.getMimo()))); //TODO
-                addChildToRoot(currentTreeItem, "Environment", QString::number(int(sector.getEnvironment())));
-                addChildToRoot(currentTreeItem, "Propagation model", "TODO");
+                currentTreeItem = addChildToRoot(sectorTreeItem, GUI::sectorIdx, QString::number(sector.getEcgi()));
+                ecgiSectorTreeMap[currentTreeItem] = sector.getEcgi();
 
-                currentTreeItem = addChildToRoot(currentTreeItem, "Antenna", " ");
-                addChildToRoot(currentTreeItem, "Gain [dBi]", QString::number(sector.getGain()));
-                addChildToRoot(currentTreeItem, "Tilt [deegres]", QString::number(sector.getAntennaTilt()));
+                addChildToRoot(currentTreeItem, GUI::power, QString::number(sector.getPower()));
+                addChildToRoot(currentTreeItem, GUI::band, QString::number(sector.getFrequency()));
+                addChildToRoot(currentTreeItem, GUI::bandwidth, QString::number(sector.getBandwith()));
+                addChildToRoot(currentTreeItem, GUI::mimo, QString::number(int(sector.getMimo()))); //TODO
+                addChildToRoot(currentTreeItem, GUI::environment, QString::number(int(sector.getEnvironment())));
+                addChildToRoot(currentTreeItem, GUI::propModel, "TODO");
 
-                currentTreeItem = addChildToRoot(currentTreeItem, "Characteristics files", " ");
-                addChildToRoot(currentTreeItem, "Horizontal", sector.getHorizontalFileName().c_str());
-                addChildToRoot(currentTreeItem, "Vertical", sector.getVerticalFileName().c_str());
+                currentTreeItem = addChildToRoot(currentTreeItem, GUI::antenna, "");
+                addChildToRoot(currentTreeItem, GUI::gain, QString::number(sector.getGain()));
+                addChildToRoot(currentTreeItem, GUI::azimuth, QString::number(sector.getAzimuth()));
+                addChildToRoot(currentTreeItem, GUI::tilt, QString::number(sector.getAntennaTilt()));
+
+                currentTreeItem = addChildToRoot(currentTreeItem, GUI::charFiles, "");
+                addChildToRoot(currentTreeItem, GUI::fileH, sector.getHorizontalFileName().c_str());
+                addChildToRoot(currentTreeItem, GUI::fileV, sector.getVerticalFileName().c_str());
             }
         }
-
     }
+}
+
+QTreeWidgetItem* NetworkObjectWizualizator::findProperParent(QTreeWidgetItem* p_treeItem)
+{
+    switch (findTypeOfField(p_treeItem->text(0)))
+    {
+    case E_NB_ID:
+        return p_treeItem;
+    case POSITION:
+    case HEIGHT:
+       return p_treeItem->parent();
+    case SECTOR_ID:
+        return p_treeItem;
+    case POWER:
+    case BAND:
+    case BANDWIDTH:
+    case MIMO:
+    case ENVIRNOMENT:
+    case PROPAGATION_MODEL:
+        return p_treeItem->parent();
+    case GAIN:
+    case TILT:
+    case AZIMUT:
+        return p_treeItem->parent()->parent();
+    case FILE_V:
+    case FILE_H:
+        return p_treeItem->parent()->parent()->parent();
+    }
+    return nullptr;
+}
+
+void NetworkObjectWizualizator::changeDataForENB(QTreeWidgetItem *p_parent, QTreeWidgetItem *p_itemChanged)
+{
+    auto p_enbId = eNbTreeMap[p_parent];
+    dataProvider.updateInputValueForBaseStation(p_enbId, p_itemChanged->text(0), p_itemChanged->text(1));
+    if(p_parent == p_itemChanged) eNbTreeMap[p_parent] = p_itemChanged->text(1);
+}
+
+void NetworkObjectWizualizator::changeDataForSector(QTreeWidgetItem *p_parent, QTreeWidgetItem *p_treeItem)
+{
+    auto ecgi = ecgiSectorTreeMap[p_parent];
+    dataProvider.updateInputValueForSector(ecgi, p_treeItem->text(0), p_treeItem->text(1));
+    if(p_parent == p_treeItem) ecgiSectorTreeMap[p_parent] = p_treeItem->text(1).toInt();
 }
 
 void NetworkObjectWizualizator::changeDataFor(QTreeWidgetItem* p_treeItem)
 {
-    QString filed = p_treeItem->text(0);
-    QString value = p_treeItem->text(1);
+    QTreeWidgetItem* parent = findProperParent(p_treeItem);
+    if(!parent) return;
+    if(parent->text(0) == GUI::sectorIdx)
+    {
+        changeDataForSector(parent, p_treeItem);
+    }
+    else if(parent->text(0) == GUI::eNbName)
+    {
+        changeDataForENB(parent, p_treeItem);
+    }
+}
 
-    dataProvider.updateInputValue(filed, value);
+int NetworkObjectWizualizator::findTypeOfField(QString p_field)
+{
+    return GUI::behaviorMap.find(p_field)->second;
 }
 
 void NetworkObjectWizualizator::setupConnections()
 {
     connect(ui->treeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(itemTreeDoubleClicked(QTreeWidgetItem*,int)));
-    connect(ui->treeWidget, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(changeDataFor(QTreeWidgetItem*,int)));
+    connect(ui->treeWidget, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(changeDataFor(QTreeWidgetItem*)));
 }

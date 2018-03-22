@@ -1,4 +1,5 @@
 #include "SectorsControler.h"
+#include "Display/GuiConstans.h"
 
 SectorsControler::SectorsControler(std::vector<Sector> & p_sector)
 {
@@ -30,7 +31,7 @@ void SectorsControler::addSector(Sector p_sector)
     sector.push_back(p_sector);
 }
 
-void SectorsControler::modify(QString p_filed, QString p_value)
+void SectorsControler::modify(const QString p_filed, const QString p_value)
 {
 
 }

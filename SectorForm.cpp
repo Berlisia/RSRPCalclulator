@@ -60,6 +60,7 @@ void SectorForm::commit()
     sector.setAzimuth(ui->azimuthSpinBox->value());
     sector.setMimo(convertQMimo(ui->mimoBox->currentIndex()));
     sector.setEnvironment(converQEnvironment(ui->environmentComboBox->currentIndex()));
+    sector.setEcgi(ui->ecgiSpinBox->value());
     createAntennaProvider();
     if(antennaProvider)
     {

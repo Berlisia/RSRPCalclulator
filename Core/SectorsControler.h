@@ -20,7 +20,7 @@ public:
     const std::vector<Sector>& getVectorOfSectors();
 
     void addSector(Sector p_sector);
-    void modify(QString p_filed, QString p_value);
+    void modify(const QString p_filed, const QString p_value);
 
 private:
     std::vector<Sector> sector;
