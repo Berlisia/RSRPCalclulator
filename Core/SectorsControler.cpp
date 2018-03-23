@@ -1,6 +1,5 @@
 #include "SectorsControler.h"
 #include "Display/GuiConstans.h"
-#include "Display/GuiConstans.h"
 
 SectorsControler::SectorsControler(std::vector<Sector> & p_sector)
 {
@@ -56,7 +55,10 @@ void SectorsControler::modify(const int ecgi, const QString p_field, const QStri
         findedSector->setMimo(qStringtoMimo(p_value));
         break;
     case ENVIRNOMENT:
+        findedSector->setEnvironment(qStringToEnvironment(p_value));
+        break;
     case PROPAGATION_MODEL:
+        findedSector->setModel(qStringToPropragationModel(p_value));
         break;
     case GAIN:
         findedSector->setGain(p_value.toDouble());
@@ -73,6 +75,8 @@ void SectorsControler::modify(const int ecgi, const QString p_field, const QStri
     case FILE_H:
         findedSector->setFileHName(p_value);
         break;
+    default
+        qDebug() << "Something was wrong";
     }
 
 }
