@@ -3,7 +3,7 @@
 Sector::Sector(Antenna & p_antenna, std::shared_ptr<BaseStation> baseStation) :
                 azimuth(0),
                 bandwidth(0),
-                mimo(MIMO::Nan),
+                mimo(Mimo::Nan),
                 baseStation(baseStation)
 {
     antenna = std::make_shared<Antenna>(std::move(p_antenna));
@@ -19,7 +19,7 @@ void Sector::setBandwidth(double newBandwith)
     bandwidth = newBandwith;
 }
 
-void Sector::setMimo(MIMO newMimo)
+void Sector::setMimo(Mimo newMimo)
 {
     mimo = newMimo;
 }
@@ -104,7 +104,7 @@ Environment Sector::getEnvironment() const
     return environment;
 }
 
-MIMO Sector::getMimo() const
+Mimo Sector::getMimo() const
 {
     return mimo;
 }

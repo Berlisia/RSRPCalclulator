@@ -7,14 +7,15 @@ RsrpCalculation::RsrpCalculation(RsrpInitialization &initialize) :
 {
 }
 
-float RsrpCalculation::calculateRsrp(Sector const& sector)
+float RsrpCalculation::calculateRsrp(Sector const& sector)// signal
 {
     float rsrp = 0;
     float power = sector.getPower() / mimo(sector);
-    power = std::pow(10, (power/10)) / 1000; //[W]
-    rsrp = std::log10(power/numberOfSubcarrer(sector.getBandwith())) * 10;
-    rsrp = rsrp + 30; //dB na dBm
-    return rsrp;
+    //power = std::pow(10, (power/10)) / 1000; //[W]
+    //rsrp = std::log10(power/numberOfSubcarrer(sector.getBandwith())) * 10;
+    //rsrp = rsrp + 30; //dB na dBm
+    //return rsrp;
+    return power;
 }
 
 int RsrpCalculation::numberOfSubcarrer(double bandwidth)
@@ -30,11 +31,11 @@ float RsrpCalculation::mimo(Sector const& sector)
 {
     switch (sector.getMimo())
     {
-    case MIMO::FourAntenna:
+    case Mimo::FourAntenna:
         return 4;
-    case MIMO::TwoAntenna:
+    case Mimo::TwoAntenna:
         return 2;
-    case MIMO::Nan:
+    case Mimo::Nan:
     default:
         return 1;
     }

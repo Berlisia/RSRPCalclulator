@@ -6,6 +6,8 @@
 
 class DataProvider;
 class QTreeWidgetItem;
+class QComboBox;
+class Sector;
 
 namespace Ui {
 class NetworkObjectWizualizator;
@@ -25,16 +27,22 @@ public slots:
 private slots:
     void itemTreeDoubleClicked(QTreeWidgetItem*,int);
     void changeDataFor(QTreeWidgetItem*);
+    void changeDataForEnvComboBox(int);
 
 private:
     void showNetworkElements();
     QTreeWidgetItem* addTreeRoot(QString name, QString value);
     QTreeWidgetItem* addChildToRoot(QTreeWidgetItem* parent, QString name, QString value);
+    QTreeWidgetItem* addChildToRootWithSepcialWidget(QTreeWidgetItem* parent, QString name, QWidget* widget);
     void fillNetworElements();
     int findTypeOfField(QString);
     QTreeWidgetItem* findProperParent(QTreeWidgetItem* p_treeItem);
     void changeDataForENB(QTreeWidgetItem*, QTreeWidgetItem*);
     void changeDataForSector(QTreeWidgetItem *p_parent, QTreeWidgetItem* p_treeItem);
+
+    QComboBox* createQComboBoxForSelectEnvironment(const Sector&);
+    QComboBox* createQComboBoxForSelectMimo(const Sector&);
+    QComboBox* createQComboBoxForSelectPropModel(const Sector&);
 
     void setupConnections();
 

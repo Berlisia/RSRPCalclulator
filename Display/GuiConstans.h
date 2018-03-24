@@ -19,6 +19,11 @@
 #define FILE_H            14
 #define FILE_V            15
 
+#define SMALL_AND_MEDIUM_SIZE_CITIES 16
+#define METROPOLITAN_AREAS           17
+#define SUBURBAN_ENV                 18
+#define RURAL_AREA                   19
+
 namespace GUI
 {
 const QString eNbName = "eNBId";

@@ -15,7 +15,7 @@ public:
 
     void setAzimuth(int newAzimuth);
     void setBandwidth(double newBandwith);
-    void setMimo(MIMO newMimo);
+    void setMimo(Mimo newMimo);
     void setEnvironment(Environment newEnv);
     void setModel(Model newModel);
     void setEcgi(int newEcgi);
@@ -34,7 +34,7 @@ public:
     float getAntennaHeight() const;
     int getAntennaTilt() const;
     Environment getEnvironment() const;
-    MIMO getMimo() const;
+    Mimo getMimo() const;
     Model getModel() const;
     std::pair<int, int> getPossitonOfBaseStation() const;
     std::string getBaseStationName() const;
@@ -48,7 +48,7 @@ public:
 private:
     int azimuth;      //stopnie
     double bandwidth; //MHz
-    MIMO mimo;
+    Mimo mimo;
     Environment environment;
     Model model;
     int ecgi;

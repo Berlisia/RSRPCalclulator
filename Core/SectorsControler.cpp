@@ -1,5 +1,6 @@
 #include "SectorsControler.h"
 #include "Display/GuiConstans.h"
+#include <QDebug>
 
 SectorsControler::SectorsControler(std::vector<Sector> & p_sector)
 {
@@ -75,7 +76,7 @@ void SectorsControler::modify(const int ecgi, const QString p_field, const QStri
     case FILE_H:
         findedSector->setFileHName(p_value);
         break;
-    default
+    default:
         qDebug() << "Something was wrong";
     }
 

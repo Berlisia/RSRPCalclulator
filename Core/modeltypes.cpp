@@ -1,19 +1,20 @@
 #include "modeltypes.h"
+#include "Display/GuiConstans.h"
 
-MIMO qStringtoMimo(QString p_qstring)
+Mimo qStringtoMimo(QString p_qstring)
 {
     if(p_qstring == "2x2")
-        return MIMO::TwoAntenna;
+        return Mimo::TwoAntenna;
     else if(p_qstring == "4x4")
-        return MIMO::FourAntenna;
-    return MIMO::Nan;
+        return Mimo::FourAntenna;
+    return Mimo::Nan;
 }
 
-QString mimoToString(MIMO p_mimo)
+QString mimoToString(Mimo p_mimo)
 {
-    if(p_mimo == MIMO::TwoAntenna)
+    if(p_mimo == Mimo::TwoAntenna)
         return "2x2";
-    else if(p_mimo == MIMO::FourAntenna)
+    else if(p_mimo == Mimo::FourAntenna)
         return "4x4";
     return "Nan";
 }
@@ -56,4 +57,21 @@ QString environmentToString(Environment p_env)
     else if(p_env == Environment::RuralAera)
         return "Rural Aera";
     return "-";
+}
+
+Environment converQEnvironment(int index)
+{
+    switch (index)
+    {
+    case SMALL_AND_MEDIUM_SIZE_CITIES:
+        return Environment::SmallAndMediumSizeCities;
+    case METROPOLITAN_AREAS:
+        return Environment::MetropolitanAreas;
+    case SUBURBAN_ENV:
+        return Environment::SuburbanEvironments;
+    case RURAL_AREA:
+        return Environment::RuralAera;
+    default:
+        return Environment::Idle;
+    }
 }

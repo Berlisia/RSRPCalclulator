@@ -2,7 +2,7 @@
 #define MODELTYPES_H
 #include <QString>
 
-enum class MIMO
+enum class Mimo
 {
     Nan,
     TwoAntenna,
@@ -23,12 +23,13 @@ enum class Environment
     SuburbanEvironments,
     RuralAera
 };
-MIMO qStringtoMimo(QString p_qstring);
-QString mimoToString(MIMO p_mimo);
+Mimo qStringtoMimo(QString p_qstring);
+QString mimoToString(Mimo p_mimo);
 Model qStringToPropragationModel(QString p_qString);
 QString propagationModelToString(Model p_propModel);
 Environment qStringToEnvironment(QString p_qString);
 QString environmentToString(Environment p_env);
+Environment converQEnvironment(int index);
 
 
 #endif

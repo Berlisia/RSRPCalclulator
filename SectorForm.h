@@ -55,7 +55,7 @@ private:
     std::string nameHorizontalFile;
     std::string nameVerticalFile;
 
-    MIMO convertQMimo(int index);
+    Mimo convertQMimo(int index);
 };
 
 #endif // SECTORFORM_H

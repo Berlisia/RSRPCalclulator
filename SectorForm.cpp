@@ -196,18 +196,18 @@ Environment SectorForm::converQEnvironment(int index)
     }
 }
 
-MIMO SectorForm::convertQMimo(int index)
+Mimo SectorForm::convertQMimo(int index)
 {
     switch(index)
     {
     case 0:
-        return MIMO::Nan;
+        return Mimo::Nan;
     case 1:
-        return MIMO::TwoAntenna;
+        return Mimo::TwoAntenna;
     case 2:
-        return MIMO::FourAntenna;
+        return Mimo::FourAntenna;
     default:
-        return MIMO::Nan;
+        return Mimo::Nan;
     }
 }
 
