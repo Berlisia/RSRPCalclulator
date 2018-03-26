@@ -9,10 +9,11 @@ class PixelXY;
 class PixelWorkerForInterference
 {
 public:
-    PixelWorkerForInterference(const std::vector<float>& signalPowerFromSectors);
+    PixelWorkerForInterference(const std::vector<float>& signalPowerFromSectors,
+                               const SectorsControler& sectors);
 
     void calculate(InterferenceLvl& intLvl, PixelXY pixel);
-private:
+private:    
     InterferenceCalculator m_interferCalc;
 
     static std::mutex mutex;

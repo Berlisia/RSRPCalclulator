@@ -57,9 +57,7 @@ std::vector<float> &PixelWorker::getResultFromAllSectors()
 float PixelWorker::findMaxFrom(const std::vector<float> &vector)
 {
     auto biggest = std::max_element(std::begin(vector), std::end(vector));
-    auto biggestVal = *biggest;
-    rsrpFromSectors.erase(biggest);
-    return biggestVal;
+    return biggest;
 }
 
 void PixelWorker::calculateAntennaLossForOnePixel()

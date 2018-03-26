@@ -60,3 +60,21 @@ void Antenna::setGain(double value)
     gain = value;
 }
 
+FreqBand Antenna::getFreqBand()
+{
+    return band;
+}
+
+void Antenna::setBand(FreqBand newBand)
+{
+    band.bw = newBand.bw;
+    band.dlFreq = newBand.dlFreq;
+    band.ulFreq = newBand.ulFreq;
+    band.duplex = newBand.duplex;
+}
+
+void Antenna::setBandByIndex(int bw)
+{
+
+}
+
