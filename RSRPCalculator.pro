@@ -64,7 +64,9 @@ SOURCES += main.cpp\
     TerrainCanvas.cpp \
     Display/NetworkObjectWizualizator.cpp \
     DataProvider.cpp \
-    Core/modeltypes.cpp
+    Core/modeltypes.cpp \
+    Interference/InterferenceCalculator.cpp \
+    Workers/PixelWorkerForInterference.cpp
 
 HEADERS  += mainwindow.h \
     Pathloss/Pathloss.h \
@@ -120,7 +122,10 @@ HEADERS  += mainwindow.h \
     TerrainCanvas.h \
     Display/NetworkObjectWizualizator.h \
     Display/GuiConstans.h \
-    Core/modeltypes.h
+    Core/modeltypes.h \
+    Interference/InterferenceCalculator.h \
+    Common/FrequencyBands.h \
+    Workers/PixelWorkerForInterference.h
 
 FORMS    += mainwindow.ui \
     BaseStationForm.ui \

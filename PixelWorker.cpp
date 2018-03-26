@@ -22,7 +22,6 @@ PixelWorker::PixelWorker(RSRPForPixel & p_RSRP,
 
 void PixelWorker::executeCalculation()
 {
-    std::vector<float> rsrpFromSectors;
     calculateAntennaLossForOnePixel();
     calculatePathlossForOnePixel(); //wraz z zyskiem anteny
 
@@ -48,15 +47,19 @@ void PixelWorker::executeCalculation()
         RSRP.vector.push_back(std::pair<PixelXY,float>(receiver.getPossition(), maxValue));
         emit RSRP.rsrpSizeChanged();
     }
-//    std::cout << receiver.getPossition().getX() << " "
-//              << receiver.getPossition().getY() << " "
-//              << maxValue << std::endl;
+}
+
+std::vector<float> &PixelWorker::getResultFromAllSectors()
+{
+    return rsrpFromSectors;
 }
 
 float PixelWorker::findMaxFrom(const std::vector<float> &vector)
 {
     auto biggest = std::max_element(std::begin(vector), std::end(vector));
-    return *biggest;
+    auto biggestVal = *biggest;
+    rsrpFromSectors.erase(biggest);
+    return biggestVal;
 }
 
 void PixelWorker::calculateAntennaLossForOnePixel()

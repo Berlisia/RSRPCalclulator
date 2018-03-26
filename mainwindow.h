@@ -92,6 +92,7 @@ private slots:
 
     void selectBase();
     void drawImage();
+    void drawInterferenceImage(int enable);
 
     void barChanged();
     void progressBarStart();

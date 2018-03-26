@@ -270,6 +270,13 @@
       </property>
      </widget>
     </item>
+    <item row="0" column="5">
+     <widget class="QCheckBox" name="interferenceCheckBox">
+      <property name="text">
+       <string>Interference</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -279,7 +286,7 @@
      <x>0</x>
      <y>0</y>
      <width>1188</width>
-     <height>19</height>
+     <height>23</height>
     </rect>
    </property>
   </widget>

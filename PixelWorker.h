@@ -19,6 +19,7 @@ public:
                 double p_minValueRSRP);
 
     void executeCalculation();
+    std::vector<float>& getResultFromAllSectors();
     float findMaxFrom(const std::vector<float> & vector);
 
 private:
@@ -34,6 +35,8 @@ private:
     double minValueRSRP;
     AntennaLossCalculation antennaCalculation;
     std::unique_ptr<IPathlossCalculation> pathlossCalculation;
+
+    std::vector<float> rsrpFromSectors;
 
     static std::mutex mutex;
 };

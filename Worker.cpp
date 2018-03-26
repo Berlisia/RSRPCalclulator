@@ -3,6 +3,7 @@
 #include "RSRP/RsrpInitialization.h"
 #include "MapProvider/MapDataProvider.h"
 #include "AntennaLoss/AntennaLossFileProvider.h"
+#include "Workers/PixelWorkerForInterference.h"
 #include <math.h>
 
 Worker::Worker(DataProvider & p_data) :
@@ -95,8 +96,12 @@ void Worker::executeCalculationForPixel(PixelXY pixel)
     receiver.setGain(data.receiver.getGain());
     receiver.setOtherLosses(data.receiver.getOtherLosses());
     receiver.setHeight(data.receiver.getHeight());
+
     PixelWorker pixelWorker(RSRP, rsrpForSectors, mapDataProvider, *sectors, receiver, data.minValueOfRSRP);
     pixelWorker.executeCalculation();
+
+    PixelWorkerForInterference pixelWorkerInt(pixelWorker.getResultFromAllSectors());
+    pixelWorkerInt.calculate(data.interferenceLvl, pixel);
 }
 
 bool Worker::isBaseStation(PixelXY pixel)

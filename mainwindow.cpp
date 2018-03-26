@@ -55,6 +55,8 @@ MainWindow::MainWindow(DataProvider & p_data, const Worker * p_worker, QWidget *
     ui->rsrpHorizontalSlider->setMinimum(-120);
     ui->rsrpHorizontalSlider->setMaximum(0);
 
+    ui->interferenceCheckBox->setCheckable(false);
+
     addMenu();
 
     connect(ui->baseToolButton, SIGNAL(pressed()), this, SLOT(on_baseStationUi_clicked()));
@@ -70,6 +72,7 @@ MainWindow::MainWindow(DataProvider & p_data, const Worker * p_worker, QWidget *
     connect(ui->zoomInButton, SIGNAL(pressed()), this, SLOT(zoomIn()));
     connect(ui->zoomOutButton, SIGNAL(pressed()), this, SLOT(zoomOut()));
     connect(ui->terrainCheckBox, SIGNAL(clicked(bool)), this, SLOT(terrainProfileTriggered(bool)));
+    connect(ui->interferenceCheckBox, SIGNAL(stateChanged(int)), this, SLOT(drawInterferenceImage(int)));
 
     networkWizualizatorStart();
 }
@@ -129,6 +132,31 @@ void MainWindow::drawImage()
     displayImage(px);
     barFinished();
     showScale(paint, maxFromData, minFromData);
+
+    ui->interferenceCheckBox->setCheckable(true);
+}
+
+void MainWindow::drawInterferenceImage(int enable)
+{
+    if(enable)
+    {
+        ImagePainter paint(data.interferenceLvl, this);
+        QPixmap px;
+        px.load(":/mapy/mapa");
+        QPainter painter(&px);
+        maxFromData = paint.findMax();
+        minFromData = paint.findMin();
+        float roznica = maxFromData - minFromData;
+        float wspolczynnik = 100/roznica;
+        for(auto dat : data.rsrp.vector)
+        {
+            float color = (dat.second - minFromData)*wspolczynnik;
+            painter.setPen(paint.getColor(color));
+            painter.drawPoint(dat.first.getX(), dat.first.getY());
+        }
+        painter.end();
+        displayImage(px);
+    }
 }
 
 void MainWindow::barFinished()

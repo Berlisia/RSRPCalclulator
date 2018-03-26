@@ -10,6 +10,7 @@
 typedef std::vector<std::shared_ptr<BaseStation>> BaseStations;
 typedef std::shared_ptr<SectorsControler> SectorsControlerPtr;
 typedef std::vector<std::pair<int,int>> BoundaryPixelsInArea;
+typedef std::vector<std::pair<PixelXY,float>> InterferenceLvl;
 
 class RSRPForPixel : public QObject
 {
@@ -39,6 +40,10 @@ public:
     BoundaryPixelsInArea areaPixels;
 
     RSRPForPixel rsrp;
+    InterferenceLvl interferenceLvl;
+
+private:
+    void fakeDataForDebuging();
 };
 
 #endif // DATAProvider_H
