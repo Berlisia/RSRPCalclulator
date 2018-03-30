@@ -17,7 +17,7 @@ class ScribbleArea : public QGraphicsPixmapItem
 
 public:
     ScribbleArea(QCheckBox * p_checkBox, QCheckBox *p_TerrainCheckBox,
-                 DataProvider & p_data,
+                 std::vector<std::pair<PixelXY,double>> & p_data,
                  QLabel * p_valueLabel,
                  const QPixmap &parent);
 
@@ -37,7 +37,7 @@ private:
 
     QCheckBox * checkBox;
     QCheckBox * terrainCheckBox;
-    DataProvider & data;
+    std::vector<std::pair<PixelXY,double>>& data;
     QLabel * valueLabel;
     std::shared_ptr<TerrainProfile> terProfile;
 };

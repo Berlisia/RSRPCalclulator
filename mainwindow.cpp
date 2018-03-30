@@ -33,7 +33,7 @@ MainWindow::MainWindow(DataProvider & p_data, const Worker * p_worker, QWidget *
     ui->setupUi(this);
     QPixmap img;
     img.load(":/mapy/mapa");
-    displayImage(img);
+    displayImage(img, data.rsrp.vector);
     networkWizualizator = std::make_unique<NetworkObjectWizualizator>(this, p_data);
 
     QWidget::setWindowTitle("RSRP Calculator @created by Ewelina Berlicka");
@@ -68,13 +68,13 @@ MainWindow::MainWindow(DataProvider & p_data, const Worker * p_worker, QWidget *
     connect(worker, SIGNAL(poolStarted()), this, SLOT(progressBarStart()));
     connect(ui->receiverButton, SIGNAL(pressed()), this, SLOT(receiverClicked()));
     connect(ui->minimumRSRSPdoubleSpinBox, SIGNAL(valueChanged(double)), this, SLOT(changeMinRSRPValueInData(double)));
-    connect(ui->rsrpHorizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(updateMap(int)));
+    //connect(ui->rsrpHorizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(updateMap(int)));
     connect(ui->rectangleToolButton, SIGNAL(pressed()), this, SLOT(actionRectangleTriggered()));
     connect(ui->zoomInButton, SIGNAL(pressed()), this, SLOT(zoomIn()));
     connect(ui->zoomOutButton, SIGNAL(pressed()), this, SLOT(zoomOut()));
     connect(ui->terrainCheckBox, SIGNAL(clicked(bool)), this, SLOT(terrainProfileTriggered(bool)));
     connect(ui->interferenceCheckBox, SIGNAL(stateChanged(int)), this, SLOT(drawNewMapImage(int)));
-    connect(ui->snirCheckBox, SIGNAL(stateChanged(int)),this, SIGNAL(drawSnirImage(int)));
+    connect(ui->snirCheckBox, SIGNAL(stateChanged(int)),this, SLOT(drawSnirImage(int)));
 
     networkWizualizatorStart();
 }
@@ -88,14 +88,14 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::displayImage(const QPixmap & img)
+void MainWindow::displayImage(const QPixmap & img, std::vector<std::pair<PixelXY, double> > & pixelData)
 {
     if(scene != nullptr)
     {
         scene->clear();
     }
     scene = new QGraphicsScene();
-    mapArea = new ScribbleArea(ui->checkBox, ui->terrainCheckBox, data, ui->valueLabel,img);
+    mapArea = new ScribbleArea(ui->checkBox, ui->terrainCheckBox, pixelData, ui->valueLabel,img);
     mapArea->setFlags(QGraphicsItem::ItemIsMovable);
     scene->addItem(mapArea);
     ui->mapGraphicsView->setScene(scene);
@@ -114,7 +114,7 @@ void MainWindow::addMenu()
     //tools->addAction(tr("&Add Base Station"), this, SLOT(on_baseStationUi_clicked()), tr("Ctrl+B"));
 }
 
-void MainWindow::drawImage(std::vector<std::pair<PixelXY,double>> p_pixelData)
+void MainWindow::drawImage(std::vector<std::pair<PixelXY,double>>& p_pixelData)
 {
     ImagePainter paint(p_pixelData, this);
     QPixmap px;
@@ -131,7 +131,7 @@ void MainWindow::drawImage(std::vector<std::pair<PixelXY,double>> p_pixelData)
         painter.drawPoint(dat.first.getX(), dat.first.getY());
     }
     painter.end();
-    displayImage(px);
+    displayImage(px, p_pixelData);
     showScale(paint, maxFromData, minFromData);
 }
 
@@ -228,27 +228,27 @@ void MainWindow::changeMinRSRPValueInData(double minRsrpValue)
     ui->minRSRPFromSlider_2->setText(to_string(minRsrpValue).c_str());
 }
 
-void MainWindow::updateMap(int slideValue)
-{
-    ui->minRSRPFromSlider->setText(to_string(slideValue).c_str());
-    ImagePainter paint(data.rsrp.vector, this);
-    QPixmap px;
-    px.load(":/mapy/mapa");
-    QPainter painter(&px);
-    double roznica = maxFromData - minFromData;
-    double wspolczynnik = 100/roznica;
-    for(auto dat : data.rsrp.vector)
-    {
-        if(dat.second >= slideValue)
-        {
-            double color = (dat.second - minFromData)*wspolczynnik;
-            painter.setPen(paint.getColor(color));
-            painter.drawPoint(dat.first.getX(), dat.first.getY());
-        }
-    }
-    painter.end();
-    displayImage(px);
-}
+//void MainWindow::updateMap(int slideValue)
+//{
+//    ui->minRSRPFromSlider->setText(to_string(slideValue).c_str());
+//    ImagePainter paint(data.rsrp.vector, this);
+//    QPixmap px;
+//    px.load(":/mapy/mapa");
+//    QPainter painter(&px);
+//    double roznica = maxFromData - minFromData;
+//    double wspolczynnik = 100/roznica;
+//    for(auto dat : data.rsrp.vector)
+//    {
+//        if(dat.second >= slideValue)
+//        {
+//            double color = (dat.second - minFromData)*wspolczynnik;
+//            painter.setPen(paint.getColor(color));
+//            painter.drawPoint(dat.first.getX(), dat.first.getY());
+//        }
+//    }
+//    painter.end();
+//    displayImage(px, );
+//}
 
 void MainWindow::actionRectangleTriggered()
 {

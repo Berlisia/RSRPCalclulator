@@ -41,7 +41,9 @@ void Worker::doCalculation()
     emit poolStarted();
     pool->stop();
 
-    saveInFile();
+    saveInFile(RSRP.vector, "signal.txt");
+    saveInFile(data.interferenceLvl, "interference.txt");
+    saveInFile(data.snir, "snir.txt");
 
     data.getRsrp(RSRP.vector);
     if(!data.rsrp.vector.empty())
@@ -130,13 +132,13 @@ void Worker::deleteNanValue()
     }));
 }
 
-void Worker::saveInFile()
+void Worker::saveInFile(const std::vector<std::pair<PixelXY, double> >& vector, std::string name)
 {
     std::fstream plik;
-    plik.open("wartosci.txt", std::ios::out );
+    plik.open(name.c_str(), std::ios::out );
     if( plik.good() == true )
     {
-        for(auto r : RSRP.vector)
+        for(auto r : vector)
         {
             plik << r.first.getX() << " "
                   << r.first.getY() << " "

@@ -42,8 +42,8 @@ void DataProvider::updateInputValueForBaseStation(const QString p_eNbId, const Q
 
 void DataProvider::fakeDataForDebuging()
 {
-    double x = 51.0440;
-    double y = 16.3200;
+    double x = 50.9758;
+    double y = 16.1613;
     GeographicalCoordinatesConverter geoConverter;
     std::pair<int,int> pixel = geoConverter.geographicalCoordinatesToPixel(std::pair<double,double>(x,y));
     PixelXY possition(pixel);
@@ -79,7 +79,7 @@ void DataProvider::fakeDataForDebuging()
     sector2.setModel(Model::Cost231Hata);
     sectorControler->addSector(sector2);
 
-    Sector sector3(antenna2, baseStations[0]);
+    Sector sector3(antenna, baseStations[0]);
     sector3.setBandwidth(5);
     sector3.setAzimuth(180);
     sector3.setMimo(Mimo::Nan);
@@ -89,13 +89,13 @@ void DataProvider::fakeDataForDebuging()
     sector3.setModel(Model::Cost231Hata);
     sectorControler->addSector(sector3);
 
-    x = 51.0653;
-    y = 16.3577;
+    x = 50.9713;
+    y = 16.3100;
     pixel = geoConverter.geographicalCoordinatesToPixel(std::pair<double,double>(x,y));
     PixelXY possition2(pixel);
     baseStations.push_back(std::make_shared<BaseStation>(std::move(possition2.getXy()),15,"bts2"));
 
-    Sector sector4(antenna2, baseStations[1]);
+    Sector sector4(antenna, baseStations[1]);
     sector4.setBandwidth(5);
     sector4.setAzimuth(315);
     sector4.setMimo(Mimo::Nan);
@@ -105,7 +105,7 @@ void DataProvider::fakeDataForDebuging()
     sector4.setModel(Model::Cost231Hata);
     sectorControler->addSector(sector4);
 
-    Sector sector5(antenna3, baseStations[1]);
+    Sector sector5(antenna, baseStations[1]);
     sector5.setBandwidth(5);
     sector5.setAzimuth(270);
     sector5.setMimo(Mimo::Nan);
@@ -115,7 +115,7 @@ void DataProvider::fakeDataForDebuging()
     sector5.setModel(Model::Cost231Hata);
     sectorControler->addSector(sector5);
 
-    Sector sector6(antenna3, baseStations[1]);
+    Sector sector6(antenna, baseStations[1]);
     sector6.setBandwidth(5);
     sector6.setAzimuth(200);
     sector6.setMimo(Mimo::Nan);
@@ -125,8 +125,8 @@ void DataProvider::fakeDataForDebuging()
     sector6.setModel(Model::Cost231Hata);
     sectorControler->addSector(sector6);
 
-//    x = 51.0227;
-//    y = 16.3940;
+//    x = 51.9112;
+//    y = 16.2177;
 //    pixel = geoConverter.geographicalCoordinatesToPixel(std::pair<double,double>(x,y));
 //    PixelXY possition3(pixel);
 //    baseStations.push_back(std::make_shared<BaseStation>(std::move(possition3.getXy()),15,"bts3"));

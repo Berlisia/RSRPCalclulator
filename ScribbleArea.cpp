@@ -8,7 +8,7 @@
 #include <cmath>
 #include <iostream>
 
-ScribbleArea::ScribbleArea(QCheckBox *p_checkBox, QCheckBox *p_TerrainCheckBox, DataProvider &p_data, QLabel *p_valueLabel,
+ScribbleArea::ScribbleArea(QCheckBox *p_checkBox, QCheckBox *p_TerrainCheckBox, std::vector<std::pair<PixelXY,double>> &p_data, QLabel *p_valueLabel,
                            const QPixmap & parent) :
     QGraphicsPixmapItem(parent),
     checkBox(p_checkBox),
@@ -42,7 +42,7 @@ void ScribbleArea::selectEvent(QGraphicsSceneMouseEvent *event)
 
 double ScribbleArea::findFromData(PixelXY pixel)
 {
-    auto finded = std::find_if(data.rsrp.vector.begin(), data.rsrp.vector.end(),
+    auto finded = std::find_if(data.begin(), data.end(),
                                [pixel](std::pair<PixelXY,double> px) -> bool {
                                      return px.first.getXy() == pixel.getXy();
     });
@@ -98,7 +98,7 @@ void ScribbleArea::setValueInLabel(double value)
 double ScribbleArea::findValueForPixel(PixelXY pixel)
 {
     double value = 0.000000;
-    if(!data.rsrp.vector.empty())
+    if(!data.empty())
     {
         value = findFromData(pixel);
     }

@@ -43,7 +43,7 @@ signals:
     void calculatePressed();
 
 public slots:
-    void displayImage(const QPixmap & img);
+    void displayImage(const QPixmap & img, std::vector<std::pair<PixelXY,double>>&);
 
 private:
     void addMenu();
@@ -92,7 +92,7 @@ private slots:
 
     void selectBase();
     void drawDataMap();
-    void drawImage(std::vector<std::pair<PixelXY,double>>);
+    void drawImage(std::vector<std::pair<PixelXY,double>>&);
     void drawNewMapImage(int);
     void drawSnirImage(int);
 
@@ -100,7 +100,7 @@ private slots:
     void progressBarStart();
     void receiverClicked();
     void changeMinRSRPValueInData(double);
-    void updateMap(int);
+    //void updateMap(int);
 
     void actionRectangleTriggered();
     void showRectangle();

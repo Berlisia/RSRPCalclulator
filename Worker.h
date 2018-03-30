@@ -31,7 +31,7 @@ private:
     void executeCalculationForPixel(PixelXY pixel);
     bool isBaseStation(PixelXY pixel);
     void deleteNanValue();
-    void saveInFile();
+    void saveInFile(const std::vector<std::pair<PixelXY, double> >& vector, std::string name);
 
     std::unique_ptr<ThreadPool> pool;
     DataProvider & data;
