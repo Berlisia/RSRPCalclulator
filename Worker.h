@@ -41,7 +41,7 @@ private:
     std::shared_ptr<IMapDataProvider> mapDataProvider;
     //std::shared_ptr<IAntennaLossFileProvider> antennaProvider; //-> rozszerzyć do kilku anten
 
-    std::vector<float> rsrpForSectors;
+    std::vector<double> rsrpForSectors;
 
     RSRPForPixel RSRP;
 

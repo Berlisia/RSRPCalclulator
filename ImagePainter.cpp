@@ -29,25 +29,25 @@ void ImagePainter::makeScale()
     findMax();
 }
 
-float ImagePainter::findMax()
+double ImagePainter::findMax()
 {
     auto biggest = std::max_element(rsrp.begin(), rsrp.end(),
-        [](const std::pair<PixelXY,float> & l, const std::pair<PixelXY,float> & r){
+        [](const std::pair<PixelXY,double> & l, const std::pair<PixelXY,double> & r){
             return l.second < r.second;
     });
     return biggest->second;
 }
 
-float ImagePainter::findMin()
+double ImagePainter::findMin()
 {
     auto biggest = std::min_element(rsrp.begin(), rsrp.end(),
-        [](const std::pair<PixelXY,float> & l, const std::pair<PixelXY,float> & r){
+        [](const std::pair<PixelXY,double> & l, const std::pair<PixelXY,double> & r){
             return l.second < r.second;
     });
     return biggest->second;
 }
 
-const QColor ImagePainter::getColor(float L)
+const QColor ImagePainter::getColor(double L)
 {
     int r, g, b;
     double d = 256.0/20.0;

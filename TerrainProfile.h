@@ -37,9 +37,9 @@ public slots:
 private:
     void drawTerrainProfile(QPixmap & pxMap, const std::vector<std::pair<int, int>> & vector);
     void drawSignal(QPixmap & pxMap, const std::vector<std::pair<int, int>> & vector);
-    float findMinHeightFromVector(const std::vector<std::pair<int, int>> & vector);
-    float findMaxHeightFromVector(const std::vector<std::pair<int, int>> & vector);
-    float findValueFromData(std::pair<int, int> pixel);
+    double findMinHeightFromVector(const std::vector<std::pair<int, int>> & vector);
+    double findMaxHeightFromVector(const std::vector<std::pair<int, int>> & vector);
+    double findValueFromData(std::pair<int, int> pixel);
 
     Ui::TerrainProfile *ui;
     QGraphicsScene * scene;

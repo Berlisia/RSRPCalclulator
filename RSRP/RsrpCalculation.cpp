@@ -7,10 +7,10 @@ RsrpCalculation::RsrpCalculation(RsrpInitialization &initialize) :
 {
 }
 
-float RsrpCalculation::calculateRsrp(Sector const& sector)// signal
+double RsrpCalculation::calculateRsrp(Sector const& sector)// signal
 {
-    //float rsrp = 0;
-    float power = sector.getPower() / mimo(sector);
+    //double rsrp = 0;
+    double power = sector.getPower() / mimo(sector);
     //power = std::pow(10, (power/10)) / 1000; //[W]
     //rsrp = std::log10(power/numberOfSubcarrer(sector.getBandwith())) * 10;
     //rsrp = rsrp + 30; //dB na dBm
@@ -27,7 +27,7 @@ int RsrpCalculation::numberOfSubcarrer(double bandwidth)
     return subcarriers;
 }
 
-float RsrpCalculation::mimo(Sector const& sector)
+double RsrpCalculation::mimo(Sector const& sector)
 {
     switch (sector.getMimo())
     {
@@ -41,7 +41,7 @@ float RsrpCalculation::mimo(Sector const& sector)
     }
 }
 
-float RsrpCalculation::findMaxRsrpFromSectors(std::vector<float> & vectorRsrp)
+double RsrpCalculation::findMaxRsrpFromSectors(std::vector<double> & vectorRsrp)
 {
     auto biggest = std::max_element(std::begin(vectorRsrp), std::end(vectorRsrp));
     return *biggest;

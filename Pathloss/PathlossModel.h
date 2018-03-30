@@ -17,11 +17,11 @@ public:
                   Environment p_currentEnvironment);
     virtual Pathloss pathloss() = 0;
 
-    virtual void changeDistance(float newValue) = 0;
+    virtual void changeDistance(double newValue) = 0;
     virtual void changeCurrentEnvironment(Environment env) = 0;
-    virtual void changeEffectiveBSAntennaHeight(float newValue) = 0;
+    virtual void changeEffectiveBSAntennaHeight(double newValue) = 0;
     virtual void changeCarrierFrequency(int newValue) = 0;
-    virtual void changeEffectiveMSAntennaHeight(float newValue) = 0;
+    virtual void changeEffectiveMSAntennaHeight(double newValue) = 0;
 
 protected:
     Parameter carrierFrequency;

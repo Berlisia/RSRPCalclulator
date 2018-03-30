@@ -39,7 +39,7 @@ void Sector::setEcgi(int newEcgi)
     ecgi = newEcgi;
 }
 
-void Sector::setPower(float newPower)
+void Sector::setPower(double newPower)
 {
     antenna->setPower(newPower);
 }
@@ -74,7 +74,7 @@ int Sector::getAzimuth() const
     return azimuth;
 }
 
-float Sector::getPower() const
+double Sector::getPower() const
 {
     return antenna->getPower();
 }
@@ -89,7 +89,12 @@ double Sector::getBandwith() const
     return bandwidth;
 }
 
-float Sector::getAntennaHeight() const
+int Sector::getBandIndex() const
+{
+    return antenna->getBandIndex();
+}
+
+double Sector::getAntennaHeight() const
 {
     return baseStation->getAntennaHeight();
 }

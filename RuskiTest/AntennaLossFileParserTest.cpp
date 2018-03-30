@@ -8,6 +8,6 @@ AntennaLossFileParserTest::AntennaLossFileParserTest()
     std::string file = "742266V02_pozioma.csv";
     AntennaLossFileParser parser(file);
     int angle = 300;
-    float dupa = parser.getLoss(angle);
+    double dupa = parser.getLoss(angle);
     cout << "stopnie " << angle << ": " << dupa << endl;
 }

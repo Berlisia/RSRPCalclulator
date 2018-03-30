@@ -9,7 +9,7 @@ PixelXY Receiver::getPossition()
     return possition;
 }
 
-float Receiver::getHeight()
+double Receiver::getHeight()
 {
     return height;
 }
@@ -19,7 +19,7 @@ void Receiver::setPossition(std::pair<int, int> p_possition)
     possition = PixelXY(p_possition);
 }
 
-void Receiver::setHeight(float value)
+void Receiver::setHeight(double value)
 {
     height = value;
 }

@@ -7,9 +7,9 @@ AntennaLossFileProvider::AntennaLossFileProvider(std::string horizontalFileName,
 {
 }
 
-float AntennaLossFileProvider::getLossFromFile(int angle, Charakteristic type)
+double AntennaLossFileProvider::getLossFromFile(int angle, Charakteristic type)
 {
-    float loss = -1;
+    double loss = -1;
     if(type == Charakteristic::horizontal)
     {
         loss = horizontal->getLoss(angle);

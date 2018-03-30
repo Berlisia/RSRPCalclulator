@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/obrazki">
         <file alias="baseStation">Pictures/baseStation.png</file>
+        <file>Pictures/scala.ppm</file>
     </qresource>
     <qresource prefix="/mapy">
         <file alias="mapa">MapProvider/map/asd.pgm</file>

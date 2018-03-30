@@ -19,12 +19,12 @@ void Image::paintEvent(QPaintEvent * e)
     paint.drawImage(0,0, img);
 }
 
-void Image::setMaxValue(float max)
+void Image::setMaxValue(double max)
 {
     scale.maxValue = max;
 }
 
-void Image::setMinValue(float min)
+void Image::setMinValue(double min)
 {
     scale.minValue = min;
 }
@@ -34,7 +34,7 @@ void Image::calculateFactor()
     scale.calculateFactor();
 }
 
-QColor Image::generateColor(float currentValue) const
+QColor Image::generateColor(double currentValue) const
 {
     return scale.rsrpToColor(currentValue);
 }

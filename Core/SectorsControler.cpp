@@ -7,7 +7,7 @@ SectorsControler::SectorsControler(std::vector<Sector> & p_sector)
     sector = std::move(p_sector);
 }
 
-float SectorsControler::getPowerFromSector(int indexOfSector)
+double SectorsControler::getPowerFromSector(int indexOfSector)
 {
     return sector[indexOfSector].getPower();
 }
@@ -20,6 +20,16 @@ double SectorsControler::getBandwithFromSector(int indexOfSector)
 const std::vector<Sector>& SectorsControler::getVectorOfSectors()
 {
     return sector;
+}
+
+int SectorsControler::getSectorECGI(int indexOfSector) const
+{
+    return sector[indexOfSector].getEcgi();
+}
+
+int SectorsControler::getBandIndexFromSector(int sectorIdx) const
+{
+    return sector[sectorIdx].getBandIndex();
 }
 
 //void SectorsControler::addSector(Antenna &antenna, BaseStation &base)
@@ -44,7 +54,7 @@ void SectorsControler::modify(const int ecgi, const QString p_field, const QStri
         findedSector->setEcgi(p_value.toInt());
         break;
     case POWER:
-        findedSector->setPower(p_value.toFloat());
+        findedSector->setPower(p_value.toDouble());
         break;
     case BAND:
         findedSector->setBand(p_value.toInt());

@@ -12,9 +12,9 @@ PathlossCalculation::PathlossCalculation(std::shared_ptr<IMapDataProvider> p_map
 {
 }
 
-std::vector<float> PathlossCalculation::calculatePathloss()
+std::vector<double> PathlossCalculation::calculatePathloss()
 {
-    std::vector<float> loss;
+    std::vector<double> loss;
     for(auto sector : sectors.getVectorOfSectors())
     {
         Model model = choosePropagarionModel(sector);
@@ -35,12 +35,12 @@ std::vector<float> PathlossCalculation::calculatePathloss()
     return std::move(loss);
 }
 
-float PathlossCalculation::effectiveBAntennaHeight(Sector const& sector)
+double PathlossCalculation::effectiveBAntennaHeight(Sector const& sector)
 {
-    float mediumHeight = mapProvider->coutMediumHeightBetwenTwoPixels(sector.getPossitonOfBaseStation(), receiver.getPossition().getXy(), 35);
+    double mediumHeight = mapProvider->coutMediumHeightBetwenTwoPixels(sector.getPossitonOfBaseStation(), receiver.getPossition().getXy(), 35);
 
-    float h = mapProvider->pixelHeight(sector.getPossitonOfBaseStation());
-    float height = sector.getAntennaHeight() + h - mediumHeight;
+    double h = mapProvider->pixelHeight(sector.getPossitonOfBaseStation());
+    double height = sector.getAntennaHeight() + h - mediumHeight;
 
     if(height < 30)
     {

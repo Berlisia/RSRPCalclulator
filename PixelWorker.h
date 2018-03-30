@@ -7,36 +7,41 @@
 #include "DataProvider.h"
 #include "ThreadPool.h"
 
-typedef std::vector<float> & RsrpValueForSectorRef;
+typedef std::vector<double> & RsrpValueForSectorRef;
 
 class PixelWorker
 {
 public:
-    PixelWorker(RSRPForPixel & p_RSRP, RsrpValueForSectorRef p_rsrpSectors,
+    PixelWorker(RSRPForPixel& p_RSRP, RsrpValueForSectorRef p_rsrpSectors,
                 std::shared_ptr<IMapDataProvider> p_mapDataProvider,
-                SectorsControler & p_sectors,
-                Receiver & p_receiver,
+                SectorsControler& p_sectors,
+                Receiver& p_receiver,
                 double p_minValueRSRP);
 
     void executeCalculation();
-    std::vector<float>& getResultFromAllSectors();
-    float findMaxFrom(const std::vector<float> & vector);
+    std::vector<std::pair<int,double>>& getResultFromAllSectors();
+    int getCurrentBand();
+    double getCurrentSignalPower();
 
 private:
+    void storeMaxFromRsrpMap();
     void calculateAntennaLossForOnePixel();
     void calculatePathlossForOnePixel();
 
     AntennaLossForSectors antennaLossFromSectorsPerOnePixel;
-    std::vector<float> pathLossFromSectorsPerOnePixel;
+    std::vector<double> pathLossFromSectorsPerOnePixel;
 
-    RSRPForPixel & RSRP;
+    RSRPForPixel& RSRP;
     RsrpValueForSectorRef rsrpSectors;
-    Receiver & receiver;
+    const SectorsControler& sectorsControler;
+    Receiver& receiver;
     double minValueRSRP;
     AntennaLossCalculation antennaCalculation;
     std::unique_ptr<IPathlossCalculation> pathlossCalculation;
 
-    std::vector<float> rsrpFromSectors;
+    std::vector<std::pair<int,double>> rsrpFromSectors;
+    int currentBand;
+    double currentSignalPower;
 
     static std::mutex mutex;
 };

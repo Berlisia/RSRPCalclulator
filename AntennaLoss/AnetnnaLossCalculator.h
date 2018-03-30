@@ -12,14 +12,14 @@ public:
     AntenaLossCalculator(std::shared_ptr<IMapDataProvider> p_mapProvider,
                          std::shared_ptr<IAntennaLossFileProvider> p_AntennafileProvider);
 
-    //float calculateAntennaLoss();
+    //double calculateAntennaLoss();
     void setReceiver(std::pair<int,int> p_receiver);
     void setAntenna(std::pair<int,int> p_antenna);
 
     std::pair<int,int> getAntennaPossiton();
 
 protected:
-    int arcTangens(const float distance);
+    int arcTangens(const double distance);
 
     std::shared_ptr<IMapDataProvider> mapProvider;
     std::shared_ptr<IAntennaLossFileProvider> antennafileProvider;
@@ -28,7 +28,7 @@ protected:
     std::pair<int,int> antenna;
 
     static const int stopnie;
-    static const float PI;
+    static const double PI;
     static const int circle;
 };
 

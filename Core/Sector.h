@@ -20,7 +20,7 @@ public:
     void setModel(Model newModel);
     void setEcgi(int newEcgi);
 
-    void setPower(float newPower);
+    void setPower(double newPower);
     void setBand(int newfrequency);
     void setGain(double newGain);
     void setTilt(int newTilit);
@@ -28,10 +28,11 @@ public:
     void setFileVName(QString newPath);
 
     int getAzimuth() const;
-    float getPower() const;
+    double getPower() const;
     int getFrequency() const;
     double getBandwith() const;
-    float getAntennaHeight() const;
+    int getBandIndex() const;
+    double getAntennaHeight() const;
     int getAntennaTilt() const;
     Environment getEnvironment() const;
     Mimo getMimo() const;

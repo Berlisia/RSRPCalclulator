@@ -8,13 +8,14 @@
 
 std::mutex PixelWorker::mutex;
 
-PixelWorker::PixelWorker(RSRPForPixel & p_RSRP,
+PixelWorker::PixelWorker(RSRPForPixel& p_RSRP,
                          RsrpValueForSectorRef p_rsrpSectors,
                          std::shared_ptr<IMapDataProvider> p_mapDataProvider,
-                         SectorsControler & p_sectors,
-                         Receiver & p_receiver,
+                         SectorsControler& p_sectors,
+                         Receiver& p_receiver,
                          double p_minValueRSRP) :
-    RSRP(p_RSRP), rsrpSectors(p_rsrpSectors), receiver(p_receiver), minValueRSRP(p_minValueRSRP),
+    RSRP(p_RSRP), rsrpSectors(p_rsrpSectors), sectorsControler(p_sectors),
+    receiver(p_receiver), minValueRSRP(p_minValueRSRP),
     antennaCalculation(AntennaLossCalculation(p_mapDataProvider, p_sectors))
 {
     pathlossCalculation = std::make_unique<PathlossCalculation>(p_mapDataProvider, p_sectors, p_receiver);
@@ -27,37 +28,48 @@ void PixelWorker::executeCalculation()
 
     for (unsigned int i = 0; i < antennaLossFromSectorsPerOnePixel->size(); i++) //for po wszystkich sectorach
     {
-        float pathL = pathLossFromSectorsPerOnePixel[i];
+        double pathL = pathLossFromSectorsPerOnePixel[i];
         if(!std::isnan(pathL) and !std::isinf(pathL)) //dBm
         {
-            float rsrp = rsrpSectors[i] -
-                    (*antennaLossFromSectorsPerOnePixel)[i] -
-                     pathL +
-                     receiver.getGain() - receiver.getOtherLosses();
+            double rsrp = rsrpSectors[i] - (*antennaLossFromSectorsPerOnePixel)[i] -
+                         pathL + receiver.getGain() - receiver.getOtherLosses();
             if(rsrp > (minValueRSRP))
             {
-                rsrpFromSectors.push_back(rsrp);
+                rsrpFromSectors.push_back(std::pair<int,double>(sectorsControler.getBandIndexFromSector(i), rsrp));
             }
         }
     }
     if(!rsrpFromSectors.empty())
     {
-        float maxValue = findMaxFrom(rsrpFromSectors);
+        storeMaxFromRsrpMap();
         std::unique_lock<std::mutex> lock(mutex);
-        RSRP.vector.push_back(std::pair<PixelXY,float>(receiver.getPossition(), maxValue));
+        RSRP.vector.push_back(std::pair<PixelXY,double>(receiver.getPossition(), currentSignalPower));
         emit RSRP.rsrpSizeChanged();
     }
 }
 
-std::vector<float> &PixelWorker::getResultFromAllSectors()
+std::vector<std::pair<int, double> >& PixelWorker::getResultFromAllSectors()
 {
     return rsrpFromSectors;
 }
 
-float PixelWorker::findMaxFrom(const std::vector<float> &vector)
+void PixelWorker::storeMaxFromRsrpMap()
 {
-    auto biggest = std::max_element(std::begin(vector), std::end(vector));
-    return biggest;
+    auto biggest = std::max_element(std::begin(rsrpFromSectors), std::end(rsrpFromSectors),
+                                    [] (const auto p1, const auto p2) {return p1.second < p2.second;});
+    currentSignalPower = biggest->second;
+    currentBand = biggest->first;
+    rsrpFromSectors.erase(biggest);
+}
+
+int PixelWorker::getCurrentBand()
+{
+    return currentBand;
+}
+
+double PixelWorker::getCurrentSignalPower()
+{
+    return currentSignalPower;
 }
 
 void PixelWorker::calculateAntennaLossForOnePixel()

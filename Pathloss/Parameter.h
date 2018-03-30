@@ -4,13 +4,13 @@
 class Parameter
 {
 public:
-    Parameter(float maxValue, float minValue);
-    float getValue();
-    bool setValue(float newValue);
+    Parameter(double maxValue, double minValue);
+    double getValue();
+    bool setValue(double newValue);
 protected:
-    float value;
-    float maxValue;
-    float minValue;
+    double value;
+    double maxValue;
+    double minValue;
 };
 
 #endif // PARAMETER_H

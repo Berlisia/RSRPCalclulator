@@ -4,26 +4,36 @@
 #include <numeric>
 #include <algorithm>
 
-InterferenceCalculator::InterferenceCalculator(const std::vector<float>& signalFromSectors,
-                                               const SectorsControler& sectors):
+InterferenceCalculator::InterferenceCalculator(const std::vector<std::pair<int, double>>& signalFromSectors,
+                                               const SectorsControler& sectors,
+                                               int bandIdx):
     m_signalFromSectors(signalFromSectors),
-    m_sectors(sectors)
+    m_sectors(sectors),
+    m_currentBandIdx(bandIdx)
 {
 
 }
 
-float InterferenceCalculator::calculateInterference()
+double InterferenceCalculator::calculateInterference()
 {
-    auto maxSignalPower = findMax();
-    int possiton = maxSignalPower - m_signalFromSectors.begin();
-    //znajdz jaka to cellka / band
-    //dodaj do sectora Bandy a nie freq
-    //suma tyko na tym samym Bandzie
-    float interferenceLvl = std::accumulate(m_signalFromSectors.begin(), m_signalFromSectors.end(), 0);
-    return interferenceLvl;
+    double interferenceLvl = 0;
+    for(auto signalPair : m_signalFromSectors)
+    {
+        if(signalPair.first == m_currentBandIdx)
+        {
+            double signalInWat = dBmToW(signalPair.second);
+            interferenceLvl = interferenceLvl + signalInWat;
+        }
+    }
+    return WatTodB(interferenceLvl);
 }
 
-std::iterator InterferenceCalculator::findMax()
+double InterferenceCalculator::dBmToW(double dBm)
 {
-    return std::max_element(std::begin(m_signalFromSectors), std::end(m_signalFromSectors));
+    return std::pow(10, dBm/10)/1000;
+}
+
+double InterferenceCalculator::WatTodB(double wat)
+{
+    return std::log10(wat)*10;
 }

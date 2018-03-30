@@ -66,7 +66,8 @@ SOURCES += main.cpp\
     DataProvider.cpp \
     Core/modeltypes.cpp \
     Interference/InterferenceCalculator.cpp \
-    Workers/PixelWorkerForInterference.cpp
+    Workers/PixelWorkerForInterference.cpp \
+    Workers/PixelWorkerForSNIR.cpp
 
 HEADERS  += mainwindow.h \
     Pathloss/Pathloss.h \
@@ -125,7 +126,8 @@ HEADERS  += mainwindow.h \
     Core/modeltypes.h \
     Interference/InterferenceCalculator.h \
     Common/FrequencyBands.h \
-    Workers/PixelWorkerForInterference.h
+    Workers/PixelWorkerForInterference.h \
+    Workers/PixelWorkerForSNIR.h
 
 FORMS    += mainwindow.ui \
     BaseStationForm.ui \

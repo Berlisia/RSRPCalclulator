@@ -4,6 +4,7 @@
 #include "MapProvider/MapDataProvider.h"
 #include "AntennaLoss/AntennaLossFileProvider.h"
 #include "Workers/PixelWorkerForInterference.h"
+#include "Workers/PixelWorkerForSNIR.h"
 #include <math.h>
 
 Worker::Worker(DataProvider & p_data) :
@@ -100,8 +101,11 @@ void Worker::executeCalculationForPixel(PixelXY pixel)
     PixelWorker pixelWorker(RSRP, rsrpForSectors, mapDataProvider, *sectors, receiver, data.minValueOfRSRP);
     pixelWorker.executeCalculation();
 
-    PixelWorkerForInterference pixelWorkerInt(pixelWorker.getResultFromAllSectors());
+    PixelWorkerForInterference pixelWorkerInt(pixelWorker.getResultFromAllSectors(), *sectors, pixelWorker.getCurrentBand());
     pixelWorkerInt.calculate(data.interferenceLvl, pixel);
+
+    PixelWorkerForSNIR pixelWorkerForSnir;
+    pixelWorkerForSnir.calculate(pixelWorkerInt.getInterferenceLvl(), pixelWorker.getCurrentSignalPower(), pixel, data.snir);
 }
 
 bool Worker::isBaseStation(PixelXY pixel)
@@ -121,7 +125,7 @@ bool Worker::isBaseStation(PixelXY pixel)
 void Worker::deleteNanValue()
 {
     RSRP.vector.erase(std::remove_if(RSRP.vector.begin(), RSRP.vector.end(),
-                              [](const std::pair<PixelXY,float> & dataObj) {
+                              [](const std::pair<PixelXY,double> & dataObj) {
                                     return dataObj.second == std::nanf("");
     }));
 }

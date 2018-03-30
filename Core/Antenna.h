@@ -6,26 +6,27 @@
 class Antenna
 {
 public:
-    Antenna(float power, double gain, int tilt, int frequency, std::string horizonral, std::string vertical);
+    Antenna(double power, double gain, int tilt, int band, std::string horizonral, std::string vertical);
 
-    void setPower(float newPower);
+    void setPower(double newPower);
     void setTilt(int newTilt);
     void setFrequency(int newFrequency);
     void setBand(FreqBand newBand);
     void setBandByIndex(int bw);
 
-    float getPower();
+    double getPower();
     int getTilt();
     int getFrequency();
+    int getBandIndex() const;
     std::string getFileNameH();
     std::string getFileNameV();
     double getGain() const;
     void setGain(double value);
 
-    FreqBand getFreqBand();
+    const FreqBand& getFreqBand();
 
 private:
-    float power;
+    double power;
     double gain;
     int tilt;
     int frequency; //MHz

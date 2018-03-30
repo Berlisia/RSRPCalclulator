@@ -20,9 +20,9 @@ namespace
                     p_pixel1.second + p_pixel2.second);
     }
     auto operator/(std::pair<int, int> p_pixel1,
-                   float p_divider)
+                   double p_divider)
     {
-        return std::pair<float, float>(
+        return std::pair<double, double>(
                     p_pixel1.first / p_divider,
                     p_pixel1.second / p_divider);
     }
@@ -38,13 +38,13 @@ unsigned int MapDataProvider::pixelHeight(std::pair<int, int> p_pixel)
     return m_mapParser->getPixelHight(p_pixel);
 }
 
-float MapDataProvider::coutDistance(std::pair<int, int> p_pixel1,
+double MapDataProvider::coutDistance(std::pair<int, int> p_pixel1,
                                     std::pair<int, int> p_pixel2)
 {
     return pow((pow(p_pixel1.first-p_pixel2.first, 2)+pow(p_pixel1.second-p_pixel2.second,2)),0.5)*25;
 }
 
-float MapDataProvider::coutMediumHeightBetwenTwoPixels(std::pair<int, int> p_pixel1,
+double MapDataProvider::coutMediumHeightBetwenTwoPixels(std::pair<int, int> p_pixel1,
                                                        std::pair<int, int> p_pixel2,
                                                        int p_interwal)
 {
@@ -57,8 +57,8 @@ float MapDataProvider::coutMediumHeightBetwenTwoPixels(std::pair<int, int> p_pix
 
     auto l_jumper = (p_pixel2 - p_pixel1) / l_jumps;
 
-    std::pair<float, float> l_last = p_pixel1;
-    float l_sumaryHeight = 0;
+    std::pair<double, double> l_last = p_pixel1;
+    double l_sumaryHeight = 0;
     for(int i = 0; i < l_jumps; i++)
     {
         l_sumaryHeight += pixelHeight(l_last);
@@ -84,7 +84,7 @@ std::vector<std::pair<int, int> > MapDataProvider::getVectorOfPixels(std::pair<i
 
     auto l_jumper = (p_pixel2 - p_pixel1) / l_jumps;
 
-    std::pair<float,float> l_last = p_pixel1;
+    std::pair<double,double> l_last = p_pixel1;
     std::vector<std::pair<int, int>> vector;
     for(int i = 0; i < l_jumps; i++)
     {

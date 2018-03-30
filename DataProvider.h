@@ -10,14 +10,16 @@
 typedef std::vector<std::shared_ptr<BaseStation>> BaseStations;
 typedef std::shared_ptr<SectorsControler> SectorsControlerPtr;
 typedef std::vector<std::pair<int,int>> BoundaryPixelsInArea;
-typedef std::vector<std::pair<PixelXY,float>> InterferenceLvl;
+typedef std::vector<std::pair<PixelXY,double>> InterferenceLvl;
+typedef std::vector<std::pair<PixelXY,double>> Snir;
+typedef std::vector<std::pair<PixelXY,double>> SignalPower;
 
 class RSRPForPixel : public QObject
 {
     Q_OBJECT
 
 public:
-    std::vector<std::pair<PixelXY,float>> vector;
+    SignalPower vector;
 signals:
     void rsrpSizeChanged();
 };
@@ -29,7 +31,7 @@ public:
 
     void addBaseStation(std::shared_ptr<BaseStation> base);
     void addSector(Antenna& antenna, std::shared_ptr<BaseStation> base);
-    void getRsrp(std::vector<std::pair<PixelXY,float>>& p_rsrp);
+    void getRsrp(std::vector<std::pair<PixelXY,double>>& p_rsrp);
     void updateInputValueForSector(const int ecgi, const QString, const QString);
     void updateInputValueForBaseStation(const QString, const QString, const QString);
 
@@ -41,6 +43,7 @@ public:
 
     RSRPForPixel rsrp;
     InterferenceLvl interferenceLvl;
+    Snir snir;
 
 private:
     void fakeDataForDebuging();

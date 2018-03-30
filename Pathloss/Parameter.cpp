@@ -1,10 +1,10 @@
 #include "Parameter.h"
 
-Parameter::Parameter(float maxValue, float minValue) : maxValue(maxValue), minValue(minValue)
+Parameter::Parameter(double maxValue, double minValue) : maxValue(maxValue), minValue(minValue)
 {
 }
 
-bool Parameter::setValue(float newValue)
+bool Parameter::setValue(double newValue)
 {
     //if(newValue <= maxValue || newValue >= minValue)
     //{
@@ -17,7 +17,7 @@ bool Parameter::setValue(float newValue)
     //
 }
 
-float Parameter::getValue()
+double Parameter::getValue()
 {
     return value;
 }

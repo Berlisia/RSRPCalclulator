@@ -64,16 +64,16 @@ void TerrainProfile::drawTerrainProfile(QPixmap &pxMap, const std::vector<std::p
 {
     QPainter painter(&pxMap);
     painter.setPen(Qt::black);
-    float max = findMaxHeightFromVector(vector);
-    float min = findMinHeightFromVector(vector);
-    float wspolczynnik = max - min;
+    double max = findMaxHeightFromVector(vector);
+    double min = findMinHeightFromVector(vector);
+    double wspolczynnik = max - min;
     wspolczynnik = 300/wspolczynnik;
 
     int i = 0;
     for(auto pixel : vector)
     {
         i++;
-        float height = mapDataProvider->pixelHeight(pixel);
+        double height = mapDataProvider->pixelHeight(pixel);
         painter.drawLine(i,300,i,(height - min) * wspolczynnik);
     }
     painter.end();
@@ -88,7 +88,7 @@ void TerrainProfile::drawSignal(QPixmap &pxMap, const std::vector<std::pair<int,
     for(auto pixel : vector)
     {
         i++;
-        float value = findValueFromData(pixel);
+        double value = findValueFromData(pixel);
         painter.setPen(Qt::red);
         painter.drawPoint(i, - value);
         painter.drawPoint(i, - value + 1);
@@ -98,7 +98,7 @@ void TerrainProfile::drawSignal(QPixmap &pxMap, const std::vector<std::pair<int,
     painter.end();
 }
 
-float TerrainProfile::findMinHeightFromVector(const std::vector<std::pair<int, int> > &vector)
+double TerrainProfile::findMinHeightFromVector(const std::vector<std::pair<int, int> > &vector)
 {
     auto biggest = std::min_element(vector.begin(), vector.end(),
         [this](const std::pair<int, int> & l, const std::pair<int, int> & r){
@@ -107,7 +107,7 @@ float TerrainProfile::findMinHeightFromVector(const std::vector<std::pair<int, i
     return biggest->second;
 }
 
-float TerrainProfile::findMaxHeightFromVector(const std::vector<std::pair<int, int> > &vector)
+double TerrainProfile::findMaxHeightFromVector(const std::vector<std::pair<int, int> > &vector)
 {
     auto biggest = std::max_element(vector.begin(), vector.end(),
         [this](const std::pair<int, int> & l, const std::pair<int, int> & r){
@@ -116,10 +116,10 @@ float TerrainProfile::findMaxHeightFromVector(const std::vector<std::pair<int, i
     return biggest->second;
 }
 
-float TerrainProfile::findValueFromData(std::pair<int, int> pixel)
+double TerrainProfile::findValueFromData(std::pair<int, int> pixel)
 {
     auto finded = std::find_if(dataProvider.rsrp.vector.begin(), dataProvider.rsrp.vector.end(),
-                               [pixel](std::pair<PixelXY,float> px) -> bool {
+                               [pixel](std::pair<PixelXY,double> px) -> bool {
                                      return px.first.getXy() == pixel;
     });
     return finded->second;

@@ -40,10 +40,10 @@ void ScribbleArea::selectEvent(QGraphicsSceneMouseEvent *event)
     }
 }
 
-float ScribbleArea::findFromData(PixelXY pixel)
+double ScribbleArea::findFromData(PixelXY pixel)
 {
     auto finded = std::find_if(data.rsrp.vector.begin(), data.rsrp.vector.end(),
-                               [pixel](std::pair<PixelXY,float> px) -> bool {
+                               [pixel](std::pair<PixelXY,double> px) -> bool {
                                      return px.first.getXy() == pixel.getXy();
     });
     return finded->second;
@@ -82,11 +82,11 @@ void ScribbleArea::findPossitionForValue(QGraphicsSceneMouseEvent *event)
 {
     QPointF mousePosition = event->scenePos();
     PixelXY px(static_cast<int>(mousePosition.rx()), static_cast<int>(mousePosition.ry()));
-    float value = findValueForPixel(px);
+    double value = findValueForPixel(px);
     setValueInLabel(value);
 }
 
-void ScribbleArea::setValueInLabel(float value)
+void ScribbleArea::setValueInLabel(double value)
 {
     if(value == 0.000000)
     {
@@ -95,9 +95,9 @@ void ScribbleArea::setValueInLabel(float value)
     else valueLabel->setText(std::to_string(value).c_str());
 }
 
-float ScribbleArea::findValueForPixel(PixelXY pixel)
+double ScribbleArea::findValueForPixel(PixelXY pixel)
 {
-    float value = 0.000000;
+    double value = 0.000000;
     if(!data.rsrp.vector.empty())
     {
         value = findFromData(pixel);

@@ -12,8 +12,8 @@ public:
                         SectorsControler & p_sectors,
                         Receiver & p_receiver);
 
-    std::vector<float> calculatePathloss(); //Wybierz model
-    float effectiveBAntennaHeight(Sector const& sector);
+    std::vector<double> calculatePathloss(); //Wybierz model
+    double effectiveBAntennaHeight(Sector const& sector);
     ~PathlossCalculation(){}
 
 private:

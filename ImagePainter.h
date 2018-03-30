@@ -3,7 +3,7 @@
 #include <QWidget>
 #include "Core/PixelXY.h"
 
-typedef std::vector<std::pair<PixelXY,float>> Rsrp;
+typedef std::vector<std::pair<PixelXY,double>> Rsrp;
 
 class QPainter;
 class ImagePainter : public QWidget
@@ -13,9 +13,9 @@ public:
     explicit ImagePainter(const Rsrp & p_rsrp, QWidget *parent = 0);
 
     const QPixmap& paintImage();
-    const QColor getColor(float L);
-    float findMax();
-    float findMin();
+    const QColor getColor(double L);
+    double findMax();
+    double findMin();
 
 signals:
 

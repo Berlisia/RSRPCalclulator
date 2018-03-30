@@ -11,8 +11,8 @@ public:
     std::pair<int,int> geographicalCoordinatesToPixel(std::pair<double, double> p_coordinates) const;
 
 private:
-    static const float m_ulxmap;
-    static const float m_ulymap;
+    static const double m_ulxmap;
+    static const double m_ulymap;
     static const int m_maxX;
     static const int m_maxY;
 };

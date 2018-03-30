@@ -6,7 +6,7 @@
 
 #include <memory>
 
-typedef std::shared_ptr<std::vector<float>> AntennaLossForSectors;
+typedef std::shared_ptr<std::vector<double>> AntennaLossForSectors;
 
 class AntennaLossCalculation
 {
@@ -20,11 +20,11 @@ private:
     void check(const Sector & sector, AntennaLossHorizontalCalculator & horizontalCalculator);
     void check(const Sector & sector, AntennaLossVerticalCalculator & verticalCalculator);
 
-    float lossVertical(const Sector & sector);
-    float lossHorizontal(const Sector & sector);
+    double lossVertical(const Sector & sector);
+    double lossHorizontal(const Sector & sector);
 
     std::shared_ptr<IMapDataProvider> mapDataProvider;
-    SectorsControler & sectors;
+    SectorsControler& sectors;
     PixelXY pixel;
 };
 

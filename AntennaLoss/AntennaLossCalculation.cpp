@@ -8,14 +8,14 @@ AntennaLossCalculation::AntennaLossCalculation(std::shared_ptr<IMapDataProvider>
 
 AntennaLossForSectors AntennaLossCalculation::calculate()
 {
-    std::vector<float> loss;
+    std::vector<double> loss;
     for(auto sector : sectors.getVectorOfSectors())
     {
-        float lossH = lossHorizontal(sector);
-        float lossV = lossVertical(sector);
+        double lossH = lossHorizontal(sector);
+        double lossV = lossVertical(sector);
         loss.push_back(lossH + lossV);
     }
-    AntennaLossForSectors lossPtr = std::make_shared<std::vector<float>>(std::move(loss));
+    AntennaLossForSectors lossPtr = std::make_shared<std::vector<double>>(std::move(loss));
     return lossPtr;
 }
 
@@ -40,22 +40,22 @@ void AntennaLossCalculation::check(const Sector &sector, AntennaLossVerticalCalc
     }
 }
 
-float AntennaLossCalculation::lossVertical(const Sector &sector)
+double AntennaLossCalculation::lossVertical(const Sector &sector)
 {
     AntennaLossVerticalCalculator verticalCalculator(mapDataProvider, sector.getAntennaCharacteristic());
     verticalCalculator.setTilt(sector.getAntennaTilt());
     check(sector, verticalCalculator);
     verticalCalculator.setReceiver(pixel.getXy());
-    float lossV = verticalCalculator.calculateAntennaLoss();
+    double lossV = verticalCalculator.calculateAntennaLoss();
     return lossV;
 }
 
-float AntennaLossCalculation::lossHorizontal(const Sector &sector)
+double AntennaLossCalculation::lossHorizontal(const Sector &sector)
 {
     AntennaLossHorizontalCalculator horizontalCalculator(mapDataProvider, sector.getAntennaCharacteristic());
     horizontalCalculator.setAzimuth(sector.getAzimuth());
     check(sector, horizontalCalculator);
     horizontalCalculator.setReceiver(pixel.getXy());
-    float lossH = horizontalCalculator.calculateAntennaLoss();
+    double lossH = horizontalCalculator.calculateAntennaLoss();
     return lossH;
 }

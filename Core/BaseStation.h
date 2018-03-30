@@ -6,15 +6,15 @@
 class BaseStation
 {
 public:
-    BaseStation(std::pair<int,int> p_positon, float p_height, std::string p_name);
+    BaseStation(std::pair<int,int> p_positon, double p_height, std::string p_name);
 
-    float getAntennaHeight();
+    double getAntennaHeight();
     std::pair<int,int> getPossition();
     std::string getName();
 
 private:
     PixelXY positon;
-    float antennaHeight;
+    double antennaHeight;
     std::string name;
 };
 

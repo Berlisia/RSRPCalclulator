@@ -7,12 +7,12 @@ class RsrpCalculation : public IRsrpCalculation
 {
 public:
     RsrpCalculation(RsrpInitialization & initialize);
-    float calculateRsrp(Sector const& sector);
-    float findMaxRsrpFromSectors(std::vector<float> & vectorRsrp);
+    double calculateRsrp(Sector const& sector);
+    double findMaxRsrpFromSectors(std::vector<double> & vectorRsrp);
 
 private:
     int numberOfSubcarrer(double bandwidth);
-    float mimo(Sector const& sector);
+    double mimo(Sector const& sector);
     RsrpInitialization & init;
 };
 

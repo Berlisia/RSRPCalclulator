@@ -30,9 +30,9 @@ protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
 private:
     void findPossitionForValue(QGraphicsSceneMouseEvent *event);
-    void setValueInLabel(float value);
-    float findValueForPixel(PixelXY pixel);
-    float findFromData(PixelXY pixel);
+    void setValueInLabel(double value);
+    double findValueForPixel(PixelXY pixel);
+    double findFromData(PixelXY pixel);
     void choosePixelForTerrainProfile(QGraphicsSceneMouseEvent *event);
 
     QCheckBox * checkBox;

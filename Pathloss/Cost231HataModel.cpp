@@ -16,12 +16,12 @@ Cost231HataModel::Cost231HataModel() :
 Pathloss Cost231HataModel::pathloss()
 {
     Pathloss pathloss = 0;
-    float C = executeC();
+    double C = executeC();
     pathloss = factorA() + (factorB() * log10(distance.getValue())) + C;
     return pathloss;
 }
 
-void Cost231HataModel::changeDistance(float newValue)
+void Cost231HataModel::changeDistance(double newValue)
 {
     distance.setValue(newValue);
 }
@@ -31,7 +31,7 @@ void Cost231HataModel::changeCurrentEnvironment(Environment newEnvironment)
     currentEnvironment = newEnvironment;
 }
 
-void Cost231HataModel::changeEffectiveBSAntennaHeight(float newValue)
+void Cost231HataModel::changeEffectiveBSAntennaHeight(double newValue)
 {
     effectiveBSAntennaHeight.setValue(newValue);
 }
@@ -41,38 +41,38 @@ void Cost231HataModel::changeCarrierFrequency(int newValue)
     carrierFrequency.setValue(newValue);
 }
 
-void Cost231HataModel::changeEffectiveMSAntennaHeight(float newValue)
+void Cost231HataModel::changeEffectiveMSAntennaHeight(double newValue)
 {
     effectiveMSAntennaHeight.setValue(newValue);
 }
 
-float Cost231HataModel::factorA()
+double Cost231HataModel::factorA()
 {
-    float factorA = 0;
+    double factorA = 0;
     factorA = 46.3 + (33.9 * log10(carrierFrequency.getValue())) -
               (13.82 * log10(effectiveBSAntennaHeight.getValue())) -
               factorAh();
     return factorA;
 }
 
-float Cost231HataModel::factorB()
+double Cost231HataModel::factorB()
 {
-    float factorB = 0;
+    double factorB = 0;
     factorB = 44.9 - (6.55 * log10(effectiveBSAntennaHeight.getValue()));
     return factorB;
 }
 
-float Cost231HataModel::factorAh()
+double Cost231HataModel::factorAh()
 {
-    float factorAh = 0;
+    double factorAh = 0;
     factorAh = (((1.1 * log10(carrierFrequency.getValue())) - 0.7) * effectiveMSAntennaHeight.getValue()) -
                ((1.56 * log10(carrierFrequency.getValue())) - 0.8);
     return factorAh;
 }
 
-float Cost231HataModel::executeC()
+double Cost231HataModel::executeC()
 {
-    float C = 0;
+    double C = 0;
     switch(currentEnvironment)
     {
     case Environment::MetropolitanAreas:

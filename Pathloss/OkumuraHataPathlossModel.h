@@ -11,25 +11,25 @@ public:
 
     Pathloss pathloss();
 
-    void changeDistance(float newValue);
+    void changeDistance(double newValue);
     void changeCurrentEnvironment(Environment env);
-    void changeEffectiveBSAntennaHeight(float newValue);
+    void changeEffectiveBSAntennaHeight(double newValue);
     void changeCarrierFrequency(int newValue);
-    void changeEffectiveMSAntennaHeight(float newValue);
+    void changeEffectiveMSAntennaHeight(double newValue);
 
 private:
-    float factorA();
-    float factorB();
+    double factorA();
+    double factorB();
 
-    float factorCforCities();
-    float factorCforSuburbanEnvironments();
-    float factorCforRuralArea();
+    double factorCforCities();
+    double factorCforSuburbanEnvironments();
+    double factorCforRuralArea();
 
-    float functionAForMediumCities();
-    float functionAForMetriopolitan();
+    double functionAForMediumCities();
+    double functionAForMetriopolitan();
 
-    float executeFactorA(Environment env);
-    float executeFactorC(Environment env);
+    double executeFactorA(Environment env);
+    double executeFactorC(Environment env);
 };
 
 #endif // OKUMURAHATAPATHLOSSMODEL_H

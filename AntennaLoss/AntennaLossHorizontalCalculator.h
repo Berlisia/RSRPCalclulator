@@ -9,7 +9,7 @@ public:
     AntennaLossHorizontalCalculator(std::shared_ptr<IMapDataProvider> p_mapProvider,
                                     std::shared_ptr<IAntennaLossFileProvider> p_AntennafileProvider);
 
-    float calculateAntennaLoss();
+    double calculateAntennaLoss();
     void setAzimuth(int p_azimuth);
 
     int getAzimuth();

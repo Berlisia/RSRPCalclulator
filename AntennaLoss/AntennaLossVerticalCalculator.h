@@ -8,22 +8,22 @@ public:
     AntennaLossVerticalCalculator(std::shared_ptr<IMapDataProvider> p_mapProvider,
                                   std::shared_ptr<IAntennaLossFileProvider> p_AntennafileProvider);
 
-    float calculateAntennaLoss();
+    double calculateAntennaLoss();
 
-    void setAntennaHeight(float p_antennaHeight); //względem UE!!!!
+    void setAntennaHeight(double p_antennaHeight); //względem UE!!!!
     void setTilt(int p_tilt);
 
-    float getAntennaHeight();
+    double getAntennaHeight();
     int getTilt();
 
 private:
     int calculateAngle();
     void calculateAntennaHeight();
     void calculateAngleWithTilt(int & angle);
-    int atangens(const float distance);
+    int atangens(const double distance);
 
 
-    float antennaHeight;
+    double antennaHeight;
     int tilt;
 };
 

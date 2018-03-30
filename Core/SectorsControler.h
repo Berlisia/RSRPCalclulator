@@ -15,9 +15,11 @@ public:
     SectorsControler(){}
     SectorsControler(std::vector<Sector> & p_sector);
 
-    float getPowerFromSector(int indexOfSector);
+    double getPowerFromSector(int indexOfSector);
     double getBandwithFromSector(int indexOfSector);
     const std::vector<Sector>& getVectorOfSectors();
+    int getSectorECGI(int indexOfSector) const;
+    int getBandIndexFromSector(int sectorIdx) const;
 
     void addSector(Sector p_sector);
     void modify(const int ecgi, const QString p_filed, const QString p_value);

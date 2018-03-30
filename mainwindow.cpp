@@ -56,13 +56,14 @@ MainWindow::MainWindow(DataProvider & p_data, const Worker * p_worker, QWidget *
     ui->rsrpHorizontalSlider->setMaximum(0);
 
     ui->interferenceCheckBox->setCheckable(false);
+    ui->snirCheckBox->setCheckable(false);
 
     addMenu();
 
     connect(ui->baseToolButton, SIGNAL(pressed()), this, SLOT(on_baseStationUi_clicked()));
     connect(ui->sectorToolButton, SIGNAL(pressed()), this, SLOT(selectBase()));
     connect(ui->calculatePushButton, SIGNAL(pressed()), p_worker, SLOT(doCalculation()));
-    connect(p_worker, SIGNAL(done()), this, SLOT(drawImage()));
+    connect(p_worker, SIGNAL(done()), this, SLOT(drawDataMap()));
     connect(&data.rsrp, SIGNAL(rsrpSizeChanged()), this, SLOT(barChanged()));
     connect(worker, SIGNAL(poolStarted()), this, SLOT(progressBarStart()));
     connect(ui->receiverButton, SIGNAL(pressed()), this, SLOT(receiverClicked()));
@@ -72,7 +73,8 @@ MainWindow::MainWindow(DataProvider & p_data, const Worker * p_worker, QWidget *
     connect(ui->zoomInButton, SIGNAL(pressed()), this, SLOT(zoomIn()));
     connect(ui->zoomOutButton, SIGNAL(pressed()), this, SLOT(zoomOut()));
     connect(ui->terrainCheckBox, SIGNAL(clicked(bool)), this, SLOT(terrainProfileTriggered(bool)));
-    connect(ui->interferenceCheckBox, SIGNAL(stateChanged(int)), this, SLOT(drawInterferenceImage(int)));
+    connect(ui->interferenceCheckBox, SIGNAL(stateChanged(int)), this, SLOT(drawNewMapImage(int)));
+    connect(ui->snirCheckBox, SIGNAL(stateChanged(int)),this, SIGNAL(drawSnirImage(int)));
 
     networkWizualizatorStart();
 }
@@ -112,51 +114,25 @@ void MainWindow::addMenu()
     //tools->addAction(tr("&Add Base Station"), this, SLOT(on_baseStationUi_clicked()), tr("Ctrl+B"));
 }
 
-void MainWindow::drawImage()
+void MainWindow::drawImage(std::vector<std::pair<PixelXY,double>> p_pixelData)
 {
-    ImagePainter paint(data.rsrp.vector, this);
+    ImagePainter paint(p_pixelData, this);
     QPixmap px;
     px.load(":/mapy/mapa");
     QPainter painter(&px);
     maxFromData = paint.findMax();
     minFromData = paint.findMin();
-    float roznica = maxFromData - minFromData;
-    float wspolczynnik = 100/roznica;
-    for(auto dat : data.rsrp.vector)
+    double roznica = maxFromData - minFromData;
+    double wspolczynnik = 100/roznica;
+    for(auto dat : p_pixelData)
     {
-        float color = (dat.second - minFromData)*wspolczynnik;
+        double color = (dat.second - minFromData)*wspolczynnik;
         painter.setPen(paint.getColor(color));
         painter.drawPoint(dat.first.getX(), dat.first.getY());
     }
     painter.end();
     displayImage(px);
-    barFinished();
     showScale(paint, maxFromData, minFromData);
-
-    ui->interferenceCheckBox->setCheckable(true);
-}
-
-void MainWindow::drawInterferenceImage(int enable)
-{
-    if(enable)
-    {
-        ImagePainter paint(data.interferenceLvl, this);
-        QPixmap px;
-        px.load(":/mapy/mapa");
-        QPainter painter(&px);
-        maxFromData = paint.findMax();
-        minFromData = paint.findMin();
-        float roznica = maxFromData - minFromData;
-        float wspolczynnik = 100/roznica;
-        for(auto dat : data.rsrp.vector)
-        {
-            float color = (dat.second - minFromData)*wspolczynnik;
-            painter.setPen(paint.getColor(color));
-            painter.drawPoint(dat.first.getX(), dat.first.getY());
-        }
-        painter.end();
-        displayImage(px);
-    }
 }
 
 void MainWindow::barFinished()
@@ -164,10 +140,10 @@ void MainWindow::barFinished()
 
 }
 
-void MainWindow::showScale(ImagePainter & paint, float max, float min)
+void MainWindow::showScale(ImagePainter & paint, double max, double min)
 {
     QPixmap px;
-    px.load("scala.ppm");
+    px.load(":/obrazki/Pictures/scala.ppm");
     QPainter painter(&px);
 
     for(int i = 1; i <= 200; i++)
@@ -259,13 +235,13 @@ void MainWindow::updateMap(int slideValue)
     QPixmap px;
     px.load(":/mapy/mapa");
     QPainter painter(&px);
-    float roznica = maxFromData - minFromData;
-    float wspolczynnik = 100/roznica;
+    double roznica = maxFromData - minFromData;
+    double wspolczynnik = 100/roznica;
     for(auto dat : data.rsrp.vector)
     {
         if(dat.second >= slideValue)
         {
-            float color = (dat.second - minFromData)*wspolczynnik;
+            double color = (dat.second - minFromData)*wspolczynnik;
             painter.setPen(paint.getColor(color));
             painter.drawPoint(dat.first.getX(), dat.first.getY());
         }
@@ -387,6 +363,31 @@ void MainWindow::selectBase()
         selectBaseStation->update();
     }
     selectBaseStation->show();
+}
+
+void MainWindow::drawDataMap()
+{
+    drawImage(data.rsrp.vector);
+    ui->interferenceCheckBox->setCheckable(true);
+    ui->snirCheckBox->setCheckable(true);
+}
+
+void MainWindow::drawNewMapImage(int enabled)
+{
+    if(enabled)
+    {
+        drawImage(data.interferenceLvl);
+    }
+    else drawImage(data.rsrp.vector);
+}
+
+void MainWindow::drawSnirImage(int enabled)// TODO
+{
+    if(enabled)
+    {
+        drawImage(data.snir);
+    }
+    else drawImage(data.rsrp.vector);
 }
 
 BaseStations::iterator MainWindow::getIndexOfBaseStation()

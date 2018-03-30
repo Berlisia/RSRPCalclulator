@@ -15,29 +15,29 @@ public:
     void paintPixel(QPoint & possition, QRgb color);
     void paintEvent(QPaintEvent*e);
 
-    void setMaxValue(float max);
-    void setMinValue(float min);
+    void setMaxValue(double max);
+    void setMinValue(double min);
     void calculateFactor();
-    QColor generateColor(float currentValue) const;
+    QColor generateColor(double currentValue) const;
 
 private:
     QImage img;
 
     struct Scale
     {
-        float maxValue;
-        float minValue;
-        float factor;
+        double maxValue;
+        double minValue;
+        double factor;
 
         void calculateFactor()
         {
             factor = (maxValue-minValue)/360;
         }
 
-        QColor rsrpToColor(float currentValue) const
+        QColor rsrpToColor(double currentValue) const
         {
             int ci[3];
-            float interval = maxValue - currentValue;
+            double interval = maxValue - currentValue;
             if(interval < 0) interval = -interval;
 
             ci[0] = interval / factor;

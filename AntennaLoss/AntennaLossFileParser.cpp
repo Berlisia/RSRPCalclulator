@@ -14,11 +14,11 @@ AntennaLossFileParser::AntennaLossFileParser(string fileName) :
     getDataFromFile();
 }
 
-float AntennaLossFileParser::getLoss(int angle)
+double AntennaLossFileParser::getLoss(int angle)
 {
     if (angle < numberOfLine)
     {
-        float loss = findLossformArray(angle);
+        double loss = findLossformArray(angle);
         return loss;
     }
     return -1;
@@ -47,9 +47,9 @@ void AntennaLossFileParser::getDataFromFile()
             getline(file, angle,';');
             getline(file, value);
             int intAngle = stoi(angle);
-            float floatValue = stof(value);
+            double doubleValue = stof(value);
 
-            auto pairFromFile = make_pair(intAngle, floatValue);
+            auto pairFromFile = make_pair(intAngle, doubleValue);
             array.push_back(pairFromFile);
         }
     }
@@ -59,10 +59,10 @@ void AntennaLossFileParser::getDataFromFile()
     }
 }
 
-float AntennaLossFileParser::findLossformArray(int angle)
+double AntennaLossFileParser::findLossformArray(int angle)
 {
     auto loss = find_if(array.begin(), array.end(),
-                        [angle](const pair<int, float>& element)
+                        [angle](const pair<int, double>& element)
                         {
                             return element.first == angle;
                         });

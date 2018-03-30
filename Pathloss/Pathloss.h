@@ -1,6 +1,6 @@
 #ifndef PATHLOSS_H
 #define PATHLOSS_H
 
-typedef float Pathloss;
+typedef double Pathloss;
 
 #endif // PATHLOSS_H

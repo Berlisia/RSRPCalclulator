@@ -21,83 +21,95 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_2">
-    <item row="0" column="0" colspan="2">
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
-      <item>
-       <widget class="QToolButton" name="receiverButton">
+    <item row="5" column="4">
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="1" column="1">
+       <widget class="QLabel" name="terrainLabel">
         <property name="text">
-         <string>Receiver</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="baseToolButton">
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string>Add base station</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="sectorToolButton">
-        <property name="text">
-         <string>Add sector</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="0" column="2">
-     <layout class="QVBoxLayout" name="verticalLayout_2">
-      <item>
-       <widget class="QPushButton" name="calculatePushButton">
-        <property name="text">
-         <string>RUN</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="0" column="3" colspan="2">
-     <layout class="QHBoxLayout" name="horizontalLayout_4">
-      <item>
-       <widget class="QToolButton" name="rectangleToolButton">
-        <property name="text">
-         <string>new area calculation</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="1" column="0" colspan="2">
-     <layout class="QFormLayout" name="formLayout">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Minimum value of RSRP</string>
+         <string/>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QDoubleSpinBox" name="minimumRSRSPdoubleSpinBox"/>
-      </item>
-     </layout>
-    </item>
-    <item row="1" column="2" rowspan="4" colspan="7">
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QGraphicsView" name="mapGraphicsView">
-        <property name="cursor" stdset="0">
-         <cursorShape>CrossCursor</cursorShape>
+       <widget class="QLabel" name="valueLabel">
+        <property name="text">
+         <string>TextLabel</string>
         </property>
-        <property name="mouseTracking">
-         <bool>true</bool>
+       </widget>
+      </item>
+      <item row="0" column="0" alignment="Qt::AlignRight">
+       <widget class="QLabel" name="labelValueS">
+        <property name="text">
+         <string>  [dBm]:  </string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" alignment="Qt::AlignRight">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>[m]:  </string>
         </property>
        </widget>
       </item>
      </layout>
+    </item>
+    <item row="5" column="5">
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <item alignment="Qt::AlignHCenter">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Minimum RSRP</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="5" column="6">
+     <layout class="QVBoxLayout" name="verticalLayout_7">
+      <item alignment="Qt::AlignHCenter">
+       <widget class="QLabel" name="minRSRPFromSlider_2">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="5" column="7">
+     <layout class="QVBoxLayout" name="verticalLayout_5">
+      <item>
+       <widget class="QSlider" name="rsrpHorizontalSlider">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="5" column="8" colspan="2">
+     <layout class="QVBoxLayout" name="verticalLayout_6">
+      <item alignment="Qt::AlignHCenter">
+       <widget class="QLabel" name="minRSRPFromSlider">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="5">
+     <widget class="QCheckBox" name="interferenceCheckBox">
+      <property name="text">
+       <string>Interference</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="2" colspan="2">
+     <widget class="QPushButton" name="terrainPushButton">
+      <property name="text">
+       <string>show terrain profile</string>
+      </property>
+     </widget>
     </item>
     <item row="1" column="9" rowspan="2">
      <widget class="QToolButton" name="zoomInButton">
@@ -187,93 +199,88 @@
       </item>
      </layout>
     </item>
-    <item row="5" column="4">
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="1" column="1">
-       <widget class="QLabel" name="terrainLabel">
+    <item row="0" column="0" colspan="2">
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <widget class="QToolButton" name="receiverButton">
         <property name="text">
-         <string/>
+         <string>Receiver</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="baseToolButton">
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string>Add base station</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="sectorToolButton">
+        <property name="text">
+         <string>Add sector</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="2">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QPushButton" name="calculatePushButton">
+        <property name="text">
+         <string>RUN</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="1" column="0" colspan="2">
+     <layout class="QFormLayout" name="formLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Minimum value of RSRP</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLabel" name="valueLabel">
-        <property name="text">
-         <string>TextLabel</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" alignment="Qt::AlignRight">
-       <widget class="QLabel" name="labelValueS">
-        <property name="text">
-         <string>  [dBm]:  </string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0" alignment="Qt::AlignRight">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>[m]:  </string>
-        </property>
-       </widget>
+       <widget class="QDoubleSpinBox" name="minimumRSRSPdoubleSpinBox"/>
       </item>
      </layout>
     </item>
-    <item row="5" column="5">
-     <layout class="QVBoxLayout" name="verticalLayout_4">
-      <item alignment="Qt::AlignHCenter">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Minimum RSRP</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="5" column="6">
-     <layout class="QVBoxLayout" name="verticalLayout_7">
-      <item alignment="Qt::AlignHCenter">
-       <widget class="QLabel" name="minRSRPFromSlider_2">
-        <property name="text">
-         <string>TextLabel</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="5" column="7">
-     <layout class="QVBoxLayout" name="verticalLayout_5">
+    <item row="0" column="3" colspan="2">
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
-       <widget class="QSlider" name="rsrpHorizontalSlider">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="5" column="8" colspan="2">
-     <layout class="QVBoxLayout" name="verticalLayout_6">
-      <item alignment="Qt::AlignHCenter">
-       <widget class="QLabel" name="minRSRPFromSlider">
+       <widget class="QToolButton" name="rectangleToolButton">
         <property name="text">
-         <string>TextLabel</string>
+         <string>new area calculation</string>
         </property>
        </widget>
       </item>
      </layout>
     </item>
-    <item row="6" column="2" colspan="2">
-     <widget class="QPushButton" name="terrainPushButton">
-      <property name="text">
-       <string>show terrain profile</string>
-      </property>
-     </widget>
+    <item row="1" column="2" rowspan="4" colspan="7">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QGraphicsView" name="mapGraphicsView">
+        <property name="cursor" stdset="0">
+         <cursorShape>CrossCursor</cursorShape>
+        </property>
+        <property name="mouseTracking">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
-    <item row="0" column="5">
-     <widget class="QCheckBox" name="interferenceCheckBox">
+    <item row="0" column="6">
+     <widget class="QCheckBox" name="snirCheckBox">
       <property name="text">
-       <string>Interference</string>
+       <string>SNIR</string>
       </property>
      </widget>
     </item>
@@ -286,7 +293,7 @@
      <x>0</x>
      <y>0</y>
      <width>1188</width>
-     <height>23</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>

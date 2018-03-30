@@ -2,8 +2,8 @@
 #include "wgs84_do_puwg92.h"
 #include <cmath>
 
-const float GeographicalCoordinatesConverter::m_ulymap = 273650.500000;
-const float GeographicalCoordinatesConverter::m_ulxmap = 383600.500000;
+const double GeographicalCoordinatesConverter::m_ulymap = 273650.500000;
+const double GeographicalCoordinatesConverter::m_ulxmap = 383600.500000;
 const int GeographicalCoordinatesConverter::m_maxY = 3942;
 const int GeographicalCoordinatesConverter::m_maxX = 3802;
 

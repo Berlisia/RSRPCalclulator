@@ -11,8 +11,8 @@ class MapDataProvider: public IMapDataProvider
 public:
     MapDataProvider();
     unsigned int pixelHeight(std::pair<int,int> p_pixel) override;
-    float coutDistance(std::pair<int,int> p_pixel1, std::pair<int,int> p_pixel2) override;
-    float coutMediumHeightBetwenTwoPixels(std::pair<int,int> p_pixel1, std::pair<int,int> p_pixel2, int p_interwal) override;
+    double coutDistance(std::pair<int,int> p_pixel1, std::pair<int,int> p_pixel2) override;
+    double coutMediumHeightBetwenTwoPixels(std::pair<int,int> p_pixel1, std::pair<int,int> p_pixel2, int p_interwal) override;
     std::vector<std::pair<int,int>> getVectorOfPixels(std::pair<int,int> p_pixel1, std::pair<int,int> p_pixel2, int p_interwal) override;
     ~MapDataProvider(){}
 private:

@@ -5,13 +5,16 @@ class SectorsControler;
 class InterferenceCalculator
 {
 public:
-    InterferenceCalculator(const std::vector<float>& signalFromSectors,
-                           const SectorsControler& sectors);
+    InterferenceCalculator(const std::vector<std::pair<int, double> >& signalFromSectors,
+                           const SectorsControler& sectors,
+                           int bandIdx);
 
-    float calculateInterference();
+    double calculateInterference();
 private:
-    std::iterator findMax();
+    double dBmToW(double dBm);
+    double WatTodB(double wat);
 
-    const std::vector<float>& m_signalFromSectors;
+    const std::vector<std::pair<int, double> >& m_signalFromSectors; //Band Idx, SignalLvl
     const SectorsControler& m_sectors;
+    const int m_currentBandIdx;
 };

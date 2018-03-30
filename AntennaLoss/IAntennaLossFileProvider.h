@@ -12,7 +12,7 @@ enum class Charakteristic
 class IAntennaLossFileProvider
 {
 public:
-    virtual float getLossFromFile(int angle, Charakteristic type) = 0;
+    virtual double getLossFromFile(int angle, Charakteristic type) = 0;
     virtual void changeFileHorizontal(QString path) = 0;
     virtual void changeFileVertical(QString path) = 0;
     virtual ~IAntennaLossFileProvider(){}

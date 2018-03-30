@@ -1,12 +1,12 @@
 #include "BaseStation.h"
 
-BaseStation::BaseStation(std::pair<int, int> p_positon, float p_height, std::string p_name) :
+BaseStation::BaseStation(std::pair<int, int> p_positon, double p_height, std::string p_name) :
     positon(p_positon), antennaHeight(p_height), name(p_name)
 {
 
 }
 
-float BaseStation::getAntennaHeight()
+double BaseStation::getAntennaHeight()
 {
     return antennaHeight;
 }

@@ -5,18 +5,18 @@
 #include "string"
 #include "fstream"
 
-typedef std::vector<std::pair<int,float>> ArrayOfAntennaLoss;
+typedef std::vector<std::pair<int,double>> ArrayOfAntennaLoss;
 
 class AntennaLossFileParser
 {
 public:
     AntennaLossFileParser(std::string fileName);
-    float getLoss(int angle);
+    double getLoss(int angle);
     void changefileName(std::string fileName);
 
 private:
     void getDataFromFile();
-    float findLossformArray(int angle);
+    double findLossformArray(int angle);
 
     std::string fileName;
     ArrayOfAntennaLoss array;

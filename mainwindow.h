@@ -49,7 +49,7 @@ private:
     void addMenu();
     BaseStations::iterator getIndexOfBaseStation();
     void barFinished();
-    void showScale(ImagePainter &paint, float max, float min);
+    void showScale(ImagePainter &paint, double max, double min);
     void setPixelsArea(QRectF rect);
     void networkWizualizatorStart();
 
@@ -83,16 +83,18 @@ private:
     std::shared_ptr<TerrainProfile> terProfile;
 
     int initBarSize;
-    float maxFromData;
-    float minFromData;
+    double maxFromData;
+    double minFromData;
 
 private slots:
     void on_baseStationUi_clicked();
     void on_sectorUI_clliced();
 
     void selectBase();
-    void drawImage();
-    void drawInterferenceImage(int enable);
+    void drawDataMap();
+    void drawImage(std::vector<std::pair<PixelXY,double>>);
+    void drawNewMapImage(int);
+    void drawSnirImage(int);
 
     void barChanged();
     void progressBarStart();

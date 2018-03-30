@@ -8,10 +8,10 @@ class Receiver
 public:
     Receiver();
     PixelXY getPossition();
-    float getHeight();
+    double getHeight();
 
     void setPossition(std::pair<int,int> p_possition);
-    void setHeight(float value);
+    void setHeight(double value);
     double getGain() const;
     void setGain(double value);
     double getOtherLosses() const;
@@ -19,7 +19,7 @@ public:
 
 private:
     PixelXY possition;
-    float height;
+    double height;
     double gain;
     double otherLosses;
 };

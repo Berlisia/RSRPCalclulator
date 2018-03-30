@@ -9,12 +9,12 @@ AntennaLossHorizontalCalculator::AntennaLossHorizontalCalculator(std::shared_ptr
 {
 }
 
-float AntennaLossHorizontalCalculator::calculateAntennaLoss()
+double AntennaLossHorizontalCalculator::calculateAntennaLoss()
 {
     int azimuthForZeroDeegres = calcAzimuth(); //calculateAzimuth();
     int l_azimuth = relativeAzimuth(azimuthForZeroDeegres);
 
-    float loss = antennafileProvider->getLossFromFile(l_azimuth, Charakteristic::horizontal);
+    double loss = antennafileProvider->getLossFromFile(l_azimuth, Charakteristic::horizontal);
     return loss;
 }
 
@@ -44,8 +44,8 @@ int AntennaLossHorizontalCalculator::relativeAzimuth(int p_azimuthForZeroDeegres
 
 int AntennaLossHorizontalCalculator::calcAzimuth()
 {
-    float x = antenna.first - receiver.first;
-    float y = antenna.second - receiver.second;
+    double x = antenna.first - receiver.first;
+    double y = antenna.second - receiver.second;
     int azimuth = 0;
     if(x == 0)
     {

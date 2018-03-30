@@ -10,17 +10,17 @@ public:
 
     Pathloss pathloss();
 
-    void changeDistance(float newValue);
+    void changeDistance(double newValue);
     void changeCurrentEnvironment(Environment env);
-    void changeEffectiveBSAntennaHeight(float newValue);
+    void changeEffectiveBSAntennaHeight(double newValue);
     void changeCarrierFrequency(int newValue);
-    void changeEffectiveMSAntennaHeight(float newValue);
+    void changeEffectiveMSAntennaHeight(double newValue);
 
 private:
-    float factorA();
-    float factorB();
-    float factorAh();
-    float executeC();
+    double factorA();
+    double factorB();
+    double factorAh();
+    double executeC();
 };
 
 #endif // COST231HATAMODEL_H
