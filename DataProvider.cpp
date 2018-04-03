@@ -93,7 +93,7 @@ void DataProvider::fakeDataForDebuging()
     y = 16.3100;
     pixel = geoConverter.geographicalCoordinatesToPixel(std::pair<double,double>(x,y));
     PixelXY possition2(pixel);
-    baseStations.push_back(std::make_shared<BaseStation>(std::move(possition2.getXy()),15,"bts2"));
+    baseStations.push_back(std::make_shared<BaseStation>(std::move(possition2.getXy()),20,"bts2"));
 
     Sector sector4(antenna, baseStations[1]);
     sector4.setBandwidth(5);
@@ -125,39 +125,39 @@ void DataProvider::fakeDataForDebuging()
     sector6.setModel(Model::Cost231Hata);
     sectorControler->addSector(sector6);
 
-//    x = 51.9112;
-//    y = 16.2177;
-//    pixel = geoConverter.geographicalCoordinatesToPixel(std::pair<double,double>(x,y));
-//    PixelXY possition3(pixel);
-//    baseStations.push_back(std::make_shared<BaseStation>(std::move(possition3.getXy()),15,"bts3"));
+    x = 50.9112;
+    y = 16.2177;
+    pixel = geoConverter.geographicalCoordinatesToPixel(std::pair<double,double>(x,y));
+    PixelXY possition3(pixel);
+    baseStations.push_back(std::make_shared<BaseStation>(std::move(possition3.getXy()),15,"bts3"));
 
-//    Sector sector7(antenna, baseStations[2]);
-//    sector7.setBandwidth(5);
-//    sector7.setAzimuth(350);
-//    sector7.setMimo(Mimo::Nan);
-//    sector7.setEnvironment(Environment::RuralAera);
-//    sector7.setEcgi(7);
-//    sector7.setAntennaCharacteristic(antennaLossFileProvider);
-//    sector7.setModel(Model::Cost231Hata);
-//    sectorControler->addSector(sector7);
+    Sector sector7(antenna, baseStations[2]);
+    sector7.setBandwidth(5);
+    sector7.setAzimuth(350);
+    sector7.setMimo(Mimo::Nan);
+    sector7.setEnvironment(Environment::RuralAera);
+    sector7.setEcgi(7);
+    sector7.setAntennaCharacteristic(antennaLossFileProvider);
+    sector7.setModel(Model::Cost231Hata);
+    sectorControler->addSector(sector7);
 
-//    Sector sector8(antenna6, baseStations[2]);
-//    sector8.setBandwidth(5);
-//    sector8.setAzimuth(280);
-//    sector8.setMimo(Mimo::Nan);
-//    sector8.setEnvironment(Environment::RuralAera);
-//    sector8.setEcgi(8);
-//    sector8.setAntennaCharacteristic(antennaLossFileProvider);
-//    sector8.setModel(Model::Cost231Hata);
-//    sectorControler->addSector(sector8);
+    Sector sector8(antenna, baseStations[2]);
+    sector8.setBandwidth(5);
+    sector8.setAzimuth(280);
+    sector8.setMimo(Mimo::Nan);
+    sector8.setEnvironment(Environment::RuralAera);
+    sector8.setEcgi(8);
+    sector8.setAntennaCharacteristic(antennaLossFileProvider);
+    sector8.setModel(Model::Cost231Hata);
+    sectorControler->addSector(sector8);
 
-//    Sector sector9(antenna2, baseStations[2]);
-//    sector9.setBandwidth(5);
-//    sector9.setAzimuth(190);
-//    sector9.setMimo(Mimo::Nan);
-//    sector9.setEnvironment(Environment::RuralAera);
-//    sector9.setEcgi(9);
-//    sector9.setAntennaCharacteristic(antennaLossFileProvider);
-//    sector9.setModel(Model::Cost231Hata);
-//    sectorControler->addSector(sector9);
+    Sector sector9(antenna, baseStations[2]);
+    sector9.setBandwidth(5);
+    sector9.setAzimuth(190);
+    sector9.setMimo(Mimo::Nan);
+    sector9.setEnvironment(Environment::RuralAera);
+    sector9.setEcgi(9);
+    sector9.setAntennaCharacteristic(antennaLossFileProvider);
+    sector9.setModel(Model::Cost231Hata);
+    sectorControler->addSector(sector9);
 }

@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <memory>
+#include <QTreeWidget>
 
 class DataProvider;
 class QTreeWidgetItem;
@@ -13,12 +14,12 @@ namespace Ui {
 class NetworkObjectWizualizator;
 }
 
-class NetworkObjectWizualizator : public QDialog
+class NetworkObjectWizualizator : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit NetworkObjectWizualizator(QWidget* parent, DataProvider& p_data);
+    explicit NetworkObjectWizualizator(QWidget* parent, QTreeWidget* p_ui, DataProvider& p_data);
     ~NetworkObjectWizualizator();
 
 public slots:
@@ -46,7 +47,7 @@ private:
 
     void setupConnections();
 
-    Ui::NetworkObjectWizualizator* ui;
+    QTreeWidget* treeWidget;
     DataProvider& dataProvider;
 
     std::map<QTreeWidgetItem*, QString> eNbTreeMap;

@@ -1,4 +1,3 @@
-#include "ui_NetworkObjectWizualizatorForm.h"
 #include <QTreeWidget>
 #include <QDebug>
 #include <QComboBox>
@@ -7,29 +6,26 @@
 #include "DataProvider.h"
 #include "GuiConstans.h"
 
-NetworkObjectWizualizator::NetworkObjectWizualizator(QWidget* parent, DataProvider& p_data) :
-    QDialog(parent),
-    ui(new Ui::NetworkObjectWizualizator),
+NetworkObjectWizualizator::NetworkObjectWizualizator(QWidget* parent, QTreeWidget *p_ui, DataProvider& p_data) :
+    QWidget(parent),
+    treeWidget(p_ui),
     dataProvider(p_data)
 {
-    ui->setupUi(this);
-    ui->treeWidget->setColumnCount(2);
-    ui->treeWidget->setAutoScroll(true);
-    setWindowModality(Qt::NonModal);
+    treeWidget->setColumnCount(2);
+    treeWidget->setAutoScroll(true);
     showNetworkElements();
     setupConnections();
 }
 
 NetworkObjectWizualizator::~NetworkObjectWizualizator()
 {
-    delete ui;
 }
 
 void NetworkObjectWizualizator::update()
 {
-    ui->treeWidget->clear();
+    treeWidget->clear();
     fillNetworElements();
-    ui->treeWidget->show();
+    treeWidget->show();
 }
 
 namespace
@@ -60,7 +56,7 @@ void NetworkObjectWizualizator::showNetworkElements()
 
 QTreeWidgetItem* NetworkObjectWizualizator::addTreeRoot(QString name, QString value)
 {
-    QTreeWidgetItem* treeItem = new QTreeWidgetItem(ui->treeWidget);
+    QTreeWidgetItem* treeItem = new QTreeWidgetItem(treeWidget);
     treeItem->setText(0, name);
     treeItem->setText(1, value);
     return treeItem;
@@ -82,7 +78,7 @@ QTreeWidgetItem* NetworkObjectWizualizator::addChildToRootWithSepcialWidget(QTre
     treeItem->setText(0, name);
     treeItem->setFlags(treeItem->flags() | Qt::ItemIsEditable);
     parent->addChild(treeItem);
-    ui->treeWidget->setItemWidget(treeItem, 1, widget);
+    treeWidget->setItemWidget(treeItem, 1, widget);
     return treeItem;
 }
 
@@ -228,6 +224,6 @@ int NetworkObjectWizualizator::findTypeOfField(QString p_field)
 
 void NetworkObjectWizualizator::setupConnections()
 {
-    connect(ui->treeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(itemTreeDoubleClicked(QTreeWidgetItem*,int)));
-    connect(ui->treeWidget, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(changeDataFor(QTreeWidgetItem*)));
+    connect(treeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(itemTreeDoubleClicked(QTreeWidgetItem*,int)));
+    connect(treeWidget, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(changeDataFor(QTreeWidgetItem*)));
 }

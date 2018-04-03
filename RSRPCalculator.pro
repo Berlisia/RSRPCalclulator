@@ -134,8 +134,7 @@ FORMS    += mainwindow.ui \
     SectorForm.ui \
     SelectBaseStationForm.ui \
     ReceiverForm.ui \
-    TerrainProfile.ui \
-    Display/NetworkObjectWizualizatorForm.ui
+    TerrainProfile.ui
 
 DISTFILES +=
 

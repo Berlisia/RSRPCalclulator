@@ -34,9 +34,9 @@ MainWindow::MainWindow(DataProvider & p_data, const Worker * p_worker, QWidget *
     QPixmap img;
     img.load(":/mapy/mapa");
     displayImage(img, data.rsrp.vector);
-    networkWizualizator = std::make_unique<NetworkObjectWizualizator>(this, p_data);
+    networkWizualizator = std::make_unique<NetworkObjectWizualizator>(this, ui->treeWidget, p_data);
 
-    QWidget::setWindowTitle("RSRP Calculator @created by Ewelina Berlicka");
+    QWidget::setWindowTitle("Calculator @created by Ewelina Berlicka");
 
     ui->label2->hide();
     ui->label3->hide();;
@@ -45,19 +45,10 @@ MainWindow::MainWindow(DataProvider & p_data, const Worker * p_worker, QWidget *
     ui->minLabel->setText(" ");
     ui->scalaGraphicsView->hide();
     ui->valueLabel->setText(" ");
-    ui->minRSRPFromSlider->setText("0");
     ui->minimumRSRSPdoubleSpinBox->setRange(-200,0);
     ui->minimumRSRSPdoubleSpinBox->setValue(-120);
-    ui->minRSRPFromSlider_2->setText("-120");
 
-    ui->rsrpHorizontalSlider->setTickPosition(QSlider::TicksLeft);
-    ui->rsrpHorizontalSlider->setSingleStep(1);
-    ui->rsrpHorizontalSlider->setMinimum(-120);
-    ui->rsrpHorizontalSlider->setMaximum(0);
-
-    ui->interferenceCheckBox->setCheckable(false);
-    ui->snirCheckBox->setCheckable(false);
-
+    setUpImagesRadioBoxes();
     addMenu();
 
     connect(ui->baseToolButton, SIGNAL(pressed()), this, SLOT(on_baseStationUi_clicked()));
@@ -68,13 +59,13 @@ MainWindow::MainWindow(DataProvider & p_data, const Worker * p_worker, QWidget *
     connect(worker, SIGNAL(poolStarted()), this, SLOT(progressBarStart()));
     connect(ui->receiverButton, SIGNAL(pressed()), this, SLOT(receiverClicked()));
     connect(ui->minimumRSRSPdoubleSpinBox, SIGNAL(valueChanged(double)), this, SLOT(changeMinRSRPValueInData(double)));
-    //connect(ui->rsrpHorizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(updateMap(int)));
     connect(ui->rectangleToolButton, SIGNAL(pressed()), this, SLOT(actionRectangleTriggered()));
     connect(ui->zoomInButton, SIGNAL(pressed()), this, SLOT(zoomIn()));
     connect(ui->zoomOutButton, SIGNAL(pressed()), this, SLOT(zoomOut()));
     connect(ui->terrainCheckBox, SIGNAL(clicked(bool)), this, SLOT(terrainProfileTriggered(bool)));
-    connect(ui->interferenceCheckBox, SIGNAL(stateChanged(int)), this, SLOT(drawNewMapImage(int)));
-    connect(ui->snirCheckBox, SIGNAL(stateChanged(int)),this, SLOT(drawSnirImage(int)));
+    connect(ui->interferenceCheckBox, SIGNAL(clicked(bool)), this, SLOT(drawInterferenceImage(bool)));
+    connect(ui->snirCheckBox, SIGNAL(clicked(bool)),this, SLOT(drawSnirImage(bool)));
+    connect(ui->signalRadioButton, SIGNAL(clicked(bool)),this, SLOT(drawSignalImg(bool)));
 
     networkWizualizatorStart();
 }
@@ -224,31 +215,7 @@ void MainWindow::receiverClicked()
 void MainWindow::changeMinRSRPValueInData(double minRsrpValue)
 {
     data.minValueOfRSRP = minRsrpValue;
-    ui->rsrpHorizontalSlider->setMinimum(minRsrpValue);
-    ui->minRSRPFromSlider_2->setText(to_string(minRsrpValue).c_str());
 }
-
-//void MainWindow::updateMap(int slideValue)
-//{
-//    ui->minRSRPFromSlider->setText(to_string(slideValue).c_str());
-//    ImagePainter paint(data.rsrp.vector, this);
-//    QPixmap px;
-//    px.load(":/mapy/mapa");
-//    QPainter painter(&px);
-//    double roznica = maxFromData - minFromData;
-//    double wspolczynnik = 100/roznica;
-//    for(auto dat : data.rsrp.vector)
-//    {
-//        if(dat.second >= slideValue)
-//        {
-//            double color = (dat.second - minFromData)*wspolczynnik;
-//            painter.setPen(paint.getColor(color));
-//            painter.drawPoint(dat.first.getX(), dat.first.getY());
-//        }
-//    }
-//    painter.end();
-//    displayImage(px, );
-//}
 
 void MainWindow::actionRectangleTriggered()
 {
@@ -368,26 +335,31 @@ void MainWindow::selectBase()
 void MainWindow::drawDataMap()
 {
     drawImage(data.rsrp.vector);
-    ui->interferenceCheckBox->setCheckable(true);
-    ui->snirCheckBox->setCheckable(true);
+    radioBoxesCheckable();
 }
 
-void MainWindow::drawNewMapImage(int enabled)
+void MainWindow::drawInterferenceImage(bool enabled)
 {
     if(enabled)
     {
         drawImage(data.interferenceLvl);
     }
-    else drawImage(data.rsrp.vector);
 }
 
-void MainWindow::drawSnirImage(int enabled)// TODO
+void MainWindow::drawSnirImage(bool enabled)
 {
     if(enabled)
     {
         drawImage(data.snir);
     }
-    else drawImage(data.rsrp.vector);
+}
+
+void MainWindow::drawSignalImg(bool enabled)
+{
+    if(enabled)
+    {
+        drawImage(data.rsrp.vector);
+    }
 }
 
 BaseStations::iterator MainWindow::getIndexOfBaseStation()
@@ -424,4 +396,19 @@ void MainWindow::on_sectorUI_clliced()
         messageBox.critical(0,"Error","You must add base station!");
         messageBox.setFixedSize(500,200);
     }
+}
+
+void MainWindow::radioBoxesCheckable()
+{
+    ui->interferenceCheckBox->setCheckable(true);
+    ui->snirCheckBox->setCheckable(true);
+    ui->signalRadioButton->setCheckable(true);
+    ui->signalRadioButton->setChecked(true);
+}
+
+void MainWindow::setUpImagesRadioBoxes()
+{
+    ui->interferenceCheckBox->setCheckable(false);
+    ui->snirCheckBox->setCheckable(false);
+    ui->signalRadioButton->setCheckable(false);
 }

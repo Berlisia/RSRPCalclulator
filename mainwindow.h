@@ -52,6 +52,8 @@ private:
     void showScale(ImagePainter &paint, double max, double min);
     void setPixelsArea(QRectF rect);
     void networkWizualizatorStart();
+    void radioBoxesCheckable();
+    void setUpImagesRadioBoxes();
 
     Ui::MainWindow *ui;
     DataProvider & data;
@@ -93,14 +95,14 @@ private slots:
     void selectBase();
     void drawDataMap();
     void drawImage(std::vector<std::pair<PixelXY,double>>&);
-    void drawNewMapImage(int);
-    void drawSnirImage(int);
+    void drawInterferenceImage(bool);
+    void drawSnirImage(bool);
+    void drawSignalImg(bool);
 
     void barChanged();
     void progressBarStart();
     void receiverClicked();
     void changeMinRSRPValueInData(double);
-    //void updateMap(int);
 
     void actionRectangleTriggered();
     void showRectangle();
@@ -109,7 +111,6 @@ private slots:
     void zoomIn();
     void zoomOut();
     void terrainProfileTriggered(bool);
-
 };
 
 #endif // MAINWINDOW_H
