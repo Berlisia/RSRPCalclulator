@@ -5,19 +5,15 @@
 #include "AntennaLoss/AntennaLossFileProvider.h"
 #include "Workers/PixelWorkerForInterference.h"
 #include "Workers/PixelWorkerForSNIR.h"
+#include "Workers/PixelWorkerForModulation.h"
 #include <math.h>
 
 Worker::Worker(DataProvider & p_data) :
     data(p_data), sectors(p_data.sectorControler)
 {
     unsigned int n = std::thread::hardware_concurrency();
-    //n = 1;
     pool = std::make_unique<ThreadPool>(n);
-
     mapDataProvider = std::make_shared<MapDataProvider>();
-    //antennaProvider = std::make_shared<AntennaLossFileProvider>("742266V02_pozioma.csv",
-                                                               // "742266V02_pionowa.csv"); //Tymczasowo
-    //fakeInit();
 }
 
 void Worker::doCalculation()
@@ -41,9 +37,9 @@ void Worker::doCalculation()
     emit poolStarted();
     pool->stop();
 
-    saveInFile(RSRP.vector, "signal.txt");
-    saveInFile(data.interferenceLvl, "interference.txt");
-    saveInFile(data.snir, "snir.txt");
+//    saveInFile(RSRP.vector, "signal.txt");
+//    saveInFile(data.interferenceLvl, "interference.txt");
+//    saveInFile(data.snir, "snir.txt");
 
     data.getRsrp(RSRP.vector);
     if(!data.rsrp.vector.empty())
@@ -68,17 +64,6 @@ std::shared_ptr<IMapDataProvider> Worker::getMapDataProvider() const
     return mapDataProvider;
 }
 
-void Worker::fakeInit()
-{
-    std::vector<std::pair<int,int>> area;
-    area.push_back(std::make_pair<int,int>(500,500));
-    area.push_back(std::make_pair<int,int>(1500,500));
-    area.push_back(std::make_pair<int,int>(500,1500));
-    area.push_back(std::make_pair<int,int>(1500,1500));
-
-    areaCalculation = std::make_unique<AreaCalculation>(area);
-}
-
 void Worker::calculateRsrpForSectors()
 {
     if(sectors)
@@ -94,20 +79,13 @@ void Worker::calculateRsrpForSectors()
 
 void Worker::executeCalculationForPixel(PixelXY pixel)
 {
-    Receiver receiver;
-    receiver.setPossition(pixel.getXy());
-    receiver.setGain(data.receiver.getGain());
-    receiver.setOtherLosses(data.receiver.getOtherLosses());
-    receiver.setHeight(data.receiver.getHeight());
+    Receiver receiver = setupReciver(pixel);
+    const PixelWorker& pixelWorkerSignal = calculateSignal(receiver);
+    const PixelWorkerForInterference& pixelWorkerInterference = calculateInterference(pixel, pixelWorkerSignal);
+    const PixelWorkerForSNIR& pixelWorkerSnir = calculateSnir(pixel, pixelWorkerSignal, pixelWorkerInterference);
 
-    PixelWorker pixelWorker(RSRP, rsrpForSectors, mapDataProvider, *sectors, receiver, data.minValueOfRSRP);
-    pixelWorker.executeCalculation();
-
-    PixelWorkerForInterference pixelWorkerInt(pixelWorker.getResultFromAllSectors(), *sectors, pixelWorker.getCurrentBand());
-    pixelWorkerInt.calculate(data.interferenceLvl, pixel);
-
-    PixelWorkerForSNIR pixelWorkerForSnir;
-    pixelWorkerForSnir.calculate(pixelWorkerInt.getInterferenceLvl(), pixelWorker.getCurrentSignalPower(), pixel, data.snir);
+    PixelWorkerForModulation pixelWorkerForModulation;
+    pixelWorkerForModulation.calculate(pixel, data.modulation);
 }
 
 bool Worker::isBaseStation(PixelXY pixel)
@@ -147,4 +125,36 @@ void Worker::saveInFile(const std::vector<std::pair<PixelXY, double> >& vector, 
         }
     }
     plik.close();
+}
+
+const Receiver& Worker::setupReciver(const PixelXY& pixel)
+{
+    Receiver receiver;
+    receiver.setPossition(pixel.getXy());
+    receiver.setGain(data.receiver.getGain());
+    receiver.setOtherLosses(data.receiver.getOtherLosses());
+    receiver.setHeight(data.receiver.getHeight());
+
+    return std::move(receiver);
+}
+
+const PixelWorker& Worker::calculateSignal(const Receiver& receiver)
+{
+    PixelWorker pixelWorker(RSRP, rsrpForSectors, mapDataProvider, *sectors, receiver, data.minValueOfRSRP);
+    pixelWorker.executeCalculation();
+    return std::move(pixelWorker);
+}
+
+const PixelWorkerForInterference& Worker::calculateInterference(const PixelXY &pixel, const PixelWorker& pixelWorker)
+{
+    PixelWorkerForInterference pixelWorkerInt(pixelWorker.getResultFromAllSectors(), *sectors, pixelWorker.getCurrentBand());
+    pixelWorkerInt.calculate(data.interferenceLvl, pixel);
+    return std::move(pixelWorkerInt);
+}
+
+const PixelWorkerForSNIR &Worker::calculateSnir(const PixelXY &pixel, const PixelWorker &pixelWorker, const PixelWorkerForInterference &pixelWorkerInt)
+{
+    PixelWorkerForSNIR pixelWorkerForSnir;
+    pixelWorkerForSnir.calculate(pixelWorkerInt.getInterferenceLvl(), pixelWorker.getCurrentSignalPower(), pixel, data.snir);
+    return std::move(pixelWorkerForSnir);
 }

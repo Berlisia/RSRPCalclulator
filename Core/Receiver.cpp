@@ -4,12 +4,12 @@ Receiver::Receiver()
 {
 }
 
-PixelXY Receiver::getPossition()
+PixelXY Receiver::getPossition() const
 {
     return possition;
 }
 
-double Receiver::getHeight()
+double Receiver::getHeight() const
 {
     return height;
 }

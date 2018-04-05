@@ -98,6 +98,7 @@ private slots:
     void drawInterferenceImage(bool);
     void drawSnirImage(bool);
     void drawSignalImg(bool);
+    void drawModulationImg(bool enabled);
 
     void barChanged();
     void progressBarStart();

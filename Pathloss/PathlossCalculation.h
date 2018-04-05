@@ -9,8 +9,8 @@ class PathlossCalculation : public IPathlossCalculation
 {
 public:
     PathlossCalculation(std::shared_ptr<IMapDataProvider> p_mapProvider,
-                        SectorsControler & p_sectors,
-                        Receiver & p_receiver);
+                        SectorsControler& p_sectors,
+                        const Receiver& p_receiver);
 
     std::vector<double> calculatePathloss(); //Wybierz model
     double effectiveBAntennaHeight(Sector const& sector);
@@ -24,7 +24,7 @@ private:
 
     std::shared_ptr<IMapDataProvider> mapProvider;
     SectorsControler & sectors;
-    Receiver & receiver;
+    const Receiver & receiver;
 
     std::unique_ptr<PathlossModel> okumuryModel;
     std::unique_ptr<PathlossModel> hataModel;

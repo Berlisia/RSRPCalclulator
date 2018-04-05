@@ -7,8 +7,8 @@ class Receiver
 {
 public:
     Receiver();
-    PixelXY getPossition();
-    double getHeight();
+    PixelXY getPossition() const;
+    double getHeight() const;
 
     void setPossition(std::pair<int,int> p_possition);
     void setHeight(double value);

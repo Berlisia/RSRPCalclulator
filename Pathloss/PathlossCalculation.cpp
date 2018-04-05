@@ -6,8 +6,8 @@
 #include <iostream>
 
 PathlossCalculation::PathlossCalculation(std::shared_ptr<IMapDataProvider> p_mapProvider,
-                                         SectorsControler &p_sectors,
-                                         Receiver &p_receiver) :
+                                         SectorsControler& p_sectors,
+                                         const Receiver& p_receiver) :
     mapProvider(p_mapProvider), sectors(p_sectors), receiver(p_receiver)
 {
 }

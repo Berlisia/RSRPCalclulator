@@ -15,13 +15,13 @@ public:
     PixelWorker(RSRPForPixel& p_RSRP, RsrpValueForSectorRef p_rsrpSectors,
                 std::shared_ptr<IMapDataProvider> p_mapDataProvider,
                 SectorsControler& p_sectors,
-                Receiver& p_receiver,
+                const Receiver& p_receiver,
                 double p_minValueRSRP);
 
     void executeCalculation();
-    std::vector<std::pair<int,double>>& getResultFromAllSectors();
-    int getCurrentBand();
-    double getCurrentSignalPower();
+    const std::vector<std::pair<int, double> > &getResultFromAllSectors() const;
+    int getCurrentBand() const;
+    double getCurrentSignalPower() const;
 
 private:
     void storeMaxFromRsrpMap();
@@ -34,7 +34,7 @@ private:
     RSRPForPixel& RSRP;
     RsrpValueForSectorRef rsrpSectors;
     const SectorsControler& sectorsControler;
-    Receiver& receiver;
+    const Receiver& receiver;
     double minValueRSRP;
     AntennaLossCalculation antennaCalculation;
     std::unique_ptr<IPathlossCalculation> pathlossCalculation;

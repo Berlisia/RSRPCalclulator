@@ -12,7 +12,7 @@ PixelWorker::PixelWorker(RSRPForPixel& p_RSRP,
                          RsrpValueForSectorRef p_rsrpSectors,
                          std::shared_ptr<IMapDataProvider> p_mapDataProvider,
                          SectorsControler& p_sectors,
-                         Receiver& p_receiver,
+                         const Receiver& p_receiver,
                          double p_minValueRSRP) :
     RSRP(p_RSRP), rsrpSectors(p_rsrpSectors), sectorsControler(p_sectors),
     receiver(p_receiver), minValueRSRP(p_minValueRSRP),
@@ -48,7 +48,7 @@ void PixelWorker::executeCalculation()
     }
 }
 
-std::vector<std::pair<int, double> >& PixelWorker::getResultFromAllSectors()
+const std::vector<std::pair<int, double> >& PixelWorker::getResultFromAllSectors() const
 {
     return rsrpFromSectors;
 }
@@ -62,12 +62,12 @@ void PixelWorker::storeMaxFromRsrpMap()
     rsrpFromSectors.erase(biggest);
 }
 
-int PixelWorker::getCurrentBand()
+int PixelWorker::getCurrentBand() const
 {
     return currentBand;
 }
 
-double PixelWorker::getCurrentSignalPower()
+double PixelWorker::getCurrentSignalPower() const
 {
     return currentSignalPower;
 }

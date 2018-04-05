@@ -13,6 +13,7 @@ typedef std::vector<std::pair<int,int>> BoundaryPixelsInArea;
 typedef std::vector<std::pair<PixelXY,double>> InterferenceLvl;
 typedef std::vector<std::pair<PixelXY,double>> Snir;
 typedef std::vector<std::pair<PixelXY,double>> SignalPower;
+typedef std::vector<std::pair<PixelXY,double>> ModulationScheme;
 
 class RSRPForPixel : public QObject
 {
@@ -44,6 +45,7 @@ public:
     RSRPForPixel rsrp;
     InterferenceLvl interferenceLvl;
     Snir snir;
+    ModulationScheme modulation;
 
 private:
     void fakeDataForDebuging();

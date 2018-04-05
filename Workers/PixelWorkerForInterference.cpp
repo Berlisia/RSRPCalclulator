@@ -24,7 +24,7 @@ void PixelWorkerForInterference::calculate(InterferenceLvl& intLvl, PixelXY pixe
     }
 }
 
-double PixelWorkerForInterference::getInterferenceLvl()
+double PixelWorkerForInterference::getInterferenceLvl() const
 {
     return interLvl;
 }

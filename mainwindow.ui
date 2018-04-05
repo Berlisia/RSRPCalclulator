@@ -21,21 +21,88 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_2">
-    <item row="6" column="2" colspan="3">
+    <item row="18" column="2" colspan="3">
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item alignment="Qt::AlignLeft">
+       <widget class="QCheckBox" name="checkBox">
+        <property name="text">
+         <string>Value from point</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="terrainCheckBox">
+        <property name="text">
+         <string>Terrain profile</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="19" column="2" colspan="3">
      <widget class="QPushButton" name="terrainPushButton">
       <property name="text">
        <string>show terrain profile</string>
       </property>
      </widget>
     </item>
-    <item row="0" column="10">
+    <item row="17" column="11">
+     <widget class="QToolButton" name="zoomInButton">
+      <property name="text">
+       <string>Zoom in</string>
+      </property>
+     </widget>
+    </item>
+    <item row="17" column="10">
      <widget class="QToolButton" name="zoomOutButton">
       <property name="text">
        <string>Zoom out</string>
       </property>
      </widget>
     </item>
-    <item row="2" column="0" rowspan="2">
+    <item row="14" column="1" rowspan="2">
+     <layout class="QHBoxLayout" name="horizontalLayout_5">
+      <item>
+       <widget class="QGraphicsView" name="scalaGraphicsView">
+        <property name="cursor" stdset="0">
+         <cursorShape>ArrowCursor</cursorShape>
+        </property>
+        <property name="mouseTracking">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="4" column="0" colspan="2">
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <widget class="QToolButton" name="receiverButton">
+        <property name="text">
+         <string>Receiver</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="baseToolButton">
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string>Add base station</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="sectorToolButton">
+        <property name="text">
+         <string>Add sector</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="14" column="0" rowspan="2">
      <layout class="QVBoxLayout" name="verticalLayout">
       <item alignment="Qt::AlignRight">
        <widget class="QLabel" name="minLabel">
@@ -74,67 +141,25 @@
       </item>
      </layout>
     </item>
-    <item row="0" column="0" colspan="2">
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <item row="4" column="11">
+     <widget class="QRadioButton" name="snirCheckBox">
+      <property name="text">
+       <string>SNIR</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="2">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
-       <widget class="QToolButton" name="receiverButton">
+       <widget class="QPushButton" name="calculatePushButton">
         <property name="text">
-         <string>Receiver</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="baseToolButton">
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string>Add base station</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="sectorToolButton">
-        <property name="text">
-         <string>Add sector</string>
+         <string>RUN</string>
         </property>
        </widget>
       </item>
      </layout>
     </item>
-    <item row="2" column="1" rowspan="2">
-     <layout class="QHBoxLayout" name="horizontalLayout_5">
-      <item>
-       <widget class="QGraphicsView" name="scalaGraphicsView">
-        <property name="cursor" stdset="0">
-         <cursorShape>ArrowCursor</cursorShape>
-        </property>
-        <property name="mouseTracking">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="5" column="2" colspan="3">
-     <layout class="QVBoxLayout" name="verticalLayout_3">
-      <item alignment="Qt::AlignLeft">
-       <widget class="QCheckBox" name="checkBox">
-        <property name="text">
-         <string>Value from point</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="terrainCheckBox">
-        <property name="text">
-         <string>Terrain profile</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="1" column="0" colspan="2">
+    <item row="13" column="0" colspan="2">
      <layout class="QFormLayout" name="formLayout">
       <item row="0" column="0">
        <widget class="QLabel" name="label_2">
@@ -148,18 +173,7 @@
       </item>
      </layout>
     </item>
-    <item row="0" column="2">
-     <layout class="QVBoxLayout" name="verticalLayout_2">
-      <item>
-       <widget class="QPushButton" name="calculatePushButton">
-        <property name="text">
-         <string>RUN</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="1" column="2" rowspan="4" colspan="10">
+    <item row="13" column="2" rowspan="4" colspan="12">
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
        <widget class="QGraphicsView" name="mapGraphicsView">
@@ -179,7 +193,7 @@
       </item>
      </layout>
     </item>
-    <item row="0" column="4" colspan="2">
+    <item row="4" column="4" colspan="2">
      <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
        <widget class="QToolButton" name="rectangleToolButton">
@@ -190,14 +204,7 @@
       </item>
      </layout>
     </item>
-    <item row="0" column="9">
-     <widget class="QToolButton" name="zoomInButton">
-      <property name="text">
-       <string>Zoom in</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="5">
+    <item row="18" column="5">
      <layout class="QGridLayout" name="gridLayout">
       <item row="1" column="1">
        <widget class="QLabel" name="terrainLabel">
@@ -229,14 +236,7 @@
       </item>
      </layout>
     </item>
-    <item row="0" column="7">
-     <widget class="QRadioButton" name="interferenceCheckBox">
-      <property name="text">
-       <string>Interference</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0" rowspan="3" colspan="2">
+    <item row="16" column="0" rowspan="4" colspan="2">
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QTreeWidget" name="treeWidget">
@@ -249,7 +249,7 @@
       </item>
      </layout>
     </item>
-    <item row="5" column="8">
+    <item row="18" column="8">
      <spacer name="horizontalSpacer">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
@@ -262,17 +262,24 @@
       </property>
      </spacer>
     </item>
-    <item row="0" column="8">
-     <widget class="QRadioButton" name="snirCheckBox">
-      <property name="text">
-       <string>SNIR</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="6">
+    <item row="4" column="8" alignment="Qt::AlignRight">
      <widget class="QRadioButton" name="signalRadioButton">
       <property name="text">
        <string>Signal</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="12">
+     <widget class="QRadioButton" name="modulationRadioButton">
+      <property name="text">
+       <string>Modulation</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="10">
+     <widget class="QRadioButton" name="interferenceCheckBox">
+      <property name="text">
+       <string>Interference</string>
       </property>
      </widget>
     </item>

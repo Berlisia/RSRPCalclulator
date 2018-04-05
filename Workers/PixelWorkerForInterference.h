@@ -13,7 +13,7 @@ public:
                                int bandIdx);
 
     void calculate(InterferenceLvl& intLvl, PixelXY pixel);
-    double getInterferenceLvl();
+    double getInterferenceLvl() const;
 private:    
     InterferenceCalculator m_interferCalc;
     double interLvl;

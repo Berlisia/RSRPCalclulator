@@ -66,6 +66,7 @@ MainWindow::MainWindow(DataProvider & p_data, const Worker * p_worker, QWidget *
     connect(ui->interferenceCheckBox, SIGNAL(clicked(bool)), this, SLOT(drawInterferenceImage(bool)));
     connect(ui->snirCheckBox, SIGNAL(clicked(bool)),this, SLOT(drawSnirImage(bool)));
     connect(ui->signalRadioButton, SIGNAL(clicked(bool)),this, SLOT(drawSignalImg(bool)));
+    connect(ui->modulationRadioButton, SIGNAL(clicked(bool)),this, SLOT(drawModulationImg(bool)));
 
     networkWizualizatorStart();
 }
@@ -359,6 +360,15 @@ void MainWindow::drawSignalImg(bool enabled)
     if(enabled)
     {
         drawImage(data.rsrp.vector);
+    }
+}
+
+void MainWindow::drawModulationImg(bool enabled)
+{
+    if(enabled)
+    {
+        qDebug() << "draw modulation";
+        //drawImage(data.modulation);
     }
 }
 

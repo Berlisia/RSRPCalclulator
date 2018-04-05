@@ -6,6 +6,9 @@
 #include "DataProvider.h"
 #include <QObject>
 
+class PixelWorkerForInterference;
+class PixelWorkerForSNIR;
+
 class Worker : public QObject
 {
     Q_OBJECT
@@ -25,13 +28,15 @@ public slots:
     void doCalculation();
 
 private:
-    void fakeInit(); //TODO whit QT UI
-    //klasa InitObject -> zasięg do nazw plików (vector<Antenna>)
     void calculateRsrpForSectors();
     void executeCalculationForPixel(PixelXY pixel);
     bool isBaseStation(PixelXY pixel);
     void deleteNanValue();
     void saveInFile(const std::vector<std::pair<PixelXY, double> >& vector, std::string name);
+    const Receiver& setupReciver(const PixelXY& pixel);
+    const PixelWorker& calculateSignal(const Receiver& receiver);
+    const PixelWorkerForInterference& calculateInterference(const PixelXY& pixel, const PixelWorker& pixelWorker);
+    const PixelWorkerForSNIR& calculateSnir(const PixelXY& pixel, const PixelWorker& pixelWorker, const PixelWorkerForInterference& pixelWorkerInt);
 
     std::unique_ptr<ThreadPool> pool;
     DataProvider & data;
@@ -39,10 +44,7 @@ private:
     std::unique_ptr<AreaCalculation> areaCalculation;
 
     std::shared_ptr<IMapDataProvider> mapDataProvider;
-    //std::shared_ptr<IAntennaLossFileProvider> antennaProvider; //-> rozszerzyć do kilku anten
-
     std::vector<double> rsrpForSectors;
-
     RSRPForPixel RSRP;
 
     std::mutex mut;
