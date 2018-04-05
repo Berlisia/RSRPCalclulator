@@ -12,9 +12,9 @@ PixelWorkerForInterference::PixelWorkerForInterference(const std::vector<std::pa
 {
 }
 
-void PixelWorkerForInterference::calculate(InterferenceLvl& intLvl, PixelXY pixel)
+double PixelWorkerForInterference::calculate(InterferenceLvl& intLvl, PixelXY pixel)
 {
-    interLvl = m_interferCalc.calculateInterference();
+    double interLvl = m_interferCalc.calculateInterference();
     std::pair<PixelXY,double> pair = std::make_pair(pixel, interLvl);
 
     if(!std::isinf(interLvl))
@@ -22,9 +22,5 @@ void PixelWorkerForInterference::calculate(InterferenceLvl& intLvl, PixelXY pixe
         std::unique_lock<std::mutex> lock(mutex);
         intLvl.push_back(pair);
     }
-}
-
-double PixelWorkerForInterference::getInterferenceLvl() const
-{
     return interLvl;
 }

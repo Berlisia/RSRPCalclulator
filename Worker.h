@@ -6,9 +6,6 @@
 #include "DataProvider.h"
 #include <QObject>
 
-class PixelWorkerForInterference;
-class PixelWorkerForSNIR;
-
 class Worker : public QObject
 {
     Q_OBJECT
@@ -35,8 +32,8 @@ private:
     void saveInFile(const std::vector<std::pair<PixelXY, double> >& vector, std::string name);
     const Receiver& setupReciver(const PixelXY& pixel);
     const PixelWorker& calculateSignal(const Receiver& receiver);
-    const PixelWorkerForInterference& calculateInterference(const PixelXY& pixel, const PixelWorker& pixelWorker);
-    const PixelWorkerForSNIR& calculateSnir(const PixelXY& pixel, const PixelWorker& pixelWorker, const PixelWorkerForInterference& pixelWorkerInt);
+    double calculateInterference(const PixelXY& pixel, const PixelWorker& pixelWorker);
+    double calculateSnir(const PixelXY& pixel, double intLvl, double signalLvl);
 
     std::unique_ptr<ThreadPool> pool;
     DataProvider & data;

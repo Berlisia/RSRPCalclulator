@@ -6,7 +6,7 @@ PixelWorkerForSNIR::PixelWorkerForSNIR()
 {
 }
 
-void PixelWorkerForSNIR::calculate(double intLvl, double signalLvl, PixelXY pixel, Snir& snir)
+double PixelWorkerForSNIR::calculate(double intLvl, double signalLvl, PixelXY pixel, Snir& snir)
 {
     double snirLvl = signalLvl - intLvl;
     std::pair<PixelXY,double> pair = std::make_pair(pixel, snirLvl);
@@ -16,4 +16,5 @@ void PixelWorkerForSNIR::calculate(double intLvl, double signalLvl, PixelXY pixe
         std::unique_lock<std::mutex> lock(mutex);
         snir.push_back(pair);
     }
+    return snirLvl;
 }

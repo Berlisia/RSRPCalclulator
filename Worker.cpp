@@ -37,9 +37,9 @@ void Worker::doCalculation()
     emit poolStarted();
     pool->stop();
 
-//    saveInFile(RSRP.vector, "signal.txt");
-//    saveInFile(data.interferenceLvl, "interference.txt");
-//    saveInFile(data.snir, "snir.txt");
+    saveInFile(RSRP.vector, "signal.txt");
+    saveInFile(data.interferenceLvl, "interference.txt");
+    saveInFile(data.snir, "snir.txt");
 
     data.getRsrp(RSRP.vector);
     if(!data.rsrp.vector.empty())
@@ -81,11 +81,11 @@ void Worker::executeCalculationForPixel(PixelXY pixel)
 {
     Receiver receiver = setupReciver(pixel);
     const PixelWorker& pixelWorkerSignal = calculateSignal(receiver);
-    const PixelWorkerForInterference& pixelWorkerInterference = calculateInterference(pixel, pixelWorkerSignal);
-    const PixelWorkerForSNIR& pixelWorkerSnir = calculateSnir(pixel, pixelWorkerSignal, pixelWorkerInterference);
+    double interference = calculateInterference(pixel, pixelWorkerSignal);
+    double snir = calculateSnir(pixel, interference, pixelWorkerSignal.getCurrentSignalPower());
 
     PixelWorkerForModulation pixelWorkerForModulation;
-    pixelWorkerForModulation.calculate(pixel, data.modulation);
+    pixelWorkerForModulation.calculate(pixel, snir, data.modulation);
 }
 
 bool Worker::isBaseStation(PixelXY pixel)
@@ -145,16 +145,14 @@ const PixelWorker& Worker::calculateSignal(const Receiver& receiver)
     return std::move(pixelWorker);
 }
 
-const PixelWorkerForInterference& Worker::calculateInterference(const PixelXY &pixel, const PixelWorker& pixelWorker)
+double Worker::calculateInterference(const PixelXY &pixel, const PixelWorker& pixelWorker)
 {
     PixelWorkerForInterference pixelWorkerInt(pixelWorker.getResultFromAllSectors(), *sectors, pixelWorker.getCurrentBand());
-    pixelWorkerInt.calculate(data.interferenceLvl, pixel);
-    return std::move(pixelWorkerInt);
+    return pixelWorkerInt.calculate(data.interferenceLvl, pixel);
 }
 
-const PixelWorkerForSNIR &Worker::calculateSnir(const PixelXY &pixel, const PixelWorker &pixelWorker, const PixelWorkerForInterference &pixelWorkerInt)
+double Worker::calculateSnir(const PixelXY &pixel, double intLvl, double signalLvl)
 {
     PixelWorkerForSNIR pixelWorkerForSnir;
-    pixelWorkerForSnir.calculate(pixelWorkerInt.getInterferenceLvl(), pixelWorker.getCurrentSignalPower(), pixel, data.snir);
-    return std::move(pixelWorkerForSnir);
+    return pixelWorkerForSnir.calculate(intLvl, signalLvl, pixel, data.snir);
 }

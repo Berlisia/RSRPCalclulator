@@ -367,8 +367,7 @@ void MainWindow::drawModulationImg(bool enabled)
 {
     if(enabled)
     {
-        qDebug() << "draw modulation";
-        //drawImage(data.modulation);
+        drawImage(data.modulation);
     }
 }
 

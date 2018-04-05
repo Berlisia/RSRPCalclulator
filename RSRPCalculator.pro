@@ -129,7 +129,8 @@ HEADERS  += mainwindow.h \
     Common/FrequencyBands.h \
     Workers/PixelWorkerForInterference.h \
     Workers/PixelWorkerForSNIR.h \
-    Workers/PixelWorkerForModulation.h
+    Workers/PixelWorkerForModulation.h \
+    Common/ModulationSchemes.h
 
 FORMS    += mainwindow.ui \
     BaseStationForm.ui \
