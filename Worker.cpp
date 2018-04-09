@@ -80,7 +80,9 @@ void Worker::calculateRsrpForSectors()
 void Worker::executeCalculationForPixel(PixelXY pixel)
 {
     Receiver receiver = setupReciver(pixel);
-    const PixelWorker& pixelWorkerSignal = calculateSignal(receiver);
+    //const PixelWorker pixelWorkerSignal = calculateSignal(receiver);
+    PixelWorker pixelWorkerSignal(RSRP, rsrpForSectors, mapDataProvider, *sectors, receiver, data.minValueOfRSRP);
+    pixelWorkerSignal.executeCalculation();
     double interference = calculateInterference(pixel, pixelWorkerSignal);
     double snir = calculateSnir(pixel, interference, pixelWorkerSignal.getCurrentSignalPower());
 

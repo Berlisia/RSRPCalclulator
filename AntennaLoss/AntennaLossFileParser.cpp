@@ -4,6 +4,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <QString>
 using namespace std;
 
 const int AntennaLossFileParser::numberOfLine = 360;
@@ -46,10 +47,12 @@ void AntennaLossFileParser::getDataFromFile()
         {
             getline(file, angle,';');
             getline(file, value);
-            int intAngle = stoi(angle);
-            double doubleValue = stof(value);
 
-            auto pairFromFile = make_pair(intAngle, doubleValue);
+            QString qvalue(value.c_str());
+            int intAngle = stoi(angle);
+            double doubleValue = qvalue.toDouble();
+
+            auto pairFromFile = std::pair<int,double>(intAngle, doubleValue);
             array.push_back(pairFromFile);
         }
     }

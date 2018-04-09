@@ -1,5 +1,6 @@
 #include "PixelWorkerForSNIR.h"
 #include "Core/PixelXY.h"
+#include <cmath>
 std::mutex PixelWorkerForSNIR::mutex;
 
 PixelWorkerForSNIR::PixelWorkerForSNIR()

@@ -3,6 +3,7 @@
 #include "Common/FrequencyBands.h"
 #include <numeric>
 #include <algorithm>
+#include <cmath>
 
 InterferenceCalculator::InterferenceCalculator(const std::vector<std::pair<int, double>>& signalFromSectors,
                                                const SectorsControler& sectors,
