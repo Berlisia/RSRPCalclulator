@@ -99,6 +99,7 @@ private slots:
     void drawSnirImage(bool);
     void drawSignalImg(bool);
     void drawModulationImg(bool enabled);
+    void drawRsrqImg(bool);
 
     void barChanged();
     void progressBarStart();

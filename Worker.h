@@ -31,9 +31,9 @@ private:
     void deleteNanValue();
     void saveInFile(const std::vector<std::pair<PixelXY, double> >& vector, std::string name);
     const Receiver& setupReciver(const PixelXY& pixel);
-    const PixelWorker& calculateSignal(const Receiver& receiver);
+   // const PixelWorker& calculateSignal(const Receiver& receiver);
     double calculateInterference(const PixelXY& pixel, const PixelWorker& pixelWorker);
-    double calculateSnir(const PixelXY& pixel, double intLvl, double signalLvl);
+    double calculateSnir(const PixelXY& pixel, double signalLvl);
 
     std::unique_ptr<ThreadPool> pool;
     DataProvider & data;
@@ -41,7 +41,7 @@ private:
     std::unique_ptr<AreaCalculation> areaCalculation;
 
     std::shared_ptr<IMapDataProvider> mapDataProvider;
-    std::vector<double> rsrpForSectors;
+    std::vector<std::pair<int,double>> rsrpForSectors;
     RSRPForPixel RSRP;
 
     std::mutex mut;

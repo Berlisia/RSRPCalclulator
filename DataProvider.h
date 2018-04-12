@@ -14,6 +14,7 @@ typedef std::vector<std::pair<PixelXY,double>> InterferenceLvl;
 typedef std::vector<std::pair<PixelXY,double>> Snir;
 typedef std::vector<std::pair<PixelXY,double>> SignalPower;
 typedef std::vector<std::pair<PixelXY,double>> ModulationScheme;
+typedef std::vector<std::pair<PixelXY,double>> Rsrq;
 
 class RSRPForPixel : public QObject
 {
@@ -44,6 +45,7 @@ public:
 
     RSRPForPixel rsrp;
     InterferenceLvl interferenceLvl;
+    Rsrq rsrq;
     Snir snir;
     ModulationScheme modulation;
 

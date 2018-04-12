@@ -9,7 +9,7 @@ class PixelWorkerForSNIR
 public:
     PixelWorkerForSNIR();
 
-    double calculate(double intLvl, double signalLvl, PixelXY pixel, Snir &snir);
+    double calculate(double rsrqLvl, PixelXY pixel, Snir &snir);
 private:
     static std::mutex mutex;
 };

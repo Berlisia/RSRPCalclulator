@@ -21,6 +21,123 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_2">
+    <item row="13" column="2" rowspan="4" colspan="12">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QGraphicsView" name="mapGraphicsView">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="cursor" stdset="0">
+         <cursorShape>CrossCursor</cursorShape>
+        </property>
+        <property name="mouseTracking">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="4" column="4" colspan="2">
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <item>
+       <widget class="QToolButton" name="rectangleToolButton">
+        <property name="text">
+         <string>new area calculation</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="18" column="5">
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="1" column="1">
+       <widget class="QLabel" name="terrainLabel">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="valueLabel">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" alignment="Qt::AlignRight">
+       <widget class="QLabel" name="labelValueS">
+        <property name="text">
+         <string>  [dBm]:  </string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" alignment="Qt::AlignRight">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>[m]:  </string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="4" column="8" alignment="Qt::AlignRight">
+     <widget class="QRadioButton" name="signalRadioButton">
+      <property name="text">
+       <string>RSRP</string>
+      </property>
+     </widget>
+    </item>
+    <item row="16" column="0" rowspan="4" colspan="2">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QTreeWidget" name="treeWidget">
+        <column>
+         <property name="text">
+          <string notr="true">1</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="18" column="8">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="4" column="12">
+     <widget class="QRadioButton" name="modulationRadioButton">
+      <property name="text">
+       <string>CQI</string>
+      </property>
+     </widget>
+    </item>
+    <item row="19" column="2" colspan="3">
+     <widget class="QPushButton" name="terrainPushButton">
+      <property name="text">
+       <string>show terrain profile</string>
+      </property>
+     </widget>
+    </item>
+    <item row="17" column="11">
+     <widget class="QToolButton" name="zoomInButton">
+      <property name="text">
+       <string>Zoom in</string>
+      </property>
+     </widget>
+    </item>
     <item row="18" column="2" colspan="3">
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item alignment="Qt::AlignLeft">
@@ -38,20 +155,6 @@
        </widget>
       </item>
      </layout>
-    </item>
-    <item row="19" column="2" colspan="3">
-     <widget class="QPushButton" name="terrainPushButton">
-      <property name="text">
-       <string>show terrain profile</string>
-      </property>
-     </widget>
-    </item>
-    <item row="17" column="11">
-     <widget class="QToolButton" name="zoomInButton">
-      <property name="text">
-       <string>Zoom in</string>
-      </property>
-     </widget>
     </item>
     <item row="17" column="10">
      <widget class="QToolButton" name="zoomOutButton">
@@ -144,7 +247,7 @@
     <item row="4" column="11">
      <widget class="QRadioButton" name="snirCheckBox">
       <property name="text">
-       <string>SNIR</string>
+       <string>SIR</string>
       </property>
      </widget>
     </item>
@@ -173,113 +276,17 @@
       </item>
      </layout>
     </item>
-    <item row="13" column="2" rowspan="4" colspan="12">
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QGraphicsView" name="mapGraphicsView">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="cursor" stdset="0">
-         <cursorShape>CrossCursor</cursorShape>
-        </property>
-        <property name="mouseTracking">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="4" column="4" colspan="2">
-     <layout class="QHBoxLayout" name="horizontalLayout_4">
-      <item>
-       <widget class="QToolButton" name="rectangleToolButton">
-        <property name="text">
-         <string>new area calculation</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="18" column="5">
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="1" column="1">
-       <widget class="QLabel" name="terrainLabel">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLabel" name="valueLabel">
-        <property name="text">
-         <string>TextLabel</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" alignment="Qt::AlignRight">
-       <widget class="QLabel" name="labelValueS">
-        <property name="text">
-         <string>  [dBm]:  </string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0" alignment="Qt::AlignRight">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>[m]:  </string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="16" column="0" rowspan="4" colspan="2">
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QTreeWidget" name="treeWidget">
-        <column>
-         <property name="text">
-          <string notr="true">1</string>
-         </property>
-        </column>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="18" column="8">
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="4" column="8" alignment="Qt::AlignRight">
-     <widget class="QRadioButton" name="signalRadioButton">
+    <item row="4" column="9">
+     <widget class="QRadioButton" name="rsrqRadioButton">
       <property name="text">
-       <string>Signal</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="12">
-     <widget class="QRadioButton" name="modulationRadioButton">
-      <property name="text">
-       <string>Modulation</string>
+       <string>RSRQ</string>
       </property>
      </widget>
     </item>
     <item row="4" column="10">
      <widget class="QRadioButton" name="interferenceCheckBox">
       <property name="text">
-       <string>Interference</string>
+       <string>RSSI</string>
       </property>
      </widget>
     </item>

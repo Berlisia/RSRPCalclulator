@@ -8,7 +8,7 @@ class PixelXY;
 class PixelWorkerForInterference
 {
 public:
-    PixelWorkerForInterference(const std::vector<std::pair<int, double>>& signalPowerFromSectors,
+    PixelWorkerForInterference(const std::vector<PrbBandAndSignalStrengeMapping>& signalPowerFromSectors,
                                const SectorsControler& sectors,
                                int bandIdx);
 

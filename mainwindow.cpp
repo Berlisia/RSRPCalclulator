@@ -67,6 +67,8 @@ MainWindow::MainWindow(DataProvider & p_data, const Worker * p_worker, QWidget *
     connect(ui->snirCheckBox, SIGNAL(clicked(bool)),this, SLOT(drawSnirImage(bool)));
     connect(ui->signalRadioButton, SIGNAL(clicked(bool)),this, SLOT(drawSignalImg(bool)));
     connect(ui->modulationRadioButton, SIGNAL(clicked(bool)),this, SLOT(drawModulationImg(bool)));
+    connect(ui->rsrqRadioButton, SIGNAL(clicked(bool)),this, SLOT(drawRsrqImg(bool)));
+
 
     networkWizualizatorStart();
 }
@@ -368,6 +370,14 @@ void MainWindow::drawModulationImg(bool enabled)
     if(enabled)
     {
         drawImage(data.modulation);
+    }
+}
+
+void MainWindow::drawRsrqImg(bool enabled)
+{
+    if(enabled)
+    {
+        drawImage(data.rsrq);
     }
 }
 

@@ -51,11 +51,11 @@ void RsrpTestCase::rsrpCalculationTest()
 
     RsrpInitialization rsrpInit;
     unique_ptr<IRsrpCalculation> calculator(new RsrpCalculation(rsrpInit));
-    std::vector<double> rsrpFromSectors;
+    std::vector<std::pair<int,double>> rsrpFromSectors;
     for(auto sec : sectors)
     {
         rsrpFromSectors.push_back(calculator->calculateRsrp(sec));
     }
-    double maxValue = calculator->findMaxRsrpFromSectors(rsrpFromSectors);
-    cout << "Max Value from rsrp vector: " << maxValue << endl;
+    //double maxValue = calculator->findMaxRsrpFromSectors(rsrpFromSectors);
+    //cout << "Max Value from rsrp vector: " << maxValue << endl;
 }

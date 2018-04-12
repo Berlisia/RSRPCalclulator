@@ -6,6 +6,7 @@
 #include "Workers/PixelWorkerForInterference.h"
 #include "Workers/PixelWorkerForSNIR.h"
 #include "Workers/PixelWorkerForModulation.h"
+#include "Workers/PixelWorkerForRsrq.h"
 #include <math.h>
 
 Worker::Worker(DataProvider & p_data) :
@@ -80,9 +81,14 @@ void Worker::calculateRsrpForSectors()
 void Worker::executeCalculationForPixel(PixelXY pixel)
 {
     Receiver receiver = setupReciver(pixel);
-    const PixelWorker& pixelWorkerSignal = calculateSignal(receiver);
+    PixelWorker pixelWorkerSignal(RSRP, rsrpForSectors, mapDataProvider, *sectors, receiver, data.minValueOfRSRP);
+    pixelWorkerSignal.executeCalculation();
     double interference = calculateInterference(pixel, pixelWorkerSignal);
-    double snir = calculateSnir(pixel, interference, pixelWorkerSignal.getCurrentSignalPower());
+
+    PixelWorkerForRsrq workerForRSRQ;
+    double rsrq = workerForRSRQ.calculate(interference, pixelWorkerSignal.getCurrentSignalPower().second,
+                                          pixelWorkerSignal.getCurrentSignalPower().first, pixel, data.rsrq);
+    double snir = calculateSnir(pixel, rsrq);
 
     PixelWorkerForModulation pixelWorkerForModulation;
     pixelWorkerForModulation.calculate(pixel, snir, data.modulation);
@@ -138,12 +144,12 @@ const Receiver& Worker::setupReciver(const PixelXY& pixel)
     return std::move(receiver);
 }
 
-const PixelWorker& Worker::calculateSignal(const Receiver& receiver)
-{
-    PixelWorker pixelWorker(RSRP, rsrpForSectors, mapDataProvider, *sectors, receiver, data.minValueOfRSRP);
-    pixelWorker.executeCalculation();
-    return std::move(pixelWorker);
-}
+//const PixelWorker& Worker::calculateSignal(const Receiver& receiver)
+//{
+//    PixelWorker pixelWorker(RSRP, rsrpForSectors, mapDataProvider, *sectors, receiver, data.minValueOfRSRP);
+//    pixelWorker.executeCalculation();
+//    return std::move(pixelWorker);
+//}
 
 double Worker::calculateInterference(const PixelXY &pixel, const PixelWorker& pixelWorker)
 {
@@ -151,8 +157,8 @@ double Worker::calculateInterference(const PixelXY &pixel, const PixelWorker& pi
     return pixelWorkerInt.calculate(data.interferenceLvl, pixel);
 }
 
-double Worker::calculateSnir(const PixelXY &pixel, double intLvl, double signalLvl)
+double Worker::calculateSnir(const PixelXY &pixel, double signalLvl)
 {
     PixelWorkerForSNIR pixelWorkerForSnir;
-    return pixelWorkerForSnir.calculate(intLvl, signalLvl, pixel, data.snir);
+    return pixelWorkerForSnir.calculate(signalLvl, pixel, data.snir);
 }

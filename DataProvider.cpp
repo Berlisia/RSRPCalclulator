@@ -51,7 +51,7 @@ void DataProvider::fakeDataForDebuging()
 
     std::string h = "D:/Polibuda/Mgr/lato2017_2018/PracaMgr/RSRPCalclulator/742266V02_pozioma.csv";
     std::string v = "D:/Polibuda/Mgr/lato2017_2018/PracaMgr/RSRPCalclulator/742266V02_pionowa.csv";
-    Antenna antenna(15, 15, 2,1,h,v);
+    Antenna antenna(45, 15, 2,1,h,v);
     Antenna antenna2(30, 15, 2,3,h,v);
     Antenna antenna3(30, 15, 2,7,h,v);
     Antenna antenna4(30, 15, 2,8,h,v);

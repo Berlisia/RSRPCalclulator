@@ -6,8 +6,7 @@
 class IRsrpCalculation
 {
 public:
-    virtual double calculateRsrp(const Sector & sectors) = 0;
-    virtual double findMaxRsrpFromSectors(std::vector<double> & vectorRsrp) = 0;
+    virtual std::pair<int,double> calculateRsrp(const Sector & sectors) = 0;
 };
 
 #endif // IRSRPCALCULATION_H

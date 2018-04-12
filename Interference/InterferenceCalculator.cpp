@@ -1,10 +1,11 @@
 #include "InterferenceCalculator.h"
 #include "Core/SectorsControler.h"
 #include "Common/FrequencyBands.h"
+#include "Common/Units.h"
 #include <numeric>
 #include <algorithm>
 
-InterferenceCalculator::InterferenceCalculator(const std::vector<std::pair<int, double>>& signalFromSectors,
+InterferenceCalculator::InterferenceCalculator(const std::vector<PrbBandAndSignalStrengeMapping>& signalFromSectors,
                                                const SectorsControler& sectors,
                                                int bandIdx):
     m_signalFromSectors(signalFromSectors),
@@ -17,23 +18,13 @@ InterferenceCalculator::InterferenceCalculator(const std::vector<std::pair<int, 
 double InterferenceCalculator::calculateInterference()
 {
     double interferenceLvl = 0;
-    for(auto signalPair : m_signalFromSectors)
+    for(auto signalMapping : m_signalFromSectors)
     {
-        if(signalPair.first == m_currentBandIdx)
+        if(signalMapping.bandIndex == m_currentBandIdx)
         {
-            double signalInWat = dBmToW(signalPair.second);
-            interferenceLvl = interferenceLvl + signalInWat;
+            double numberOfSubcarriers = signalMapping.prbNumber * 12;
+            interferenceLvl = interferenceLvl + dBmToW(signalMapping.signalStrenge)*numberOfSubcarriers;//[W]
         }
     }
     return WatTodB(interferenceLvl);
-}
-
-double InterferenceCalculator::dBmToW(double dBm)
-{
-    return std::pow(10, dBm/10)/1000;
-}
-
-double InterferenceCalculator::WatTodB(double wat)
-{
-    return std::log10(wat)*10;
 }

@@ -4,7 +4,7 @@
 #include <QDebug>
 std::mutex PixelWorkerForInterference::mutex;
 
-PixelWorkerForInterference::PixelWorkerForInterference(const std::vector<std::pair<int, double> >& signalPowerFromSectors,
+PixelWorkerForInterference::PixelWorkerForInterference(const std::vector<PrbBandAndSignalStrengeMapping> &signalPowerFromSectors,
                                                        const SectorsControler& sectors,
                                                        int bandIdx):
     m_interferCalc(signalPowerFromSectors, sectors, bandIdx),

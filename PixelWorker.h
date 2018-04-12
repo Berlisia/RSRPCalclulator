@@ -7,7 +7,14 @@
 #include "DataProvider.h"
 #include "ThreadPool.h"
 
-typedef std::vector<double> & RsrpValueForSectorRef;
+typedef std::vector<std::pair<int,double>>& RsrpValueForSectorRef;
+
+struct PrbBandAndSignalStrengeMapping
+{
+    int prbNumber;
+    int bandIndex;
+    double signalStrenge;
+};
 
 class PixelWorker
 {
@@ -17,11 +24,13 @@ public:
                 SectorsControler& p_sectors,
                 const Receiver& p_receiver,
                 double p_minValueRSRP);
+    PixelWorker(PixelWorker&&) = default;
+    PixelWorker(const PixelWorker&) = delete;
 
     void executeCalculation();
-    const std::vector<std::pair<int, double> > &getResultFromAllSectors() const;
+    const std::vector<PrbBandAndSignalStrengeMapping> &getResultFromAllSectors() const;
     int getCurrentBand() const;
-    double getCurrentSignalPower() const;
+    std::pair<int,double> getCurrentSignalPower() const;
 
 private:
     void storeMaxFromRsrpMap();
@@ -39,9 +48,9 @@ private:
     AntennaLossCalculation antennaCalculation;
     std::unique_ptr<IPathlossCalculation> pathlossCalculation;
 
-    std::vector<std::pair<int,double>> rsrpFromSectors;
+    std::vector<PrbBandAndSignalStrengeMapping> rsrpFromSectors;
     int currentBand;
-    double currentSignalPower;
+    std::pair<int,double> currentSignalPower;
 
     static std::mutex mutex;
 };

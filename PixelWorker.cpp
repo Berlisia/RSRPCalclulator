@@ -1,6 +1,8 @@
 #include "PixelWorker.h"
 #include "Pathloss/PathlossCalculation.h"
 #include "Pathloss/OkumuraHataPathlossModel.h"
+#include "RSRP/RsrpInitialization.h"
+
 #include <cmath>
 #include <algorithm>
 #include <iostream>
@@ -31,11 +33,12 @@ void PixelWorker::executeCalculation()
         double pathL = pathLossFromSectorsPerOnePixel[i];
         if(!std::isnan(pathL) and !std::isinf(pathL)) //dBm
         {
-            double rsrp = rsrpSectors[i] - (*antennaLossFromSectorsPerOnePixel)[i] -
+            double rsrp = rsrpSectors[i].second - (*antennaLossFromSectorsPerOnePixel)[i] -
                          pathL + receiver.getGain() - receiver.getOtherLosses();
             if(rsrp > (minValueRSRP))
             {
-                rsrpFromSectors.push_back(std::pair<int,double>(sectorsControler.getBandIndexFromSector(i), rsrp));
+                auto numberOfPrb = rsrpSectors[i].first;
+                rsrpFromSectors.push_back({numberOfPrb ,sectorsControler.getBandIndexFromSector(i), rsrp});
             }
         }
     }
@@ -43,12 +46,12 @@ void PixelWorker::executeCalculation()
     {
         storeMaxFromRsrpMap();
         std::unique_lock<std::mutex> lock(mutex);
-        RSRP.vector.push_back(std::pair<PixelXY,double>(receiver.getPossition(), currentSignalPower));
+        RSRP.vector.push_back(std::pair<PixelXY,double>(receiver.getPossition(), currentSignalPower.second));
         emit RSRP.rsrpSizeChanged();
     }
 }
 
-const std::vector<std::pair<int, double> >& PixelWorker::getResultFromAllSectors() const
+const std::vector<PrbBandAndSignalStrengeMapping>& PixelWorker::getResultFromAllSectors() const
 {
     return rsrpFromSectors;
 }
@@ -56,10 +59,10 @@ const std::vector<std::pair<int, double> >& PixelWorker::getResultFromAllSectors
 void PixelWorker::storeMaxFromRsrpMap()
 {
     auto biggest = std::max_element(std::begin(rsrpFromSectors), std::end(rsrpFromSectors),
-                                    [] (const auto p1, const auto p2) {return p1.second < p2.second;});
-    currentSignalPower = biggest->second;
-    currentBand = biggest->first;
-    rsrpFromSectors.erase(biggest);
+                                    [] (const auto p1, const auto p2) {return p1.signalStrenge < p2.signalStrenge;});
+    currentSignalPower = std::pair<int,double>(biggest->prbNumber, biggest->signalStrenge);
+    currentBand = biggest->bandIndex;
+    //rsrpFromSectors.erase(biggest);
 }
 
 int PixelWorker::getCurrentBand() const
@@ -67,7 +70,7 @@ int PixelWorker::getCurrentBand() const
     return currentBand;
 }
 
-double PixelWorker::getCurrentSignalPower() const
+std::pair<int,double> PixelWorker::getCurrentSignalPower() const
 {
     return currentSignalPower;
 }
