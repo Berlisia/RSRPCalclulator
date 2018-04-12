@@ -4,6 +4,7 @@
 #include "Common/Units.h"
 #include <numeric>
 #include <algorithm>
+#include <cmath>
 
 InterferenceCalculator::InterferenceCalculator(const std::vector<PrbBandAndSignalStrengeMapping>& signalFromSectors,
                                                const SectorsControler& sectors,

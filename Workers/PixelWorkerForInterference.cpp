@@ -2,6 +2,7 @@
 #include "Core/PixelXY.h"
 #include <algorithm>
 #include <QDebug>
+#include <cmath>
 std::mutex PixelWorkerForInterference::mutex;
 
 PixelWorkerForInterference::PixelWorkerForInterference(const std::vector<PrbBandAndSignalStrengeMapping> &signalPowerFromSectors,
