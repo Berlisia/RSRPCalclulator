@@ -1,13 +1,11 @@
 #include "PixelWorkerForSNIR.h"
 #include "Core/PixelXY.h"
+#include "Common/FrequencyBands.h"
 #include <cmath>
-std::mutex PixelWorkerForSNIR::mutex;
+const double numberOfSubcarriersInRB = 12.0;
+const double subcarrierActivityFactor = 5/6;
 
-namespace
-{
-    double numberOfSubcarriersInRB = 12.0;
-    double subcarrierActivityFactor = 1.0;
-}
+std::mutex PixelWorkerForSNIR::mutex;
 
 PixelWorkerForSNIR::PixelWorkerForSNIR()
 {

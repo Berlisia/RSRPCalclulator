@@ -38,8 +38,9 @@ void Worker::doCalculation()
     emit poolStarted();
     pool->stop();
 
-    saveInFile(RSRP.vector, "signal.txt");
-    saveInFile(data.interferenceLvl, "interference.txt");
+    saveInFile(RSRP.vector, "rsrq.txt");
+    saveInFile(data.interferenceLvl, "rssi.txt");
+    saveInFile(data.rsrq, "rsrq.txt");
     saveInFile(data.snir, "snir.txt");
 
     data.getRsrp(RSRP.vector);
@@ -153,7 +154,7 @@ const Receiver& Worker::setupReciver(const PixelXY& pixel)
 
 double Worker::calculateInterference(const PixelXY &pixel, const PixelWorker& pixelWorker)
 {
-    PixelWorkerForInterference pixelWorkerInt(pixelWorker.getResultFromAllSectors(), *sectors, pixelWorker.getCurrentBand());
+    PixelWorkerForInterference pixelWorkerInt(pixelWorker.getResultFromAllSectors(), pixelWorker.getCurrentSignalPower(), pixelWorker.getCurrentBand());
     return pixelWorkerInt.calculate(data.interferenceLvl, pixel);
 }
 

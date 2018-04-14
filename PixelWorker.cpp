@@ -35,7 +35,7 @@ void PixelWorker::executeCalculation()
         {
             double rsrp = rsrpSectors[i].second - (*antennaLossFromSectorsPerOnePixel)[i] -
                          pathL + receiver.getGain() - receiver.getOtherLosses();
-            if(rsrp > (minValueRSRP))
+            //if(rsrp > (minValueRSRP))
             {
                 auto numberOfPrb = rsrpSectors[i].first;
                 rsrpFromSectors.push_back({numberOfPrb ,sectorsControler.getBandIndexFromSector(i), rsrp});
@@ -62,7 +62,7 @@ void PixelWorker::storeMaxFromRsrpMap()
                                     [] (const auto p1, const auto p2) {return p1.signalStrenge < p2.signalStrenge;});
     currentSignalPower = std::pair<int,double>(biggest->prbNumber, biggest->signalStrenge);
     currentBand = biggest->bandIndex;
-    //rsrpFromSectors.erase(biggest);
+    rsrpFromSectors.erase(biggest);
 }
 
 int PixelWorker::getCurrentBand() const
@@ -70,7 +70,7 @@ int PixelWorker::getCurrentBand() const
     return currentBand;
 }
 
-std::pair<int,double> PixelWorker::getCurrentSignalPower() const
+const std::pair<int,double>& PixelWorker::getCurrentSignalPower() const
 {
     return currentSignalPower;
 }

@@ -9,12 +9,11 @@ class PixelWorkerForInterference
 {
 public:
     PixelWorkerForInterference(const std::vector<PrbBandAndSignalStrengeMapping>& signalPowerFromSectors,
-                               const SectorsControler& sectors,
+                               const std::pair<int,double>& servingCellRsrp,
                                int bandIdx);
 
     double calculate(InterferenceLvl& intLvl, PixelXY pixel);
 private:    
     InterferenceCalculator m_interferCalc;
-    double interLvl;
     static std::mutex mutex;
 };
