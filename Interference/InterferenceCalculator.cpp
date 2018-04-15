@@ -6,9 +6,6 @@
 #include <algorithm>
 #include <cmath>
 
-const double numberOfSubcarriersInRB = 12.0;
-const double subcarrierActivityFactor = 0.833;
-
 InterferenceCalculator::InterferenceCalculator(const std::vector<PrbBandAndSignalStrengeMapping>& signalFromSectors,
                                                const std::pair<int, double> servingCellRsrp,
                                                int bandIdx):
