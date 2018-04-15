@@ -9,7 +9,7 @@ class PixelWorkerForInterference
 {
 public:
     PixelWorkerForInterference(const std::vector<PrbBandAndSignalStrengeMapping>& signalPowerFromSectors,
-                               const std::pair<int,double>& servingCellRsrp,
+                               const std::pair<int, double> servingCellRsrp,
                                int bandIdx);
 
     double calculate(InterferenceLvl& intLvl, PixelXY pixel);

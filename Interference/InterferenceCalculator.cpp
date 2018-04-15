@@ -10,7 +10,7 @@ const double numberOfSubcarriersInRB = 12.0;
 const double subcarrierActivityFactor = 0.833;
 
 InterferenceCalculator::InterferenceCalculator(const std::vector<PrbBandAndSignalStrengeMapping>& signalFromSectors,
-                                               const std::pair<int, double>& servingCellRsrp,
+                                               const std::pair<int, double> servingCellRsrp,
                                                int bandIdx):
     m_signalFromSectors(signalFromSectors),
     m_servingCellRsrp(servingCellRsrp),
@@ -22,14 +22,14 @@ InterferenceCalculator::InterferenceCalculator(const std::vector<PrbBandAndSigna
 double InterferenceCalculator::calculateInterference()
 {
     return calculateSumOfInterferenceFromOtherSectrosForTotalSubcarriers()
-            + calculateServingCellSignalForTotalSubcarriers();
+            + calculateServingCellSignalForTotalSubcarriers(); //[W]
 }
 
 double InterferenceCalculator::calculateServingCellSignalForTotalSubcarriers()
 {
     int numberOfSubcarriers = m_servingCellRsrp.first * numberOfSubcarriersInRB * subcarrierActivityFactor;
     double seringCellRsrpInWat = dBmToW(m_servingCellRsrp.second) * numberOfSubcarriers;
-    return WatTodB(seringCellRsrpInWat);
+    return seringCellRsrpInWat; //[W]
 }
 
 double InterferenceCalculator::calculateSumOfInterferenceFromOtherSectrosForTotalSubcarriers()
@@ -43,5 +43,5 @@ double InterferenceCalculator::calculateSumOfInterferenceFromOtherSectrosForTota
             interferenceLvl = interferenceLvl + dBmToW(signalMapping.signalStrenge)*numberOfSubcarriers;//[W]
         }
     }
-    return WatTodB(interferenceLvl);
+    return interferenceLvl; //[W]
 }

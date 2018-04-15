@@ -38,7 +38,7 @@ void Worker::doCalculation()
     emit poolStarted();
     pool->stop();
 
-    saveInFile(RSRP.vector, "rsrq.txt");
+    saveInFile(RSRP.vector, "rsrp.txt");
     saveInFile(data.interferenceLvl, "rssi.txt");
     saveInFile(data.rsrq, "rsrq.txt");
     saveInFile(data.snir, "snir.txt");
@@ -84,12 +84,12 @@ void Worker::executeCalculationForPixel(PixelXY pixel)
     Receiver receiver = setupReciver(pixel);
     PixelWorker pixelWorkerSignal(RSRP, rsrpForSectors, mapDataProvider, *sectors, receiver, data.minValueOfRSRP);
     pixelWorkerSignal.executeCalculation();
-    double interference = calculateInterference(pixel, pixelWorkerSignal);
+    double interference = calculateInterference(pixel, pixelWorkerSignal); //[W]
 
     PixelWorkerForRsrq workerForRSRQ;
-    double rsrq = workerForRSRQ.calculate(interference, pixelWorkerSignal.getCurrentSignalPower().second,
+    double rsrq = workerForRSRQ.calculate(interference, pixelWorkerSignal.getCurrentSignalPower().second,//[W]
                                           pixelWorkerSignal.getCurrentSignalPower().first, pixel, data.rsrq);
-    double snir = calculateSnir(pixel, rsrq);
+    double snir = calculateSnir(pixel, rsrq); //[dB]
 
     PixelWorkerForModulation pixelWorkerForModulation;
     pixelWorkerForModulation.calculate(pixel, snir, data.modulation);

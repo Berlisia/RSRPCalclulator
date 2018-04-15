@@ -30,7 +30,7 @@ public:
     void executeCalculation();
     const std::vector<PrbBandAndSignalStrengeMapping> &getResultFromAllSectors() const;
     int getCurrentBand() const;
-    const std::pair<int, double> &getCurrentSignalPower() const;
+    const std::pair<int, double> getCurrentSignalPower() const;
 
 private:
     void storeMaxFromRsrpMap();

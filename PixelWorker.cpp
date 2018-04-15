@@ -2,6 +2,7 @@
 #include "Pathloss/PathlossCalculation.h"
 #include "Pathloss/OkumuraHataPathlossModel.h"
 #include "RSRP/RsrpInitialization.h"
+#include "Common/Units.h"
 
 #include <cmath>
 #include <algorithm>
@@ -70,9 +71,10 @@ int PixelWorker::getCurrentBand() const
     return currentBand;
 }
 
-const std::pair<int,double>& PixelWorker::getCurrentSignalPower() const
+const std::pair<int,double> PixelWorker::getCurrentSignalPower() const
 {
-    return currentSignalPower;
+    const auto signalPowerInWat = std::pair<int,double>(currentSignalPower.first, dBmToW(currentSignalPower.second));
+    return signalPowerInWat;
 }
 
 void PixelWorker::calculateAntennaLossForOnePixel()

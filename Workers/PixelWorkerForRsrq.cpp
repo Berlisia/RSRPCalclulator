@@ -10,11 +10,12 @@ PixelWorkerForRsrq::PixelWorkerForRsrq()
 
 double PixelWorkerForRsrq::calculate(double rssi, double rsrp, int numberOfPrb ,PixelXY pixel, Rsrq& rsrq)
 {
-    double rsrqLvl = WatTodB(numberOfPrb) + rsrp - rssi;
-    std::pair<PixelXY,double> pair = std::make_pair(pixel, rsrqLvl);
+    double rsrqLvl = numberOfPrb * rsrp / rssi; //[W]
+    double rsrqLvlIndB = WatTodB(rsrqLvl);
 
-    if(!std::isinf(rsrqLvl))
+    if(!std::isinf(rsrqLvlIndB))
     {
+        std::pair<PixelXY,double> pair = std::make_pair(pixel, rsrqLvlIndB);
         std::unique_lock<std::mutex> lock(mutex);
         rsrq.push_back(pair);
     }
