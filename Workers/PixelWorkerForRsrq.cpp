@@ -1,6 +1,7 @@
 #include "PixelWorkerForRsrq.h"
 #include "Core/PixelXY.h"
 #include "Common/Units.h"
+#include <cmath>
 
 std::mutex PixelWorkerForRsrq::mutex;
 

@@ -28,7 +28,7 @@ double InterferenceCalculator::calculateInterference()
 double InterferenceCalculator::calculateServingCellSignalForTotalSubcarriers()
 {
     int numberOfSubcarriers = m_servingCellRsrp.first * numberOfSubcarriersInRB * subcarrierActivityFactor;
-    double seringCellRsrpInWat = dBmToW(m_servingCellRsrp.second) * numberOfSubcarriers;
+    double seringCellRsrpInWat = m_servingCellRsrp.second * numberOfSubcarriers;
     return seringCellRsrpInWat; //[W]
 }
 
@@ -40,7 +40,7 @@ double InterferenceCalculator::calculateSumOfInterferenceFromOtherSectrosForTota
         if(signalMapping.bandIndex == m_currentBandIdx)
         {
             int numberOfSubcarriers = signalMapping.prbNumber * numberOfSubcarriersInRB * subcarrierActivityFactor;
-            interferenceLvl = interferenceLvl + dBmToW(signalMapping.signalStrenge)*numberOfSubcarriers;//[W]
+            interferenceLvl = interferenceLvl + (dBmToW(signalMapping.signalStrenge)*numberOfSubcarriers);//[W]
         }
     }
     return interferenceLvl; //[W]

@@ -9,6 +9,8 @@
 #include "Workers/PixelWorkerForRsrq.h"
 #include <math.h>
 
+#include "Common/Units.h"
+
 Worker::Worker(DataProvider & p_data) :
     data(p_data), sectors(p_data.sectorControler)
 {
