@@ -15,19 +15,18 @@
 #include "ImagePainter.h"
 #include <QMouseEvent>
 #include "ReceiverForm.h"
-#include "Worker.h"
 #include "Rectangle.h"
 #include "Display/NetworkObjectWizualizator.h"
 #include <QDebug>
 
 using namespace std;
 
-MainWindow::MainWindow(DataProvider & p_data, const Worker * p_worker, QWidget * parent) :
+MainWindow::MainWindow(DataProvider& p_data, std::shared_ptr<IMapDataProvider> p_mapData, QWidget * parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     data(p_data),
     scene(nullptr),
-    worker(p_worker),
+    mapDataProvider(p_mapData),
     currenItemInScene(nullptr)
 {
     ui->setupUi(this);
@@ -51,12 +50,10 @@ MainWindow::MainWindow(DataProvider & p_data, const Worker * p_worker, QWidget *
     setUpImagesRadioBoxes();
     addMenu();
 
+    connect(ui->calculatePushButton, SIGNAL(pressed()), this, SIGNAL(calculationButtonPressed()));
+
     connect(ui->baseToolButton, SIGNAL(pressed()), this, SLOT(on_baseStationUi_clicked()));
     connect(ui->sectorToolButton, SIGNAL(pressed()), this, SLOT(selectBase()));
-    connect(ui->calculatePushButton, SIGNAL(pressed()), p_worker, SLOT(doCalculation()));
-    connect(p_worker, SIGNAL(done()), this, SLOT(drawDataMap()));
-    connect(&data.rsrp, SIGNAL(rsrpSizeChanged()), this, SLOT(barChanged()));
-    connect(worker, SIGNAL(poolStarted()), this, SLOT(progressBarStart()));
     connect(ui->receiverButton, SIGNAL(pressed()), this, SLOT(receiverClicked()));
     connect(ui->minimumRSRSPdoubleSpinBox, SIGNAL(valueChanged(double)), this, SLOT(changeMinRSRPValueInData(double)));
     connect(ui->rectangleToolButton, SIGNAL(pressed()), this, SLOT(actionRectangleTriggered()));
@@ -68,7 +65,6 @@ MainWindow::MainWindow(DataProvider & p_data, const Worker * p_worker, QWidget *
     connect(ui->signalRadioButton, SIGNAL(clicked(bool)),this, SLOT(drawSignalImg(bool)));
     connect(ui->modulationRadioButton, SIGNAL(clicked(bool)),this, SLOT(drawModulationImg(bool)));
     connect(ui->rsrqRadioButton, SIGNAL(clicked(bool)),this, SLOT(drawRsrqImg(bool)));
-
 
     networkWizualizatorStart();
 }
@@ -127,11 +123,6 @@ void MainWindow::drawImage(std::vector<std::pair<PixelXY,double>>& p_pixelData)
     painter.end();
     displayImage(px, p_pixelData);
     showScale(paint, maxFromData, minFromData);
-}
-
-void MainWindow::barFinished()
-{
-
 }
 
 void MainWindow::showScale(ImagePainter & paint, double max, double min)
@@ -194,18 +185,6 @@ void MainWindow::networkWizualizatorStart()
     networkWizualizator->show();
 }
 
-void MainWindow::barChanged()
-{
-//    int size = worker->getQueueSize();
-//    ui->progressBar->setValue(size/initBarSize);
-}
-
-void MainWindow::progressBarStart()
-{
-    //ui->progressBar->show();
-    //initBarSize = worker->getQueueSize();
-}
-
 void MainWindow::receiverClicked()
 {
     if(!receiver)
@@ -222,7 +201,7 @@ void MainWindow::changeMinRSRPValueInData(double minRsrpValue)
 
 void MainWindow::actionRectangleTriggered()
 {
-    //uncheckAllToolbar();
+    //uncheckAllToolbar();calculationButtonPressed
     Rectangle * r = new Rectangle();
     if(!areaCalculationPixmap)
         areaCalculationPixmap = std::make_shared<QPixmap>();
@@ -275,7 +254,7 @@ void MainWindow::drawTerrainLine()
     QLineF line(terProfile->getFirstPixel(), terProfile->getCurrentPixel());
     std::pair<int,int> px1(terProfile->getFirstPixel().x(), terProfile->getFirstPixel().y());
     std::pair<int,int> px2(terProfile->getCurrentPixel().x(), terProfile->getCurrentPixel().y());
-    ui->terrainLabel->setText(to_string(worker->getMapDataProvider()->coutDistance(px1,px2)).c_str());
+    ui->terrainLabel->setText(to_string(mapDataProvider->coutDistance(px1,px2)).c_str());
     currenItemInScene = scene->addLine(line);
     ui->mapGraphicsView->setScene(scene);
     ui->mapGraphicsView->show();
@@ -309,7 +288,7 @@ void MainWindow::terrainProfileTriggered(bool checked)
 {
     if(checked == true)
     {
-        terProfile = std::make_shared<TerrainProfile>(data, worker->getMapDataProvider(), this);
+        terProfile = std::make_shared<TerrainProfile>(data, mapDataProvider, this);
         mapArea->setTerriainProfile(terProfile);
         connect(terProfile.get(), SIGNAL(drawLine()), this, SLOT(drawTerrainLine()));
         connect(ui->terrainPushButton, SIGNAL(pressed()), terProfile.get(), SLOT(drawTerrainProfile()));

@@ -7,7 +7,7 @@
 QT     += core gui widgets
 CONFIG += console c++14
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 5): QT += widgets
 
 TARGET = RSRPCalculator
 TEMPLATE = app
@@ -71,7 +71,8 @@ SOURCES += main.cpp\
     Workers/PixelWorkerForSNIR.cpp \
     Workers/PixelWorkerForModulation.cpp \
     Common/Units.cpp \
-    Workers/PixelWorkerForRsrq.cpp
+    Workers/PixelWorkerForRsrq.cpp \
+    Core/Controler.cpp
 
 HEADERS  += mainwindow.h \
     Pathloss/Pathloss.h \
@@ -135,7 +136,8 @@ HEADERS  += mainwindow.h \
     Workers/PixelWorkerForModulation.h \
     Common/ModulationSchemes.h \
     Common/Units.h \
-    Workers/PixelWorkerForRsrq.h
+    Workers/PixelWorkerForRsrq.h \
+    Core/Controler.h
 
 FORMS    += mainwindow.ui \
     BaseStationForm.ui \

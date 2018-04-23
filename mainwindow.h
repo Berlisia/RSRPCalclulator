@@ -35,20 +35,20 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(DataProvider & p_data, const Worker * p_worker, QWidget *parent = 0);
+    explicit MainWindow(DataProvider& p_data, std::shared_ptr<IMapDataProvider> p_mapData, QWidget *parent = 0);
     void closeEvent(QCloseEvent * event);
     ~MainWindow();
 
 signals:
-    void calculatePressed();
+    void calculationButtonPressed();
 
 public slots:
     void displayImage(const QPixmap & img, std::vector<std::pair<PixelXY,double>>&);
+    void drawDataMap();
 
 private:
     void addMenu();
     BaseStations::iterator getIndexOfBaseStation();
-    void barFinished();
     void showScale(ImagePainter &paint, double max, double min);
     void setPixelsArea(QRectF rect);
     void networkWizualizatorStart();
@@ -64,7 +64,7 @@ private:
     QGraphicsScene * scaleScene;
     QGraphicsPixmapItem * scaleItem;
 
-    const Worker * worker;
+    std::shared_ptr<IMapDataProvider> mapDataProvider;
 
     std::unique_ptr<NetworkObjectWizualizator> networkWizualizator;
     std::unique_ptr<BaseStationForm> baseStationForm;
@@ -93,7 +93,6 @@ private slots:
     void on_sectorUI_clliced();
 
     void selectBase();
-    void drawDataMap();
     void drawImage(std::vector<std::pair<PixelXY,double>>&);
     void drawInterferenceImage(bool);
     void drawSnirImage(bool);
@@ -101,8 +100,6 @@ private slots:
     void drawModulationImg(bool enabled);
     void drawRsrqImg(bool);
 
-    void barChanged();
-    void progressBarStart();
     void receiverClicked();
     void changeMinRSRPValueInData(double);
 

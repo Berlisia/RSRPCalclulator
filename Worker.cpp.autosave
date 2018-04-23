@@ -21,7 +21,6 @@ Worker::Worker(DataProvider& p_data, std::shared_ptr<IMapDataProvider> p_mapData
 
 void Worker::doCalculation()
 {
-    qDebug() << "Zaczynamy!";
     if (!data.areaPixels.size()) // core dump when user click run without selected sector
         return;
     makeQueueOfCalculationTaskAndRun();
@@ -42,7 +41,6 @@ void Worker::makeQueueOfCalculationTaskAndRun()
     }
 
     pool->start();
-    qDebug() << "ruszylo";
     emit poolStarted();
     pool->stop();
 
@@ -54,7 +52,6 @@ void Worker::makeQueueOfCalculationTaskAndRun()
     data.getRsrp(RSRP.vector);
     if(!data.rsrp.vector.empty())
     {
-        qDebug() << "done";
         emit done();
     }
 }

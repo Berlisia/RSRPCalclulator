@@ -63,7 +63,7 @@ void DataProvider::fakeDataForDebuging()
     std::shared_ptr<IAntennaLossFileProvider> antennaLossFileProvider = std::make_shared<AntennaLossFileProvider>(h,v);
 
     Sector sector1(antenna, baseStations[0]);
-    sector1.setBandwidth(5);
+    sector1.setBandwidth(20);
     sector1.setAzimuth(45);
     sector1.setMimo(Mimo::Nan);
     sector1.setEnvironment(Environment::RuralAera);
@@ -73,7 +73,7 @@ void DataProvider::fakeDataForDebuging()
     sectorControler->addSector(sector1);
 
     Sector sector2(antenna, baseStations[0]);
-    sector2.setBandwidth(5);
+    sector2.setBandwidth(20);
     sector2.setAzimuth(90);
     sector2.setMimo(Mimo::Nan);
     sector2.setEnvironment(Environment::RuralAera);
@@ -83,7 +83,7 @@ void DataProvider::fakeDataForDebuging()
     sectorControler->addSector(sector2);
 
     Sector sector3(antenna, baseStations[0]);
-    sector3.setBandwidth(5);
+    sector3.setBandwidth(20);
     sector3.setAzimuth(180);
     sector3.setMimo(Mimo::Nan);
     sector3.setEnvironment(Environment::RuralAera);
@@ -99,7 +99,7 @@ void DataProvider::fakeDataForDebuging()
     baseStations.push_back(std::make_shared<BaseStation>(std::move(possition2.getXy()),20,"bts2"));
 
     Sector sector4(antenna, baseStations[1]);
-    sector4.setBandwidth(5);
+    sector4.setBandwidth(20);
     sector4.setAzimuth(315);
     sector4.setMimo(Mimo::Nan);
     sector4.setEnvironment(Environment::RuralAera);
@@ -109,7 +109,7 @@ void DataProvider::fakeDataForDebuging()
     sectorControler->addSector(sector4);
 
     Sector sector5(antenna, baseStations[1]);
-    sector5.setBandwidth(5);
+    sector5.setBandwidth(20);
     sector5.setAzimuth(270);
     sector5.setMimo(Mimo::Nan);
     sector5.setEnvironment(Environment::RuralAera);
@@ -119,7 +119,7 @@ void DataProvider::fakeDataForDebuging()
     sectorControler->addSector(sector5);
 
     Sector sector6(antenna, baseStations[1]);
-    sector6.setBandwidth(5);
+    sector6.setBandwidth(20);
     sector6.setAzimuth(200);
     sector6.setMimo(Mimo::Nan);
     sector6.setEnvironment(Environment::RuralAera);
@@ -135,7 +135,7 @@ void DataProvider::fakeDataForDebuging()
     baseStations.push_back(std::make_shared<BaseStation>(std::move(possition3.getXy()),15,"bts3"));
 
     Sector sector7(antenna, baseStations[2]);
-    sector7.setBandwidth(5);
+    sector7.setBandwidth(20);
     sector7.setAzimuth(350);
     sector7.setMimo(Mimo::Nan);
     sector7.setEnvironment(Environment::RuralAera);
@@ -145,7 +145,7 @@ void DataProvider::fakeDataForDebuging()
     sectorControler->addSector(sector7);
 
     Sector sector8(antenna, baseStations[2]);
-    sector8.setBandwidth(5);
+    sector8.setBandwidth(20);
     sector8.setAzimuth(280);
     sector8.setMimo(Mimo::Nan);
     sector8.setEnvironment(Environment::RuralAera);
@@ -155,7 +155,7 @@ void DataProvider::fakeDataForDebuging()
     sectorControler->addSector(sector8);
 
     Sector sector9(antenna, baseStations[2]);
-    sector9.setBandwidth(5);
+    sector9.setBandwidth(20);
     sector9.setAzimuth(190);
     sector9.setMimo(Mimo::Nan);
     sector9.setEnvironment(Environment::RuralAera);
