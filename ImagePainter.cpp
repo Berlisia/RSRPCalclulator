@@ -8,7 +8,7 @@ ImagePainter::ImagePainter(const Rsrp & p_rsrp, QWidget *parent) :
 {
 }
 
-const QPixmap& ImagePainter::paintImage()
+QPixmap ImagePainter::paintImage()
 {
     QPixmap px;
     px.load(":/mapy/mapa");
@@ -20,7 +20,7 @@ const QPixmap& ImagePainter::paintImage()
     }
     painter.end();
 
-    return std::move(px);
+    return px;
 }
 
 void ImagePainter::makeScale()
