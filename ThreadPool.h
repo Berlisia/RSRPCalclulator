@@ -4,12 +4,18 @@
 
 #include <thread>
 #include <vector>
+#include <QObject>
 
 typedef std::shared_ptr<std::thread> ThreadPtr;
 typedef std::vector<ThreadPtr> Threads;
 
-class ThreadPool
+class ThreadPool : public QObject
 {
+    Q_OBJECT
+signals:
+    void broadcastDataSize(unsigned);
+    void brodcastCurrentPogress(unsigned);
+
 public:
     ThreadPool(size_t p_size);
     ~ThreadPool();
@@ -17,7 +23,6 @@ public:
     void start();
     void stop();
     void add(const Task & task, const PixelXY & pixel);
-    //int getTaskQueueSize() const;
 
 private:
     void threadFunc();

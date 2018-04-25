@@ -1,22 +1,25 @@
 #pragma once
-#include "mainwindow.h"
-#include "MapProvider/MapDataProvider.h"
-#include "Worker.h"
 #include "DataProvider.h"
+#include "MapProvider/MapDataProvider.h"
+#include "ThreadPool.h"
+#include "Worker.h"
+#include "mainwindow.h"
 
-#include <QThread>
 #include <QObject>
+#include <QThread>
 
 class Controler : public QObject
 {
     Q_OBJECT
 public:
-    Controler(const MainWindow& p_mw, DataProvider& p_dataProvider, std::shared_ptr<IMapDataProvider> p_mapDataProvider);
+    Controler(const MainWindow& p_mw,
+              DataProvider& p_dataProvider,
+              std::shared_ptr<IMapDataProvider> p_mapDataProvider);
 
     QThread thread;
     DataProvider& data;
     std::shared_ptr<IMapDataProvider> mapDataProvider;
+    std::shared_ptr<ThreadPool> pool;
     Worker worker;
     const MainWindow& mw;
-
 };

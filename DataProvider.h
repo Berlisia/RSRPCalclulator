@@ -19,7 +19,6 @@ typedef std::vector<std::pair<PixelXY,double>> Rsrq;
 class RSRPForPixel : public QObject
 {
     Q_OBJECT
-
 public:
     SignalPower vector;
 signals:

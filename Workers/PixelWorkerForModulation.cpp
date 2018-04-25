@@ -23,7 +23,7 @@ int PixelWorkerForModulation::calculate(PixelXY pixel, double snir, ModulationSc
 
 int PixelWorkerForModulation::chooseProperCQI(double snirValue)
 {
-    for(int cqi = 0; cqi < modulationAndSnrMappingTable.size(); cqi++)
+    for(std::size_t cqi = 0; cqi < modulationAndSnrMappingTable.size(); cqi++)
     {
         if(snirValue > modulationAndSnrMappingTable[cqi].minSnr and
            snirValue < modulationAndSnrMappingTable[cqi].maxSnr)

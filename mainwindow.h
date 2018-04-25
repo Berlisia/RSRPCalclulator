@@ -10,6 +10,7 @@
 #include "DrawRectangle.h"
 #include "Canvas.h"
 #include "MapProvider/GeographicalCoordinatesConverter.h"
+#include <QProgressBar>
 
 class QWidget;
 class QLabel;
@@ -45,6 +46,8 @@ signals:
 public slots:
     void displayImage(const QPixmap & img, std::vector<std::pair<PixelXY,double>>&);
     void drawDataMap();
+    void updateProgressBar(unsigned progress);
+    void setProgressBarRange(unsigned max);
 
 private:
     void addMenu();
@@ -84,9 +87,10 @@ private:
     GeographicalCoordinatesConverter geoConverter;
     std::shared_ptr<TerrainProfile> terProfile;
 
-    int initBarSize;
+    unsigned initBarSize;
     double maxFromData;
     double minFromData;
+    QProgressBar progressBar;
 
 private slots:
     void on_baseStationUi_clicked();

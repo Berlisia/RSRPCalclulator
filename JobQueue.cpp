@@ -28,7 +28,7 @@ bool JobQueue::empty() const
     return dataQueue.empty();
 }
 
-int JobQueue::size()
+int JobQueue::size() const
 {
    unique_lock<mutex> lk(mut);
    return dataQueue.size();

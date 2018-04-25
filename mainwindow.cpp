@@ -27,8 +27,10 @@ MainWindow::MainWindow(DataProvider& p_data, std::shared_ptr<IMapDataProvider> p
     data(p_data),
     scene(nullptr),
     mapDataProvider(p_mapData),
-    currenItemInScene(nullptr)
+    currenItemInScene(nullptr),
+    progressBar(this)
 {
+    progressBar.hide();
     ui->setupUi(this);
     QPixmap img;
     img.load(":/mapy/mapa");
@@ -316,8 +318,24 @@ void MainWindow::selectBase()
 
 void MainWindow::drawDataMap()
 {
+    progressBar.hide();
     drawImage(data.rsrp.vector);
     radioBoxesCheckable();
+}
+
+void MainWindow::setProgressBarRange(unsigned max)
+{
+    progressBar.setRange(0, max);
+    initBarSize = max;
+    qDebug() << "Size: " << max;
+    progressBar.show();
+}
+
+void MainWindow::updateProgressBar(unsigned progress)
+{
+    auto currentProgress = initBarSize - progress;
+    qDebug() << "Progress: " << currentProgress;
+    progressBar.setValue(currentProgress);
 }
 
 void MainWindow::drawInterferenceImage(bool enabled)
