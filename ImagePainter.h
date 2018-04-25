@@ -12,7 +12,7 @@ class ImagePainter : public QWidget
 public:
     explicit ImagePainter(const Rsrp & p_rsrp, QWidget *parent = 0);
 
-    const QPixmap& paintImage();
+    QPixmap paintImage();
     const QColor getColor(double L);
     double findMax();
     double findMin();
