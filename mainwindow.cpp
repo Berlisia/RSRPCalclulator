@@ -322,7 +322,6 @@ void MainWindow::selectBase()
 
 void MainWindow::drawDataMap()
 {
-    progressBar.hide();
     drawImage(data.rsrp.vector);
     radioBoxesCheckable();
 }
@@ -332,7 +331,6 @@ void MainWindow::setProgressBarRange(unsigned max)
     progressBar.setRange(0, max);
     initBarSize = max;
     qDebug() << "Size: " << max;
-    progressBar.show();
 }
 
 void MainWindow::updateProgressBar(unsigned progress)
