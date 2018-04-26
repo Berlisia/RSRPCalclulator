@@ -30,7 +30,6 @@ MainWindow::MainWindow(DataProvider& p_data, std::shared_ptr<IMapDataProvider> p
     currenItemInScene(nullptr),
     progressBar(this)
 {
-    progressBar.hide();
     ui->setupUi(this);
     QPixmap img;
     img.load(":/mapy/mapa");
@@ -48,6 +47,11 @@ MainWindow::MainWindow(DataProvider& p_data, std::shared_ptr<IMapDataProvider> p
     ui->valueLabel->setText(" ");
     ui->minimumRSRSPdoubleSpinBox->setRange(-200,0);
     ui->minimumRSRSPdoubleSpinBox->setValue(-120);
+
+    auto statusLabel = new QLabel(this);
+    statusLabel->setText("Progress:");
+    ui->statusBar->addPermanentWidget(statusLabel, 0);
+    ui->statusBar->addPermanentWidget(&progressBar, 1);
 
     setUpImagesRadioBoxes();
     addMenu();
