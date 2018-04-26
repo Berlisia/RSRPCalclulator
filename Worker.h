@@ -5,6 +5,7 @@
 #include "DataProvider.h"
 #include "PixelWorker.h"
 #include <QObject>
+#include <QFuture>
 
 class Worker : public QObject
 {
@@ -36,6 +37,7 @@ private:
     double calculateSnir(const PixelXY& pixel, double signalLvl);
 
     std::shared_ptr<ThreadPool> pool;
+    QFuture<void> future;
     DataProvider& data;
     std::shared_ptr<IMapDataProvider> mapDataProvider;
     std::shared_ptr<SectorsControler> sectors;

@@ -13,6 +13,4 @@ Controler::Controler(const MainWindow& p_mw,
     connect(&worker, &Worker::done, &mw, &MainWindow::drawDataMap);
     connect(pool.get(), &ThreadPool::broadcastDataSize, &mw, &MainWindow::setProgressBarRange);
     connect(pool.get(), &ThreadPool::brodcastCurrentPogress, &mw, &MainWindow::updateProgressBar);
-    worker.moveToThread(&thread);
-    thread.start();
 }

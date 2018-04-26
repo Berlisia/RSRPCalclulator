@@ -16,7 +16,6 @@ public:
               DataProvider& p_dataProvider,
               std::shared_ptr<IMapDataProvider> p_mapDataProvider);
 
-    QThread thread;
     DataProvider& data;
     std::shared_ptr<IMapDataProvider> mapDataProvider;
     std::shared_ptr<ThreadPool> pool;

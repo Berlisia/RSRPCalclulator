@@ -9,6 +9,7 @@
 #include "Workers/PixelWorkerForSNIR.h"
 #include <QDebug>
 #include <math.h>
+#include <QtConcurrent/QtConcurrent>
 
 #include "Common/Units.h"
 
@@ -24,7 +25,7 @@ void Worker::doCalculation()
     qDebug() << "Zaczynamy!";
     if (!data.areaPixels.size()) // core dump when user click run without selected sector
         return;
-    makeQueueOfCalculationTaskAndRun();
+    future = QtConcurrent::run(this, &Worker::makeQueueOfCalculationTaskAndRun);
 }
 
 void Worker::makeQueueOfCalculationTaskAndRun()
