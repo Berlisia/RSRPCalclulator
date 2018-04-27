@@ -15,7 +15,7 @@ PathlossCalculation::PathlossCalculation(std::shared_ptr<IMapDataProvider> p_map
 std::vector<double> PathlossCalculation::calculatePathloss()
 {
     std::vector<double> loss;
-    for(auto sector : sectors.getVectorOfSectors())
+    for(const auto& sector : sectors.getVectorOfSectors())
     {
         Model model = choosePropagarionModel(sector);
         Pathloss pathloss = 0;
@@ -32,7 +32,7 @@ std::vector<double> PathlossCalculation::calculatePathloss()
         }
         loss.push_back(pathloss - sector.getGain());
     }
-    return std::move(loss);
+    return loss;
 }
 
 double PathlossCalculation::effectiveBAntennaHeight(Sector const& sector)

@@ -6,8 +6,8 @@ Antenna::Antenna(double power, double gain, int tilt, int bandBw, std::string fi
     power(power),
     gain(gain),
     tilt(tilt),
-    fileNameH(fileH),
-    fileNameV(fileV)
+    fileNameH(std::move(fileH)),
+    fileNameV(std::move(fileV))
 {
     setBandByIndex(bandBw);
     frequency = (band.dlFreq.second - band.dlFreq.first) / 2;

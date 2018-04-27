@@ -1,24 +1,18 @@
-#include <QTreeWidget>
-#include <QDebug>
 #include <QComboBox>
+#include <QDebug>
+#include <QTreeWidget>
 
-#include "NetworkObjectWizualizator.h"
 #include "DataProvider.h"
 #include "GuiConstans.h"
+#include "NetworkObjectWizualizator.h"
 
-NetworkObjectWizualizator::NetworkObjectWizualizator(QWidget* parent, QTreeWidget *p_ui, DataProvider& p_data) :
-    QWidget(parent),
-    treeWidget(p_ui),
-    dataProvider(p_data)
+NetworkObjectWizualizator::NetworkObjectWizualizator(QWidget* parent, QTreeWidget* p_ui, DataProvider& p_data)
+    : QWidget(parent), treeWidget(p_ui), dataProvider(p_data)
 {
     treeWidget->setColumnCount(2);
     treeWidget->setAutoScroll(true);
     showNetworkElements();
     setupConnections();
-}
-
-NetworkObjectWizualizator::~NetworkObjectWizualizator()
-{
 }
 
 void NetworkObjectWizualizator::update()
@@ -64,15 +58,17 @@ QTreeWidgetItem* NetworkObjectWizualizator::addTreeRoot(QString name, QString va
 
 QTreeWidgetItem* NetworkObjectWizualizator::addChildToRoot(QTreeWidgetItem* parent, QString name, QString value)
 {
-    QTreeWidgetItem* treeItem = new QTreeWidgetItem();
-    treeItem->setText(0, name);
-    treeItem->setText(1, value);
+    auto treeItem = new QTreeWidgetItem();
+    treeItem->setText(0, std::move(name));
+    treeItem->setText(1, std::move(value));
     treeItem->setFlags(treeItem->flags() | Qt::ItemIsEditable);
     parent->addChild(treeItem);
     return treeItem;
 }
 
-QTreeWidgetItem* NetworkObjectWizualizator::addChildToRootWithSepcialWidget(QTreeWidgetItem* parent, QString name, QWidget* widget)
+QTreeWidgetItem* NetworkObjectWizualizator::addChildToRootWithSepcialWidget(QTreeWidgetItem* parent,
+                                                                            QString name,
+                                                                            QWidget* widget)
 {
     QTreeWidgetItem* treeItem = new QTreeWidgetItem();
     treeItem->setText(0, name);
@@ -84,19 +80,19 @@ QTreeWidgetItem* NetworkObjectWizualizator::addChildToRootWithSepcialWidget(QTre
 
 void NetworkObjectWizualizator::fillNetworElements()
 {
-    for(auto eNB : dataProvider.baseStations)
+    for (const auto& eNB : dataProvider.baseStations)
     {
         QTreeWidgetItem* currentTreeItem = addTreeRoot(GUI::eNbName, eNB->getName().c_str());
         eNbTreeMap[currentTreeItem] = QString(eNB->getName().c_str());
-        addChildToRoot(currentTreeItem, GUI::position, QString::number(eNB->getPossition().first) +
-                                                       ", " +
-                                                       QString::number(eNB->getPossition().second));
+        addChildToRoot(currentTreeItem,
+                       GUI::position,
+                       QString::number(eNB->getPossition().first) + ", " + QString::number(eNB->getPossition().second));
         currentTreeItem = addChildToRoot(currentTreeItem, GUI::height, QString::number(eNB->getAntennaHeight()));
 
         QTreeWidgetItem* sectorTreeItem = addChildToRoot(currentTreeItem, GUI::sectors, " ");
-        for(auto sector : dataProvider.sectorControler->getVectorOfSectors())
+        for (const auto& sector : dataProvider.sectorControler->getVectorOfSectors())
         {
-            if(sector.getBaseStationName() == eNB->getName())
+            if (sector.getBaseStationName() == eNB->getName())
             {
                 currentTreeItem = addChildToRoot(sectorTreeItem, GUI::sectorIdx, QString::number(sector.getEcgi()));
                 ecgiSectorTreeMap[currentTreeItem] = sector.getEcgi();
@@ -106,9 +102,14 @@ void NetworkObjectWizualizator::fillNetworElements()
                 addChildToRoot(currentTreeItem, GUI::bandwidth, QString::number(sector.getBandwith()));
 
                 addChildToRootWithSepcialWidget(currentTreeItem, GUI::mimo, createQComboBoxForSelectMimo(sector));
-                addChildToRootWithSepcialWidget(currentTreeItem, GUI::environment, createQComboBoxForSelectEnvironment(sector));
-                //connect(environmentComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(changeDataForEnvComboBox(int)));
-                addChildToRootWithSepcialWidget(currentTreeItem, GUI::propModel, createQComboBoxForSelectPropModel(sector));
+                addChildToRootWithSepcialWidget(currentTreeItem,
+                                                GUI::environment,
+                                                createQComboBoxForSelectEnvironment(sector));
+                // connect(environmentComboBox, SIGNAL(currentIndexChanged(int)), this,
+                // SLOT(changeDataForEnvComboBox(int)));
+                addChildToRootWithSepcialWidget(currentTreeItem,
+                                                GUI::propModel,
+                                                createQComboBoxForSelectPropModel(sector));
 
                 currentTreeItem = addChildToRoot(currentTreeItem, GUI::antenna, "");
                 addChildToRoot(currentTreeItem, GUI::gain, QString::number(sector.getGain()));
@@ -127,49 +128,55 @@ QTreeWidgetItem* NetworkObjectWizualizator::findProperParent(QTreeWidgetItem* p_
 {
     switch (findTypeOfField(p_treeItem->text(0)))
     {
-    case E_NB_ID:
-        return p_treeItem;
-    case POSITION:
-    case HEIGHT:
-       return p_treeItem->parent();
-    case SECTOR_ID:
-        return p_treeItem;
-    case POWER:
-    case BAND:
-    case BANDWIDTH:
-    case MIMO:
-    case ENVIRNOMENT:
-    case PROPAGATION_MODEL:
-        return p_treeItem->parent();
-    case GAIN:
-    case TILT:
-    case AZIMUT:
-        return p_treeItem->parent()->parent();
-    case FILE_V:
-    case FILE_H:
-        return p_treeItem->parent()->parent()->parent();
+        case E_NB_ID:
+            return p_treeItem;
+        case POSITION:
+        case HEIGHT:
+            return p_treeItem->parent();
+        case SECTOR_ID:
+            return p_treeItem;
+        case POWER:
+        case BAND:
+        case BANDWIDTH:
+        case MIMO:
+        case ENVIRNOMENT:
+        case PROPAGATION_MODEL:
+            return p_treeItem->parent();
+        case GAIN:
+        case TILT:
+        case AZIMUT:
+            return p_treeItem->parent()->parent();
+        case FILE_V:
+        case FILE_H:
+            return p_treeItem->parent()->parent()->parent();
     }
     return nullptr;
 }
 
-void NetworkObjectWizualizator::changeDataForENB(QTreeWidgetItem *p_parent, QTreeWidgetItem *p_itemChanged)
+void NetworkObjectWizualizator::changeDataForENB(QTreeWidgetItem* p_parent, QTreeWidgetItem* p_itemChanged)
 {
     auto p_enbId = eNbTreeMap[p_parent];
     dataProvider.updateInputValueForBaseStation(p_enbId, p_itemChanged->text(0), p_itemChanged->text(1));
-    if(p_parent == p_itemChanged) eNbTreeMap[p_parent] = p_itemChanged->text(1);
+    if (p_parent == p_itemChanged)
+    {
+        eNbTreeMap[p_parent] = p_itemChanged->text(1);
+    }
 }
 
-void NetworkObjectWizualizator::changeDataForSector(QTreeWidgetItem *p_parent, QTreeWidgetItem *p_treeItem)
+void NetworkObjectWizualizator::changeDataForSector(QTreeWidgetItem* p_parent, QTreeWidgetItem* p_treeItem)
 {
     auto ecgi = ecgiSectorTreeMap[p_parent];
     qDebug() << "zmiana: " << p_treeItem->text(1);
     dataProvider.updateInputValueForSector(ecgi, p_treeItem->text(0), p_treeItem->text(1));
-    if(p_parent == p_treeItem) ecgiSectorTreeMap[p_parent] = p_treeItem->text(1).toInt();
+    if (p_parent == p_treeItem)
+    {
+        ecgiSectorTreeMap[p_parent] = p_treeItem->text(1).toInt();
+    }
 }
 
 QComboBox* NetworkObjectWizualizator::createQComboBoxForSelectEnvironment(const Sector& sector)
 {
-    QComboBox* environmentComboBox = new QComboBox(this);
+    auto environmentComboBox = new QComboBox(this);
     environmentComboBox->addItem("Small and medium size cities", QVariant(SMALL_AND_MEDIUM_SIZE_CITIES));
     environmentComboBox->addItem("Metropolitan areas", QVariant(METROPOLITAN_AREAS));
     environmentComboBox->addItem("Suburban evironments", QVariant(SUBURBAN_ENV));
@@ -180,7 +187,7 @@ QComboBox* NetworkObjectWizualizator::createQComboBoxForSelectEnvironment(const 
 
 QComboBox* NetworkObjectWizualizator::createQComboBoxForSelectMimo(const Sector& sector)
 {
-    QComboBox* mimoBox = new QComboBox(this);
+    auto mimoBox = new QComboBox(this);
     mimoBox->addItem("Nan", QVariant(0));
     mimoBox->addItem("2x2", QVariant(1));
     mimoBox->addItem("4x4", QVariant(2));
@@ -188,25 +195,27 @@ QComboBox* NetworkObjectWizualizator::createQComboBoxForSelectMimo(const Sector&
     return mimoBox;
 }
 
-QComboBox *NetworkObjectWizualizator::createQComboBoxForSelectPropModel(const Sector& sector)
+QComboBox* NetworkObjectWizualizator::createQComboBoxForSelectPropModel(const Sector& sector)
 {
-    QComboBox* modelBox = new QComboBox(this);
+    auto modelBox = new QComboBox(this);
     modelBox->addItem("Okumura Hata", QVariant(0));
     modelBox->addItem("Cost231 Hata", QVariant(1));
     modelBox->setCurrentIndex(int(sector.getModel()));
     return modelBox;
-
 }
 
 void NetworkObjectWizualizator::changeDataFor(QTreeWidgetItem* p_treeItem)
 {
-    QTreeWidgetItem* parent = findProperParent(p_treeItem);
-    if(!parent) return;
-    if(parent->text(0) == GUI::sectorIdx)
+    auto parent = findProperParent(p_treeItem);
+    if (parent == nullptr)
+    {
+        return;
+    }
+    if (parent->text(0) == GUI::sectorIdx)
     {
         changeDataForSector(parent, p_treeItem);
     }
-    else if(parent->text(0) == GUI::eNbName)
+    else if (parent->text(0) == GUI::eNbName)
     {
         changeDataForENB(parent, p_treeItem);
     }
@@ -219,11 +228,14 @@ void NetworkObjectWizualizator::changeDataForEnvComboBox(int index)
 
 int NetworkObjectWizualizator::findTypeOfField(QString p_field)
 {
-    return GUI::behaviorMap.find(p_field)->second;
+    return GUI::behaviorMap.find(std::move(p_field))->second;
 }
 
 void NetworkObjectWizualizator::setupConnections()
 {
-    connect(treeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(itemTreeDoubleClicked(QTreeWidgetItem*,int)));
-    connect(treeWidget, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(changeDataFor(QTreeWidgetItem*)));
+    connect(treeWidget,
+            SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)),
+            this,
+            SLOT(itemTreeDoubleClicked(QTreeWidgetItem*, int)));
+    connect(treeWidget, SIGNAL(itemChanged(QTreeWidgetItem*, int)), this, SLOT(changeDataFor(QTreeWidgetItem*)));
 }

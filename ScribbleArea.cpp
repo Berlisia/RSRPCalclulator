@@ -25,7 +25,7 @@ ScribbleArea::ScribbleArea(QCheckBox *p_checkBox, QCheckBox *p_TerrainCheckBox, 
 
 void ScribbleArea::setTerriainProfile(std::shared_ptr<TerrainProfile> p_terProfile)
 {
-    terProfile = p_terProfile;
+    terProfile = std::move(p_terProfile);
 }
 
 void ScribbleArea::selectEvent(QGraphicsSceneMouseEvent *event)
@@ -92,7 +92,10 @@ void ScribbleArea::setValueInLabel(double value)
     {
         valueLabel->setText("-");
     }
-    else valueLabel->setText(std::to_string(value).c_str());
+    else
+    {
+        valueLabel->setText(std::to_string(value).c_str());
+    }
 }
 
 double ScribbleArea::findValueForPixel(PixelXY pixel)

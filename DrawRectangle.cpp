@@ -1,12 +1,7 @@
 #include "DrawRectangle.h"
 #include <QGraphicsSceneMouseEvent>
 
-DrawRectangle::DrawRectangle()
-{
-
-}
-
-void DrawRectangle::mousePress(QGraphicsSceneMouseEvent *event)
+void DrawRectangle::mousePress(QGraphicsSceneMouseEvent* event)
 {
     clickPressed = true;
     startPosition = event->scenePos();
@@ -18,7 +13,7 @@ void DrawRectangle::mousePress(QGraphicsSceneMouseEvent *event)
     rectangle->setHeight(2);
 }
 
-void DrawRectangle::mouseMove(QGraphicsSceneMouseEvent *event)
+void DrawRectangle::mouseMove(QGraphicsSceneMouseEvent* event)
 {
     if (clickPressed)
     {
@@ -27,24 +22,20 @@ void DrawRectangle::mouseMove(QGraphicsSceneMouseEvent *event)
 
         if (distX < 0)
         {
-            rectangle->setPosition(
-                        QPoint(event->scenePos().x(), rectangle->getPosition().y()));
+            rectangle->setPosition(QPoint(event->scenePos().x(), rectangle->getPosition().y()));
         }
         else
         {
-            rectangle->setPosition(
-                        QPoint(startPosition.x(), rectangle->getPosition().y()));
+            rectangle->setPosition(QPoint(startPosition.x(), rectangle->getPosition().y()));
         }
 
         if (distY < 0)
         {
-            rectangle->setPosition(
-                        QPoint(rectangle->getPosition().x(), event->scenePos().y()));
+            rectangle->setPosition(QPoint(rectangle->getPosition().x(), event->scenePos().y()));
         }
         else
         {
-            rectangle->setPosition(
-                        QPoint(rectangle->getPosition().x(), startPosition.y()));
+            rectangle->setPosition(QPoint(rectangle->getPosition().x(), startPosition.y()));
         }
 
         rectangle->setWidth(std::abs(distX));
@@ -57,12 +48,12 @@ void DrawRectangle::mouseRelease(QGraphicsSceneMouseEvent* /*event*/)
     clickPressed = false;
 }
 
-void DrawRectangle::setRectangle(Rectangle *rect)
+void DrawRectangle::setRectangle(Rectangle* rect)
 {
-    rectangle = std::move(rect);
+    rectangle = rect;
 }
 
-void DrawRectangle::setPainter(QPainter *p_painter)
+void DrawRectangle::setPainter(QPainter* p_painter)
 {
     painter = p_painter;
 }
@@ -73,7 +64,7 @@ void DrawRectangle::draw()
     emit drawingDone();
 }
 
-Rectangle *DrawRectangle::getRect()
+Rectangle* DrawRectangle::getRect()
 {
     return rectangle;
 }

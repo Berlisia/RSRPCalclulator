@@ -14,12 +14,12 @@ DataProvider::DataProvider() : minValueOfRSRP(-120)
 
 void DataProvider::addBaseStation(std::shared_ptr<BaseStation> base)
 {
-    baseStations.push_back(base);
+    baseStations.push_back(std::move(base));
 }
 
 void DataProvider::addSector(Antenna &antenna, std::shared_ptr<BaseStation> base)
 {
-    Sector sector(antenna, base);
+    Sector sector(antenna, std::move(base));
     sectorControler->addSector(sector);
 }
 
@@ -28,12 +28,12 @@ void DataProvider::getRsrp(std::vector<std::pair<PixelXY, double> > &p_rsrp)
     rsrp.vector = std::move(p_rsrp);
 }
 
-void DataProvider::updateInputValueForSector(const int ecgi, const QString p_filed, const QString p_value)
+void DataProvider::updateInputValueForSector(int ecgi, QString p_filed, QString p_value)
 {
-    sectorControler->modify(ecgi, p_filed, p_value);
+    sectorControler->modify(ecgi, std::move(p_filed), std::move(p_value));
 }
 
-void DataProvider::updateInputValueForBaseStation(const QString p_eNbId, const QString p_field, const QString p_value)
+void DataProvider::updateInputValueForBaseStation(QString p_eNbId, QString p_field, QString p_value)
 {
     qDebug() << "enb: " << p_eNbId;
     qDebug() << "pole: " << p_field;
@@ -48,7 +48,7 @@ void DataProvider::fakeDataForDebuging()
     std::pair<int,int> pixel = geoConverter.geographicalCoordinatesToPixel(std::pair<double,double>(x,y));
     //pixel = std::pair<int,int>(5,5);
     PixelXY possition(pixel);
-    baseStations.push_back(std::make_shared<BaseStation>(std::move(possition.getXy()),15,"bts1"));
+    baseStations.push_back(std::make_shared<BaseStation>(possition.getXy(), 15, "bts1"));
 
     //std::string h = "D:/Polibuda/Mgr/lato2017_2018/PracaMgr/RSRPCalclulator/742266V02_pozioma.csv";
     //std::string v = "D:/Polibuda/Mgr/lato2017_2018/PracaMgr/RSRPCalclulator/742266V02_pionowa.csv";
@@ -96,7 +96,7 @@ void DataProvider::fakeDataForDebuging()
     y = 16.3100;
     pixel = geoConverter.geographicalCoordinatesToPixel(std::pair<double,double>(x,y));
     PixelXY possition2(pixel);
-    baseStations.push_back(std::make_shared<BaseStation>(std::move(possition2.getXy()),20,"bts2"));
+    baseStations.push_back(std::make_shared<BaseStation>(possition2.getXy(), 20, "bts2"));
 
     Sector sector4(antenna, baseStations[1]);
     sector4.setBandwidth(20);
@@ -132,7 +132,7 @@ void DataProvider::fakeDataForDebuging()
     y = 16.2177;
     pixel = geoConverter.geographicalCoordinatesToPixel(std::pair<double,double>(x,y));
     PixelXY possition3(pixel);
-    baseStations.push_back(std::make_shared<BaseStation>(std::move(possition3.getXy()),15,"bts3"));
+    baseStations.push_back(std::make_shared<BaseStation>(possition3.getXy(), 15, "bts3"));
 
     Sector sector7(antenna, baseStations[2]);
     sector7.setBandwidth(20);

@@ -2,20 +2,19 @@
 #include <cmath>
 #include <functional>
 
-AntennaLossVerticalCalculator::AntennaLossVerticalCalculator(std::shared_ptr<IMapDataProvider> p_mapProvider,
-                                                             std::shared_ptr<IAntennaLossFileProvider> p_AntennafileProvider) :
-    AntenaLossCalculator(p_mapProvider,p_AntennafileProvider),
-    antennaHeight(0),
-    tilt(0)
+AntennaLossVerticalCalculator::AntennaLossVerticalCalculator(
+    std::shared_ptr<IMapDataProvider> p_mapProvider,
+    std::shared_ptr<IAntennaLossFileProvider> p_AntennafileProvider)
+    : AntenaLossCalculator(std::move(p_mapProvider), std::move(p_AntennafileProvider)), antennaHeight(0), tilt(0)
 {
 }
 
 double AntennaLossVerticalCalculator::calculateAntennaLoss()
 {
-   int angle = calculateAngle();
-   calculateAngleWithTilt(angle);
-   double loss = antennafileProvider->getLossFromFile(angle, Charakteristic::vertical);
-   return loss;
+    int angle = calculateAngle();
+    calculateAngleWithTilt(angle);
+    double loss = antennafileProvider->getLossFromFile(angle, Charakteristic::vertical);
+    return loss;
 }
 
 void AntennaLossVerticalCalculator::setAntennaHeight(double p_antennaHeight)
@@ -42,21 +41,20 @@ int AntennaLossVerticalCalculator::getTilt()
 int AntennaLossVerticalCalculator::calculateAngle()
 {
     double angle = 0;
-    const double distance = mapProvider->coutDistance(receiver,antenna);
+    const double distance = mapProvider->coutDistance(receiver, antenna);
     angle = atangens(distance);
     return angle;
 }
 
 void AntennaLossVerticalCalculator::calculateAntennaHeight()
 {
-    antennaHeight = (mapProvider->pixelHeight(antenna) + antennaHeight)
-                    - mapProvider->pixelHeight(receiver);
+    antennaHeight = (mapProvider->pixelHeight(antenna) + antennaHeight) - mapProvider->pixelHeight(receiver);
 }
 
-void AntennaLossVerticalCalculator::calculateAngleWithTilt(int & angle)
+void AntennaLossVerticalCalculator::calculateAngleWithTilt(int& angle)
 {
     angle = angle - tilt;
-    if(angle < 0)
+    if (angle < 0)
     {
         angle = 360 + angle;
     }
@@ -64,7 +62,7 @@ void AntennaLossVerticalCalculator::calculateAngleWithTilt(int & angle)
 
 int AntennaLossVerticalCalculator::atangens(const double distance)
 {
-    const double value = antennaHeight/distance;
+    const double value = antennaHeight / distance;
     int angle = arcTangens(value);
     return angle;
 }

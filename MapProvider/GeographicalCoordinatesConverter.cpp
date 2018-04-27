@@ -34,8 +34,14 @@ std::pair<int, int> GeographicalCoordinatesConverter::geographicalCoordinatesToP
     //l_pxY = std::round(m_maxY - ((m_ulymap - l_pxY) / 25));
     l_pxX = std::round((l_pxX - m_ulymap)/25);
     l_pxY = - std::round((l_pxY - m_ulxmap)/25);
-    if(l_pxX == 0) l_pxX = 1;
-    if(l_pxY == 0) l_pxY = 1;
+    if(l_pxX == 0)
+    {
+        l_pxX = 1;
+    }
+    if(l_pxY == 0)
+    {
+        l_pxY = 1;
+    }
     std::pair<double,double> pixel(l_pxX, l_pxY);
     return pixel;
 }

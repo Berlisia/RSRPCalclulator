@@ -3,7 +3,7 @@
 #include <algorithm>
 
 RsrpCalculation::RsrpCalculation(RsrpInitialization &initialize) :
-    init(initialize)
+    init(initialize), numberOfPrb(0)
 {
 }
 

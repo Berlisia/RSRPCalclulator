@@ -18,8 +18,6 @@ signals:
 
 public:
     ThreadPool(size_t p_size);
-    ~ThreadPool();
-
     void start();
     void stop();
     void add(const Task & task, const PixelXY & pixel);

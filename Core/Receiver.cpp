@@ -1,9 +1,5 @@
 #include "Receiver.h"
 
-Receiver::Receiver()
-{
-}
-
 PixelXY Receiver::getPossition() const
 {
     return possition;

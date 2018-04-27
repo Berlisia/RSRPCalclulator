@@ -1,10 +1,10 @@
 #include "Sector.h"
 
-Sector::Sector(Antenna & p_antenna, std::shared_ptr<BaseStation> baseStation) :
+Sector::Sector(Antenna & p_antenna, std::shared_ptr<BaseStation> p_baseStation) :
                 azimuth(0),
                 bandwidth(0),
                 mimo(Mimo::Nan),
-                baseStation(baseStation)
+                baseStation(std::move(p_baseStation))
 {
     antenna = std::make_shared<Antenna>(std::move(p_antenna));
 }
@@ -61,12 +61,12 @@ void Sector::setTilt(int newTilit)
 
 void Sector::setFileHName(QString newPath)
 {
-    antennaCharacteristic->changeFileHorizontal(newPath);
+    antennaCharacteristic->changeFileHorizontal(std::move(newPath));
 }
 
 void Sector::setFileVName(QString newPath)
 {
-    antennaCharacteristic->changeFileVertical(newPath);
+    antennaCharacteristic->changeFileVertical(std::move(newPath));
 }
 
 int Sector::getAzimuth() const

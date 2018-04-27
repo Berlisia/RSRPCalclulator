@@ -10,7 +10,7 @@ public:
 
     double calculateAntennaLoss();
 
-    void setAntennaHeight(double p_antennaHeight); //względem UE!!!!
+    void setAntennaHeight(double p_antennaHeight); // względem UE!!!!
     void setTilt(int p_tilt);
 
     double getAntennaHeight();
@@ -19,9 +19,8 @@ public:
 private:
     int calculateAngle();
     void calculateAntennaHeight();
-    void calculateAngleWithTilt(int & angle);
+    void calculateAngleWithTilt(int& angle);
     int atangens(const double distance);
-
 
     double antennaHeight;
     int tilt;

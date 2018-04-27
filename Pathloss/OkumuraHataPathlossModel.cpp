@@ -1,14 +1,12 @@
 #include "OkumuraHataPathlossModel.h"
-
 #include <cmath>
-using namespace std;
 
-OkumuraHataPathlossModel::OkumuraHataPathlossModel() :
-    PathlossModel(Parameter(1500, 150), //MHz
-                  Parameter(200,30), //m
-                  Parameter(10,1), //m
-                  Parameter(20,1),
-                  Environment::Idle) //km
+OkumuraHataPathlossModel::OkumuraHataPathlossModel()
+    : PathlossModel(Parameter(1500, 150), // MHz
+                    Parameter(200, 30),   // m
+                    Parameter(10, 1),     // m
+                    Parameter(20, 1),
+                    Environment::Idle) // km
 {
 }
 
@@ -16,7 +14,7 @@ Pathloss OkumuraHataPathlossModel::pathloss()
 {
     Pathloss pathloss = 0;
     double factorC = executeFactorC(currentEnvironment);
-    pathloss = factorA()+ (factorB() * std::log10(distance.getValue())) + factorC;
+    pathloss = factorA() + (factorB() * std::log10(distance.getValue())) + factorC;
     return pathloss;
 }
 
@@ -89,16 +87,16 @@ double OkumuraHataPathlossModel::functionAForMediumCities()
     return functionA;
 }
 
-double OkumuraHataPathlossModel::functionAForMetriopolitan() //zobacz z książką!!!
+double OkumuraHataPathlossModel::functionAForMetriopolitan() // zobacz z książką!!!
 {
     double functionA = 0;
     double logHm = 0;
-    if(carrierFrequency.getValue() <= 200)
+    if (carrierFrequency.getValue() <= 200)
     {
         logHm = std::log10(1.54 * effectiveMSAntennaHeight.getValue());
         functionA = (8.29 * logHm * logHm) - 1.1;
     }
-    else if(carrierFrequency.getValue() >= 400)
+    else if (carrierFrequency.getValue() >= 400)
     {
         logHm = std::log10(11.75 * effectiveMSAntennaHeight.getValue());
         functionA = (3.2 * logHm * logHm) - 4.97;
@@ -113,19 +111,19 @@ double OkumuraHataPathlossModel::functionAForMetriopolitan() //zobacz z książk
 double OkumuraHataPathlossModel::executeFactorA(Environment env)
 {
     double A = 0;
-    switch(env)
+    switch (env)
     {
-    case Environment::MetropolitanAreas:
-        A = functionAForMetriopolitan();
-        break;
-    case Environment::SuburbanEvironments:
-    case Environment::SmallAndMediumSizeCities:
-    case Environment::RuralAera:
-        A = functionAForMediumCities();
-        break;
-    case Environment::Idle:
-    default:
-        break;
+        case Environment::MetropolitanAreas:
+            A = functionAForMetriopolitan();
+            break;
+        case Environment::SuburbanEvironments:
+        case Environment::SmallAndMediumSizeCities:
+        case Environment::RuralAera:
+            A = functionAForMediumCities();
+            break;
+        case Environment::Idle:
+        default:
+            break;
     }
     return A;
 }
@@ -135,19 +133,19 @@ double OkumuraHataPathlossModel::executeFactorC(Environment env)
     double C = 0;
     switch (env)
     {
-    case Environment::SmallAndMediumSizeCities:
-    case Environment::MetropolitanAreas:
-        C = factorCforCities();
-        break;
-    case Environment::SuburbanEvironments:
-        C = factorCforSuburbanEnvironments();
-        break;
-    case Environment::RuralAera:
-        C = factorCforRuralArea();
-        break;
-    case Environment::Idle:
-    default:
-        break;
+        case Environment::SmallAndMediumSizeCities:
+        case Environment::MetropolitanAreas:
+            C = factorCforCities();
+            break;
+        case Environment::SuburbanEvironments:
+            C = factorCforSuburbanEnvironments();
+            break;
+        case Environment::RuralAera:
+            C = factorCforRuralArea();
+            break;
+        case Environment::Idle:
+        default:
+            break;
     }
     return C;
 }

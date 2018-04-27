@@ -6,7 +6,7 @@
 class Antenna
 {
 public:
-    Antenna(double power, double gain, int tilt, int band, std::string horizonral, std::string vertical);
+    Antenna(double power, double gain, int tilt, int bandBw, std::string fileH, std::string fileV);
 
     void setPower(double newPower);
     void setTilt(int newTilt);

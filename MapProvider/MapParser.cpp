@@ -5,11 +5,11 @@
 
 namespace
 {
-void skipLines(QTextStream& fileStream, int num)
+void skipLines(QTextStream* fileStream, int num)
 {
     for (int i = 0; i < num - 1; ++i)
     {
-        fileStream.readLine();
+        fileStream->readLine();
     }
 }
 }
@@ -36,7 +36,7 @@ void MapParser::loadMapFromFile()
 
 void MapParser::getMapSizeFromFile(QTextStream& fileStream)
 {
-    skipLines(fileStream, 3);
+    skipLines(&fileStream, 3);
     fileStream >> m_mapSize.first;
     fileStream >> m_mapSize.second;
     m_pixelMap.resize(m_mapSize.first, std::vector<Pixel>(m_mapSize.second));
@@ -45,7 +45,7 @@ void MapParser::getMapSizeFromFile(QTextStream& fileStream)
 
 void MapParser::getMapContentFromFile(QTextStream& fileStream)
 {
-    skipLines(fileStream, 2);
+    skipLines(&fileStream, 2);
     unsigned int l_height;
     int l_x;
     int l_y;

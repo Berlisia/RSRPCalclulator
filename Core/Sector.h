@@ -11,7 +11,7 @@
 class Sector
 {
 public:
-    Sector(Antenna & antenna, std::shared_ptr<BaseStation> baseStation);
+    Sector(Antenna & p_antenna, std::shared_ptr<BaseStation> p_baseStation);
 
     void setAzimuth(int newAzimuth);
     void setBandwidth(double newBandwith);

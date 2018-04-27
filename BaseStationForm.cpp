@@ -5,8 +5,6 @@
 #include "DataProvider.h"
 #include "MapProvider/GeographicalCoordinatesConverter.h"
 
-using namespace std;
-
 BaseStationForm::BaseStationForm(GeographicalCoordinatesConverter const& p_geoConverter, DataProvider &p_data, QWidget *parent) :
     QDialog(parent),
     geoConverter(p_geoConverter),
@@ -49,8 +47,8 @@ void BaseStationForm::commit()
     double y = ui->ySpinBox->value();
     std::pair<int,int> pixel = geoConverter.geographicalCoordinatesToPixel(std::pair<double,double>(x,y));
     PixelXY possition(pixel);
-    baseStation = make_shared<BaseStation>(std::move(possition.getXy()),
-                                           ui->heightBox->value(),
-                                           ui->nameLineEdit->text().toStdString());
+    baseStation = std::make_shared<BaseStation>(possition.getXy(),
+                                                ui->heightBox->value(),
+                                                ui->nameLineEdit->text().toStdString());
     data.addBaseStation(baseStation);
 }

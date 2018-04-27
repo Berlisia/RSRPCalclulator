@@ -12,7 +12,7 @@ public:
     Pathloss pathloss();
 
     void changeDistance(double newValue);
-    void changeCurrentEnvironment(Environment env);
+    void changeCurrentEnvironment(Environment newEnvironment);
     void changeEffectiveBSAntennaHeight(double newValue);
     void changeCarrierFrequency(int newValue);
     void changeEffectiveMSAntennaHeight(double newValue);

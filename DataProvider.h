@@ -33,8 +33,8 @@ public:
     void addBaseStation(std::shared_ptr<BaseStation> base);
     void addSector(Antenna& antenna, std::shared_ptr<BaseStation> base);
     void getRsrp(std::vector<std::pair<PixelXY,double>>& p_rsrp);
-    void updateInputValueForSector(const int ecgi, const QString, const QString);
-    void updateInputValueForBaseStation(const QString, const QString, const QString);
+    void updateInputValueForSector(int ecgi, QString, QString);
+    void updateInputValueForBaseStation(QString, QString, QString);
 
     BaseStations baseStations;
     SectorsControlerPtr sectorControler;

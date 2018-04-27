@@ -6,7 +6,6 @@
 class Receiver
 {
 public:
-    Receiver();
     PixelXY getPossition() const;
     double getHeight() const;
 

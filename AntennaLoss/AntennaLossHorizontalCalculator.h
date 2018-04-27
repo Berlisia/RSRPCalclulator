@@ -2,7 +2,6 @@
 #define ANTENNALOSSHORIZONTALCALCULATOR_H
 #include "AnetnnaLossCalculator.h"
 
-
 class AntennaLossHorizontalCalculator : public AntenaLossCalculator
 {
 public:

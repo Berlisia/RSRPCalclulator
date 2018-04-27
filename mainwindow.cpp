@@ -19,14 +19,12 @@
 #include "Display/NetworkObjectWizualizator.h"
 #include <QDebug>
 
-using namespace std;
-
 MainWindow::MainWindow(DataProvider& p_data, std::shared_ptr<IMapDataProvider> p_mapData, QWidget * parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     data(p_data),
     scene(nullptr),
-    mapDataProvider(p_mapData),
+    mapDataProvider(std::move(p_mapData)),
     currenItemInScene(nullptr),
     progressBar(this)
 {
@@ -149,7 +147,7 @@ void MainWindow::showScale(ImagePainter & paint, double max, double min)
     scaleScene->addItem(scaleItem);
 
     ui->scalaGraphicsView->setScene(scaleScene);
-    std::string Str = to_string(min) + "[dBm] ";
+    std::string Str = std::to_string(min) + "[dBm] ";
     ui->minLabel->setText(Str.c_str());
     ui->label2->setText(" ");
     ui->label2->show();
@@ -157,7 +155,7 @@ void MainWindow::showScale(ImagePainter & paint, double max, double min)
     ui->label3->show();
     ui->label4->setText(" ");
     ui->label4->show();
-    Str = to_string(max) + "[dBm] ";
+    Str = std::to_string(max) + "[dBm] ";
     ui->maxLabel->setText(Str.c_str());
     ui->scalaGraphicsView->show();
     currenItemInScene = nullptr; //bo nowa scene po policzeniu
@@ -170,10 +168,10 @@ void MainWindow::setPixelsArea(const QRectF rect)
     qreal qwidth, qheight;
     rect.getRect(&x, &y, &qwidth, &qheight);
 
-    int coordX = static_cast<int>(x);
-    int coordY = static_cast<int>(y);
-    int width = static_cast<int>(qwidth);
-    int height = static_cast<int>(qheight);
+    auto coordX = static_cast<int>(x);
+    auto coordY = static_cast<int>(y);
+    auto width = static_cast<int>(qwidth);
+    auto height = static_cast<int>(qheight);
 
     std::pair<int,int> coord(coordX, coordY);;
     std::pair<int,int> coord2(coordX + width, coordY);
@@ -208,9 +206,11 @@ void MainWindow::changeMinRSRPValueInData(double minRsrpValue)
 void MainWindow::actionRectangleTriggered()
 {
     //uncheckAllToolbar();calculationButtonPressed
-    Rectangle * r = new Rectangle();
+    auto r = new Rectangle();
     if(!areaCalculationPixmap)
+    {
         areaCalculationPixmap = std::make_shared<QPixmap>();
+    }
     areaCalculationPixmap->load(":/mapy/mapa");
     if(!rectanglePainter)
     {
@@ -260,7 +260,7 @@ void MainWindow::drawTerrainLine()
     QLineF line(terProfile->getFirstPixel(), terProfile->getCurrentPixel());
     std::pair<int,int> px1(terProfile->getFirstPixel().x(), terProfile->getFirstPixel().y());
     std::pair<int,int> px2(terProfile->getCurrentPixel().x(), terProfile->getCurrentPixel().y());
-    ui->terrainLabel->setText(to_string(mapDataProvider->coutDistance(px1,px2)).c_str());
+    ui->terrainLabel->setText(std::to_string(mapDataProvider->coutDistance(px1,px2)).c_str());
     currenItemInScene = scene->addLine(line);
     ui->mapGraphicsView->setScene(scene);
     ui->mapGraphicsView->show();
@@ -270,7 +270,7 @@ void MainWindow::drawBaseStationPossition()
 {
     QPixmap img;
     img.load(":/obrazki/baseStation");
-    for(auto base : data.baseStations)
+    for(const auto& base : data.baseStations)
     {
         QGraphicsItem* item = scene->addPixmap(img);
         item->setPos(base->getPossition().first, base->getPossition().second);
@@ -292,14 +292,14 @@ void MainWindow::zoomOut()
 
 void MainWindow::terrainProfileTriggered(bool checked)
 {
-    if(checked == true)
+    if(checked)
     {
         terProfile = std::make_shared<TerrainProfile>(data, mapDataProvider, this);
         mapArea->setTerriainProfile(terProfile);
         connect(terProfile.get(), SIGNAL(drawLine()), this, SLOT(drawTerrainLine()));
         connect(ui->terrainPushButton, SIGNAL(pressed()), terProfile.get(), SLOT(drawTerrainProfile()));
     }
-    else if(checked == false)
+    else if(!checked)
     {
         scene->removeItem(currenItemInScene);
         currenItemInScene = nullptr;
@@ -394,7 +394,7 @@ BaseStations::iterator MainWindow::getIndexOfBaseStation()
 
 void MainWindow::on_baseStationUi_clicked()
 {
-    baseStationForm = make_unique<BaseStationForm>(geoConverter, data, this);
+    baseStationForm = std::make_unique<BaseStationForm>(geoConverter, data, this);
     connect(baseStationForm.get(), SIGNAL(baseStationCreated()), this, SLOT(drawBaseStationPossition()));
     connect(baseStationForm.get(), SIGNAL(baseStationCreated()), networkWizualizator.get(), SLOT(update()));
     baseStationForm->show();
@@ -404,14 +404,14 @@ void MainWindow::on_sectorUI_clliced()
 {
     if (baseStationForm)
     {
-        sectorForm = make_unique<SectorForm>(data.sectorControler, *getIndexOfBaseStation(), this);
+        sectorForm = std::make_unique<SectorForm>(data.sectorControler, *getIndexOfBaseStation(), this);
         connect(sectorForm.get(), SIGNAL(sectorCreated()), networkWizualizator.get(), SLOT(update()));
         sectorForm->show();
     }
     else
     {
         QMessageBox messageBox;
-        messageBox.critical(0,"Error","You must add base station!");
+        messageBox.critical(nullptr, "Error","You must add base station!");
         messageBox.setFixedSize(500,200);
     }
 }

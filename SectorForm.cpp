@@ -1,21 +1,21 @@
 #include "SectorForm.h"
-#include "ui_SectorForm.h"
-#include "Core/Antenna.h"
 #include "AntennaLoss/AntennaLossFileProvider.h"
+#include "Core/Antenna.h"
 #include "Core/SectorsControler.h"
+#include "ui_SectorForm.h"
 #include <QFileDialog>
-#include <QTreeWidgetItem>
 #include <QMessageBox>
+#include <QTreeWidgetItem>
 
 SectorForm::SectorForm(std::shared_ptr<SectorsControler> p_sectors,
                        std::shared_ptr<BaseStation> p_baseStation,
-                       QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::SectorForm),
-    sectors(p_sectors),
-    baseStation(p_baseStation),
-    nameHorizontalFile(""),
-    nameVerticalFile("")
+                       QWidget* parent)
+    : QDialog(parent),
+      ui(new Ui::SectorForm),
+      sectors(std::move(p_sectors)),
+      baseStation(std::move(p_baseStation)),
+      nameHorizontalFile(""),
+      nameVerticalFile("")
 {
     ui->setupUi(this);
     ui->azimuthSpinBox->setMaximum(359);
@@ -62,7 +62,7 @@ void SectorForm::commit()
     sector.setEnvironment(converQEnvironment(ui->environmentComboBox->currentIndex()));
     sector.setEcgi(ui->ecgiSpinBox->value());
     createAntennaProvider();
-    if(antennaProvider)
+    if (antennaProvider)
     {
         sector.setAntennaCharacteristic(antennaProvider);
     }
@@ -82,7 +82,7 @@ void SectorForm::applayVerticalFile()
 
 void SectorForm::editRadioBoxes(int band)
 {
-    if(band > 1500)
+    if (band > 1500)
     {
         ui->okumyraRadioButton->setEnabled(false);
     }
@@ -95,10 +95,9 @@ void SectorForm::editRadioBoxes(int band)
 
 void SectorForm::createAntennaProvider()
 {
-    if(!antennaFileProviderIsInMemory())
+    if (!antennaFileProviderIsInMemory())
     {
-        antennaProvider = std::make_shared<AntennaLossFileProvider>(nameHorizontalFile,
-                                                                    nameVerticalFile);
+        antennaProvider = std::make_shared<AntennaLossFileProvider>(nameHorizontalFile, nameVerticalFile);
     }
     else
     {
@@ -116,7 +115,7 @@ void SectorForm::setVariatforBandwidth()
     ui->bandwidthBox->addItem("20,0 MHz", QVariant(20.0));
 }
 
-void SectorForm::setVariantForMimo() //TODO
+void SectorForm::setVariantForMimo() // TODO
 {
     ui->mimoBox->addItem("Nan", QVariant(0));
     ui->mimoBox->addItem("2x2", QVariant(1));
@@ -131,21 +130,25 @@ void SectorForm::setVariantForEnvironent()
     ui->environmentComboBox->addItem("Rural aera", QVariant(3));
 }
 
-void SectorForm::chooseModel(Sector & sector)
+void SectorForm::chooseModel(Sector& sector)
 {
-    if(ui->okumyraRadioButton->isChecked())
+    if (ui->okumyraRadioButton->isChecked())
+    {
         sector.setModel(Model::OkumuraHata);
-    else if(ui->costRadioButton->isChecked())
+    }
+    else if (ui->costRadioButton->isChecked())
+    {
         sector.setModel(Model::Cost231Hata);
+    }
 }
 
 bool SectorForm::errorMessageForUncheckRadioBoxes()
 {
-    if(!ui->okumyraRadioButton->isChecked() and !ui->costRadioButton->isChecked())
+    if (!ui->okumyraRadioButton->isChecked() and !ui->costRadioButton->isChecked())
     {
         QMessageBox messageBox;
-        messageBox.information(this,"Error","Choose propagation model!");
-        messageBox.setFixedSize(500,200);
+        messageBox.information(this, "Error", "Choose propagation model!");
+        messageBox.setFixedSize(500, 200);
     }
     return false;
 }
@@ -153,10 +156,9 @@ bool SectorForm::errorMessageForUncheckRadioBoxes()
 bool SectorForm::antennaFileProviderIsInMemory()
 {
     bool isFile = false;
-    for (auto sector : sectors->getVectorOfSectors())
+    for (const auto& sector : sectors->getVectorOfSectors())
     {
-        if (sector.getVerticalFileName() == nameVerticalFile and
-            sector.getHorizontalFileName() == nameHorizontalFile)
+        if (sector.getVerticalFileName() == nameVerticalFile and sector.getHorizontalFileName() == nameHorizontalFile)
         {
             isFile = true;
         }
@@ -167,48 +169,44 @@ bool SectorForm::antennaFileProviderIsInMemory()
 std::shared_ptr<IAntennaLossFileProvider> SectorForm::findSuitableCharacteristic()
 {
     std::shared_ptr<IAntennaLossFileProvider> antennaLossFileProvider;
-    for (auto sector : sectors->getVectorOfSectors())
+    for (const auto& sector : sectors->getVectorOfSectors())
     {
-        if (sector.getVerticalFileName() == nameVerticalFile and
-            sector.getHorizontalFileName() == nameHorizontalFile)
+        if (sector.getVerticalFileName() == nameVerticalFile and sector.getHorizontalFileName() == nameHorizontalFile)
         {
-           antennaLossFileProvider = sector.getAntennaCharacteristic();
+            antennaLossFileProvider = sector.getAntennaCharacteristic();
         }
     }
     return antennaLossFileProvider;
 }
 
-
 Environment SectorForm::converQEnvironment(int index)
 {
     switch (index)
     {
-    case 0:
-        return Environment::SmallAndMediumSizeCities;
-    case 1:
-        return Environment::MetropolitanAreas;
-    case 2:
-        return Environment::SuburbanEvironments;
-    case 3:
-        return Environment::RuralAera;
-    default:
-        return Environment::Idle;
+        case 0:
+            return Environment::SmallAndMediumSizeCities;
+        case 1:
+            return Environment::MetropolitanAreas;
+        case 2:
+            return Environment::SuburbanEvironments;
+        case 3:
+            return Environment::RuralAera;
+        default:
+            return Environment::Idle;
     }
 }
 
 Mimo SectorForm::convertQMimo(int index)
 {
-    switch(index)
+    switch (index)
     {
-    case 0:
-        return Mimo::Nan;
-    case 1:
-        return Mimo::TwoAntenna;
-    case 2:
-        return Mimo::FourAntenna;
-    default:
-        return Mimo::Nan;
+        case 0:
+            return Mimo::Nan;
+        case 1:
+            return Mimo::TwoAntenna;
+        case 2:
+            return Mimo::FourAntenna;
+        default:
+            return Mimo::Nan;
     }
 }
-
-

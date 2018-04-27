@@ -4,7 +4,7 @@ Controler::Controler(const MainWindow& p_mw,
                      DataProvider& p_dataProvider,
                      std::shared_ptr<IMapDataProvider> p_mapDataProvider)
     : data(p_dataProvider),
-      mapDataProvider(p_mapDataProvider),
+      mapDataProvider(std::move(p_mapDataProvider)),
       pool(std::make_shared<ThreadPool>(std::thread::hardware_concurrency())),
       worker(pool, data, mapDataProvider),
       mw(p_mw)

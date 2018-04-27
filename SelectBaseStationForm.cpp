@@ -31,7 +31,7 @@ std::string SelectBaseStationForm::getSelectedBaseStation()
     {
         return selectedBaseStation;
     }
-    else return "";
+    return "";
 }
 
 void SelectBaseStationForm::accept()
@@ -45,7 +45,7 @@ void SelectBaseStationForm::update()
 {
     model = new QStringListModel(this);
     QStringList list;
-    for(auto name : data.baseStations)
+    for(const auto& name : data.baseStations)
     {
         list << name->getName().c_str();
     }

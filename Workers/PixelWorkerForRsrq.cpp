@@ -5,10 +5,6 @@
 
 std::mutex PixelWorkerForRsrq::mutex;
 
-PixelWorkerForRsrq::PixelWorkerForRsrq()
-{
-}
-
 double PixelWorkerForRsrq::calculate(double rssi, double rsrp, int numberOfPrb ,PixelXY pixel, Rsrq& rsrq)
 {
     double rsrqLvl = numberOfPrb * rsrp / rssi; //[W]

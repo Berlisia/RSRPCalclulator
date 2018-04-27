@@ -5,11 +5,6 @@ ThreadPool::ThreadPool(size_t p_size) : size(p_size)
 {
 }
 
-ThreadPool::~ThreadPool()
-{
-    // stop();
-}
-
 void ThreadPool::start()
 {
     if (!threads.empty())
@@ -28,7 +23,7 @@ void ThreadPool::start()
             ThreadPtr newThread = std::make_shared<std::thread>(std::thread(funcCallable));
             threads.push_back(newThread);
         }
-        catch (const std::exception e)
+        catch (const std::exception& e)
         {
             threadCreationError = e.what();
             break;
@@ -46,7 +41,7 @@ void ThreadPool::start()
 void ThreadPool::stop()
 {
     int i = 0;
-    for (auto job : threads)
+    for (const auto& job : threads)
     {
         job->join();
         i++;
@@ -69,6 +64,8 @@ void ThreadPool::threadFunc()
         std::pair<Task, PixelXY> exec = queue.waitForJob(); // popraw TODO
         emit brodcastCurrentPogress(queue.size());
         if (exec.second.getXy() != px)
+        {
             exec.first(exec.second);
+        }
     }
 }

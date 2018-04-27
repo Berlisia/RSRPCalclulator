@@ -1,7 +1,5 @@
 #include "Cost231HataModel.h"
-#include <math.h>
-
-using namespace std;
+#include <cmath>
 
 Cost231HataModel::Cost231HataModel() :
     PathlossModel(Parameter(2000, 1500), //MHz

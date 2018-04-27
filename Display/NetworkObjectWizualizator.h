@@ -2,15 +2,16 @@
 #define NETWORKOBJECTWIZUALIZATOR_H
 
 #include <QDialog>
-#include <memory>
 #include <QTreeWidget>
+#include <memory>
 
 class DataProvider;
 class QTreeWidgetItem;
 class QComboBox;
 class Sector;
 
-namespace Ui {
+namespace Ui
+{
 class NetworkObjectWizualizator;
 }
 
@@ -20,13 +21,12 @@ class NetworkObjectWizualizator : public QWidget
 
 public:
     explicit NetworkObjectWizualizator(QWidget* parent, QTreeWidget* p_ui, DataProvider& p_data);
-    ~NetworkObjectWizualizator();
 
 public slots:
     void update();
 
 private slots:
-    void itemTreeDoubleClicked(QTreeWidgetItem*,int);
+    void itemTreeDoubleClicked(QTreeWidgetItem*, int);
     void changeDataFor(QTreeWidgetItem*);
     void changeDataForEnvComboBox(int);
 
@@ -39,7 +39,7 @@ private:
     int findTypeOfField(QString);
     QTreeWidgetItem* findProperParent(QTreeWidgetItem* p_treeItem);
     void changeDataForENB(QTreeWidgetItem*, QTreeWidgetItem*);
-    void changeDataForSector(QTreeWidgetItem *p_parent, QTreeWidgetItem* p_treeItem);
+    void changeDataForSector(QTreeWidgetItem* p_parent, QTreeWidgetItem* p_treeItem);
 
     QComboBox* createQComboBoxForSelectEnvironment(const Sector&);
     QComboBox* createQComboBoxForSelectMimo(const Sector&);

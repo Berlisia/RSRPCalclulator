@@ -5,12 +5,9 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <QString>
-using namespace std;
 
-const int AntennaLossFileParser::numberOfLine = 360;
-
-AntennaLossFileParser::AntennaLossFileParser(string fileName) :
-    fileName(fileName)
+AntennaLossFileParser::AntennaLossFileParser(std::string fileName) :
+    fileName(std::move(fileName))
 {
     getDataFromFile();
 }
@@ -25,15 +22,15 @@ double AntennaLossFileParser::getLoss(int angle)
     return -1;
 }
 
-void AntennaLossFileParser::changefileName(string newFileName)
+void AntennaLossFileParser::changefileName(std::string newfileName)
 {
-    fileName = newFileName;
+    fileName = std::move(newfileName);
 }
 
 void AntennaLossFileParser::getDataFromFile()
 {
-    fstream file;
-    file.open(fileName, ios::in);
+    std::fstream file;
+    file.open(fileName, std::ios::in);
 //    if(chmod(fileName.c_str(),0777) == -1)
 //    {
 //        if(access(fileName.c_str(), R_OK) == -1)
@@ -41,12 +38,12 @@ void AntennaLossFileParser::getDataFromFile()
 //    }
     if(file.good())
     {
-        string angle = "";
-        string value = "";
+        std::string angle;
+        std::string value;
         for(int i = 0; i < numberOfLine; i++)
         {
-            getline(file, angle,';');
-            getline(file, value);
+            std::getline(file, angle,';');
+            std::getline(file, value);
 
             QString qvalue(value.c_str());
             int intAngle = stoi(angle);
@@ -58,14 +55,14 @@ void AntennaLossFileParser::getDataFromFile()
     }
     else
     {
-        cout << "File Error" << endl;
+        std::cout << "File Error" << std::endl;
     }
 }
 
 double AntennaLossFileParser::findLossformArray(int angle)
 {
     auto loss = find_if(array.begin(), array.end(),
-                        [angle](const pair<int, double>& element)
+                        [angle](const std::pair<int, double>& element)
                         {
                             return element.first == angle;
                         });

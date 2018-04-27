@@ -3,6 +3,7 @@
 #include "Common/Units.h"
 #include <algorithm>
 #include <cmath>
+
 std::mutex PixelWorkerForInterference::mutex;
 
 PixelWorkerForInterference::PixelWorkerForInterference(const std::vector<PrbBandAndSignalStrengeMapping> &signalPowerFromSectors,

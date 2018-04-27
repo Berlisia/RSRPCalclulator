@@ -8,7 +8,7 @@
 #include "Workers/PixelWorkerForRsrq.h"
 #include "Workers/PixelWorkerForSNIR.h"
 #include <QDebug>
-#include <math.h>
+#include <cmath>
 #include <QtConcurrent/QtConcurrent>
 
 #include "Common/Units.h"
@@ -16,15 +16,17 @@
 Worker::Worker(std::shared_ptr<ThreadPool> p_pool,
                DataProvider& p_data,
                std::shared_ptr<IMapDataProvider> p_mapDataProvider)
-    : pool(p_pool), data(p_data), mapDataProvider(std::move(p_mapDataProvider)), sectors(p_data.sectorControler)
+    : pool(std::move(p_pool)), data(p_data), mapDataProvider(std::move(p_mapDataProvider)), sectors(p_data.sectorControler)
 {
 }
 
 void Worker::doCalculation()
 {
     qDebug() << "Zaczynamy!";
-    if (!data.areaPixels.size()) // core dump when user click run without selected sector
+    if (data.areaPixels.empty()) // core dump when user click run without selected sector
+    {
         return;
+    }
     future = QtConcurrent::run(this, &Worker::makeQueueOfCalculationTaskAndRun);
 }
 
@@ -38,7 +40,9 @@ void Worker::makeQueueOfCalculationTaskAndRun()
         {
             PixelXY pixel(i, j);
             if (!isBaseStation(pixel))
+            {
                 pool->add(std::bind(&Worker::executeCalculationForPixel, this, pixel), pixel);
+            }
         }
     }
 
