@@ -142,7 +142,7 @@ void Worker::saveInFile(const std::vector<std::pair<PixelXY, double>>& vector, s
 
 Receiver Worker::setupReciver(const PixelXY& pixel)
 {
-    Receiver receiver;
+    Receiver receiver{};
     receiver.setPossition(pixel.getXy());
     receiver.setGain(data.receiver.getGain());
     receiver.setOtherLosses(data.receiver.getOtherLosses());

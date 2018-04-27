@@ -59,14 +59,14 @@ void Sector::setTilt(int newTilit)
     antenna->setTilt(newTilit);
 }
 
-void Sector::setFileHName(QString newPath)
+void Sector::setFileHName(const QString& newPath)
 {
-    antennaCharacteristic->changeFileHorizontal(std::move(newPath));
+    antennaCharacteristic->changeFileHorizontal(newPath);
 }
 
-void Sector::setFileVName(QString newPath)
+void Sector::setFileVName(const QString& newPath)
 {
-    antennaCharacteristic->changeFileVertical(std::move(newPath));
+    antennaCharacteristic->changeFileVertical(newPath);
 }
 
 int Sector::getAzimuth() const

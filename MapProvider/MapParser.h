@@ -11,7 +11,7 @@ class MapParser
 {
 public:
     MapParser();
-    MapParser(QString p_fileName);
+    MapParser(const QString &p_fileName);
     int getPixelHight(const std::pair<int, int> &l_xy) const;
 
 private:

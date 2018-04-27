@@ -1,7 +1,6 @@
 #include "AntennaLossFileParserTest.h"
 #include "AntennaLoss/AntennaLossFileParser.h"
 #include "iostream"
-using namespace std;
 
 AntennaLossFileParserTest::AntennaLossFileParserTest()
 {
@@ -9,5 +8,5 @@ AntennaLossFileParserTest::AntennaLossFileParserTest()
     AntennaLossFileParser parser(file);
     int angle = 300;
     double dupa = parser.getLoss(angle);
-    cout << "stopnie " << angle << ": " << dupa << endl;
+    std::cout << "stopnie " << angle << ": " << dupa << std::endl;
 }

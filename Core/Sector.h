@@ -24,8 +24,8 @@ public:
     void setBand(int newfrequency);
     void setGain(double newGain);
     void setTilt(int newTilit);
-    void setFileHName(QString newPath);
-    void setFileVName(QString newPath);
+    void setFileHName(const QString &newPath);
+    void setFileVName(const QString &newPath);
 
     int getAzimuth() const;
     double getPower() const;

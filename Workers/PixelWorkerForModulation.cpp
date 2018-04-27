@@ -5,9 +5,6 @@
 
 std::mutex PixelWorkerForModulation::mutex;
 
-PixelWorkerForModulation::PixelWorkerForModulation()
-{
-}
 
 int PixelWorkerForModulation::calculate(PixelXY pixel, double snir, ModulationScheme& modulationVec)
 {

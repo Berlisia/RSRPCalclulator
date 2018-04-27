@@ -8,9 +8,8 @@ class PixelWorkerForSNIR;
 class PixelWorkerForModulation
 {
 public:
-    PixelWorkerForModulation();
-
     int calculate(PixelXY pixel, double snir, ModulationScheme& modulationVec);
+
 private:
     int chooseProperCQI(double snirValue);
     static std::mutex mutex;

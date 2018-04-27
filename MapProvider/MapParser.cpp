@@ -16,7 +16,7 @@ void skipLines(QTextStream* fileStream, int num)
 
 MapParser::MapParser(): m_fileName(":/mapy/mapa"){loadMapFromFile();}
 
-MapParser::MapParser(QString p_fileName): m_fileName(std::move(p_fileName)){}
+MapParser::MapParser(const QString& p_fileName): m_fileName(p_fileName){}
 
 int MapParser::getPixelHight(const std::pair<int, int> &l_xy) const
 {

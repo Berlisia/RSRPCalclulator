@@ -7,7 +7,7 @@ TerrainProfile::TerrainProfile(DataProvider const& p_data,
     : QDialog(parent), ui(new Ui::TerrainProfile), mapDataProvider(std::move(p_mapDataProvider)), dataProvider(p_data)
 {
     ui->setupUi(this);
-    scene = new QGraphicsScene();
+    scene = new QGraphicsScene(this);
     QWidget::setWindowTitle("Terrain profile");
 }
 

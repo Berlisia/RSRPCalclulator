@@ -336,7 +336,7 @@ void MainWindow::setProgressBarRange(unsigned max)
 void MainWindow::updateProgressBar(unsigned progress)
 {
     auto currentProgress = initBarSize - progress;
-    qDebug() << "Progress: " << currentProgress;
+//    qDebug() << "Progress: " << currentProgress;
     progressBar.setValue(currentProgress);
 }
 
