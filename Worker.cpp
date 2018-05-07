@@ -56,7 +56,7 @@ void Worker::makeQueueOfCalculationTaskAndRun()
     saveInFile(data.rsrq, "rsrq.txt");
     saveInFile(data.snir, "snir.txt");
 
-    data.getRsrp(RSRP.vector);
+    data.getRsrp(std::move(RSRP.vector));
     if (!data.rsrp.vector.empty())
     {
         qDebug() << "done";

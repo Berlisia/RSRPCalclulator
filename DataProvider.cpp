@@ -23,7 +23,7 @@ void DataProvider::addSector(Antenna &antenna, std::shared_ptr<BaseStation> base
     sectorControler->addSector(sector);
 }
 
-void DataProvider::getRsrp(std::vector<std::pair<PixelXY, double> > &p_rsrp)
+void DataProvider::getRsrp(std::vector<std::pair<PixelXY, double> > p_rsrp)
 {
     rsrp.vector = std::move(p_rsrp);
 }
@@ -38,6 +38,15 @@ void DataProvider::updateInputValueForBaseStation(QString p_eNbId, QString p_fie
     qDebug() << "enb: " << p_eNbId;
     qDebug() << "pole: " << p_field;
     qDebug() << "wartosc: " << p_value;
+}
+
+void DataProvider::clearCalculationData()
+{
+    rsrp.vector.clear();
+    rsrq.clear();
+    snir.clear();
+    modulation.clear();
+    interferenceLvl.clear();
 }
 
 void DataProvider::fakeDataForDebuging()

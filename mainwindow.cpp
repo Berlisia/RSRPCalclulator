@@ -207,6 +207,9 @@ void MainWindow::actionRectangleTriggered()
 {
     //uncheckAllToolbar();calculationButtonPressed
     auto r = new Rectangle();
+
+    data.clearCalculationData();
+
     if(!areaCalculationPixmap)
     {
         areaCalculationPixmap = std::make_shared<QPixmap>();
