@@ -10,6 +10,7 @@
 #include <QDebug>
 #include <cmath>
 #include <QtConcurrent/QtConcurrent>
+#include "Throughput/ThroughputCalculator.h"
 
 #include "Common/Units.h"
 
@@ -28,12 +29,7 @@ void Worker::doCalculation()
     {
         return;
     }
-
-    for(auto sector: sectors->getVectorOfSectors())
-    {
-        data.throughput.push_back(ThroughputData(sector));
-    }
-
+    initializeThrouputData();
     future = QtConcurrent::run(this, &Worker::makeQueueOfCalculationTaskAndRun);
 }
 
@@ -61,6 +57,9 @@ void Worker::makeQueueOfCalculationTaskAndRun()
     saveInFile(data.interferenceLvl, "rssi.txt");
     saveInFile(data.rsrq, "rsrq.txt");
     saveInFile(data.snir, "snir.txt");
+
+    ThroughputCalculator thrCalc(data.throughput);
+    thrCalc.calculate();
 
     data.getRsrp(std::move(RSRP.vector));
     if (!data.rsrp.vector.empty())
@@ -171,4 +170,12 @@ double Worker::calculateSnir(const PixelXY& pixel, double signalLvl)
 {
     PixelWorkerForSNIR pixelWorkerForSnir;
     return pixelWorkerForSnir.calculate(signalLvl, pixel, data.snir);
+}
+
+void Worker::initializeThrouputData()
+{
+    for(auto sector: sectors->getVectorOfSectors())
+    {
+        data.throughput.push_back(ThroughputData(sector));
+    }
 }

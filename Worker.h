@@ -35,6 +35,7 @@ private:
     Receiver setupReciver(const PixelXY& pixel);
     double calculateInterference(const PixelXY& pixel, const PixelWorker& pixelWorker);
     double calculateSnir(const PixelXY& pixel, double signalLvl);
+    void initializeThrouputData();
 
     std::shared_ptr<ThreadPool> pool;
     QFuture<void> future;
