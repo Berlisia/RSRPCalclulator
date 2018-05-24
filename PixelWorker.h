@@ -31,6 +31,7 @@ public:
     const std::vector<PrbBandAndSignalStrengeMapping> &getResultFromAllSectors() const;
     int getCurrentBand() const;
     const std::pair<int, double> getCurrentSignalPower() const;
+    int getMaxRsrpSectorIndex();
 
 private:
     void storeMaxFromRsrpMap();
@@ -51,6 +52,7 @@ private:
     std::vector<PrbBandAndSignalStrengeMapping> rsrpFromSectors;
     int currentBand;
     std::pair<int,double> currentSignalPower;
+    int maxRsrpSectorIndex;
 
     static std::mutex mutex;
 };

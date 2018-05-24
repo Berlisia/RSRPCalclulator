@@ -63,6 +63,7 @@ void PixelWorker::storeMaxFromRsrpMap()
                                     [] (const auto p1, const auto p2) {return p1.signalStrenge < p2.signalStrenge;});
     currentSignalPower = std::pair<int,double>(biggest->prbNumber, biggest->signalStrenge);
     currentBand = biggest->bandIndex;
+    maxRsrpSectorIndex = std::distance(rsrpFromSectors.begin(), biggest);
     rsrpFromSectors.erase(biggest);
 }
 
@@ -75,6 +76,11 @@ const std::pair<int,double> PixelWorker::getCurrentSignalPower() const
 {
     const auto signalPowerInWat = std::pair<int,double>(currentSignalPower.first, dBmToW(currentSignalPower.second));
     return signalPowerInWat;
+}
+
+int PixelWorker::getMaxRsrpSectorIndex()
+{
+    return maxRsrpSectorIndex;
 }
 
 void PixelWorker::calculateAntennaLossForOnePixel()

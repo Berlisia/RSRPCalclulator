@@ -46,7 +46,7 @@ private:
     std::vector<std::pair<int, double>> rsrpForSectors;
     RSRPForPixel RSRP;
 
-    std::mutex mut;
+    static std::mutex mut;
 };
 
 #endif // WORKER_H

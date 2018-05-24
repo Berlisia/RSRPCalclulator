@@ -3,6 +3,7 @@
 #include "Core/BaseStation.h"
 #include "Core/SectorsControler.h"
 #include "Core/Receiver.h"
+#include "Throughput/ThroughputData.h"
 #include <QObject>
 #include <memory>
 #include <mutex>
@@ -15,6 +16,8 @@ typedef std::vector<std::pair<PixelXY,double>> Snir;
 typedef std::vector<std::pair<PixelXY,double>> SignalPower;
 typedef std::vector<std::pair<PixelXY,double>> ModulationScheme;
 typedef std::vector<std::pair<PixelXY,double>> Rsrq;
+
+typedef std::vector<ThroughputData> Throughput;
 
 class RSRPForPixel : public QObject
 {
@@ -48,6 +51,7 @@ public:
     Rsrq rsrq;
     Snir snir;
     ModulationScheme modulation;
+    Throughput throughput;
 
 private:
     void fakeDataForDebuging();

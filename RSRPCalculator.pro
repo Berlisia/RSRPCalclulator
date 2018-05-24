@@ -72,7 +72,9 @@ SOURCES += main.cpp\
     Workers/PixelWorkerForModulation.cpp \
     Common/Units.cpp \
     Workers/PixelWorkerForRsrq.cpp \
-    Core/Controler.cpp
+    Core/Controler.cpp \
+    Throughput/ThroughputData.cpp \
+    Throughput/ThroughputCalculator.cpp
 
 HEADERS  += mainwindow.h \
     Pathloss/Pathloss.h \
@@ -137,7 +139,9 @@ HEADERS  += mainwindow.h \
     Common/ModulationSchemes.h \
     Common/Units.h \
     Workers/PixelWorkerForRsrq.h \
-    Core/Controler.h
+    Core/Controler.h \
+    Throughput/ThroughputData.h \
+    Throughput/ThroughputCalculator.h
 
 FORMS    += mainwindow.ui \
     BaseStationForm.ui \

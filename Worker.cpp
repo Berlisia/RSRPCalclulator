@@ -13,6 +13,8 @@
 
 #include "Common/Units.h"
 
+std::mutex Worker::mut;
+
 Worker::Worker(std::shared_ptr<ThreadPool> p_pool,
                DataProvider& p_data,
                std::shared_ptr<IMapDataProvider> p_mapDataProvider)
@@ -26,6 +28,12 @@ void Worker::doCalculation()
     {
         return;
     }
+
+    for(auto sector: sectors->getVectorOfSectors())
+    {
+        data.throughput.push_back(ThroughputData(sector));
+    }
+
     future = QtConcurrent::run(this, &Worker::makeQueueOfCalculationTaskAndRun);
 }
 
@@ -99,6 +107,9 @@ void Worker::executeCalculationForPixel(PixelXY pixel)
 
     PixelWorkerForModulation pixelWorkerForModulation;
     pixelWorkerForModulation.calculate(pixel, snir, data.modulation);
+
+    std::unique_lock<std::mutex> lock(mut);
+    data.throughput[pixelWorkerSignal.getMaxRsrpSectorIndex()].addSnir(snir);
 }
 
 bool Worker::isBaseStation(PixelXY pixel)
