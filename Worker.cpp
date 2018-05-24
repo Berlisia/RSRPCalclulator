@@ -22,7 +22,6 @@ Worker::Worker(std::shared_ptr<ThreadPool> p_pool,
 
 void Worker::doCalculation()
 {
-    qDebug() << "Zaczynamy!";
     if (data.areaPixels.empty()) // core dump when user click run without selected sector
     {
         return;
@@ -47,7 +46,6 @@ void Worker::makeQueueOfCalculationTaskAndRun()
     }
 
     pool->start();
-    qDebug() << "ruszylo";
     emit poolStarted();
     pool->stop();
 
@@ -59,7 +57,6 @@ void Worker::makeQueueOfCalculationTaskAndRun()
     data.getRsrp(std::move(RSRP.vector));
     if (!data.rsrp.vector.empty())
     {
-        qDebug() << "done";
         emit done();
     }
 }
