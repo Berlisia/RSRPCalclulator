@@ -43,20 +43,63 @@ TerrainProfile::~TerrainProfile()
 {
     delete ui;
 }
+bool TerrainProfile::isPixelInLine(PixelXY pixel)
+{
+    auto isCorrectPixel = [pixel](std::pair<int, int> pix){
+                            return pixel.getX() == pix.first && pixel.getY() == pix.second;};
+    auto iterator = std::find_if(vectorOfPiels.begin(), vectorOfPiels.end(), isCorrectPixel);
+    return iterator != vectorOfPiels.end();
+}
 
-void TerrainProfile::drawTerrainProfile()
+void TerrainProfile::saveInFile(const std::vector<std::pair<PixelXY, double>>& vector, std::string name)
+{
+    std::fstream plik;
+    plik.open(name.c_str(), std::ios::out);
+    if (plik.good() == true)
+    {
+        for (const auto& r : vector)
+        {
+            if(isPixelInLine(r.first))
+            {
+                plik << r.first.getX() << " " << r.first.getY() << " " << r.second;
+                plik << "\n";
+            }
+        }
+    }
+    plik.close();
+}
+
+void TerrainProfile::saveInFileFromCorrectDraw(RadioButtonType radioButton)
+{
+    switch (radioButton)
+    {
+    case RadioButtonType::RSRP:
+        saveInFile(dataProvider.rsrp.vector, "RSRP_Path.txt");
+        break;
+    case RadioButtonType::RSSI:
+        saveInFile(dataProvider.interferenceLvl, "RSSI_Path.txt");
+        break;
+    case RadioButtonType::RSRQ:
+        saveInFile(dataProvider.rsrq, "RSRQ_Path.txt");
+        break;
+    case RadioButtonType::SNIR:
+        saveInFile(dataProvider.snir, "SNIR_Path.txt");
+        break;
+    case RadioButtonType::CQI:
+        saveInFile(dataProvider.modulation, "CQI_Path.txt");
+        break;
+    default:
+        break;
+    }
+}
+
+void TerrainProfile::drawTerrainProfile(RadioButtonType radioButton)
 {
     std::pair<int, int> pixel1(pixels[0].x(), pixels[0].y());
     std::pair<int, int> pixel2(currentPixel.x(), currentPixel.y());
-    std::vector<std::pair<int, int>> vectorOfPiels = mapDataProvider->getVectorOfPixels(pixel1, pixel2, 35);
+    vectorOfPiels = mapDataProvider->getVectorOfPixels(pixel1, pixel2, 35);
 
-    QPixmap img;
-    img.load("ProfilTerenu.ppm");
-
-    drawTerrainProfile(img, vectorOfPiels);
-    drawSignal(img, vectorOfPiels);
-    this->show();
-    displayImage(img);
+    saveInFileFromCorrectDraw(radioButton); //zalezy co wlączone
 }
 
 void TerrainProfile::drawTerrainProfile(QPixmap& pxMap, const std::vector<std::pair<int, int>>& vector)

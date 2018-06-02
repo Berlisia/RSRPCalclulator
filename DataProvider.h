@@ -55,6 +55,7 @@ public:
 
 private:
     void fakeDataForDebuging();
+    void fakeDataForDebuging2();
 };
 
 #endif // DATAProvider_H

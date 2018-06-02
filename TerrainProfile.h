@@ -12,6 +12,16 @@ class QGraphicsScene;
 class QGraphicsPixmapItem;
 class QGraphicsSceneMouseEvent;
 
+enum class RadioButtonType
+{
+    null,
+    RSRP,
+    RSSI,
+    RSRQ,
+    SNIR,
+    CQI
+};
+
 namespace Ui {
 class TerrainProfile;
 }
@@ -27,12 +37,10 @@ public:
     QPointF getFirstPixel();
     QPointF getCurrentPixel();
     void setCurrentPixel(QPointF p_currentPixel);
+    void drawTerrainProfile(RadioButtonType);
     ~TerrainProfile();
 signals:
     void drawLine();
-
-public slots:
-    void drawTerrainProfile();
 
 private:
     void drawTerrainProfile(QPixmap & pxMap, const std::vector<std::pair<int, int>> & vector);
@@ -40,6 +48,9 @@ private:
     double findMinHeightFromVector(const std::vector<std::pair<int, int>> & vector);
     double findMaxHeightFromVector(const std::vector<std::pair<int, int>> & vector);
     double findValueFromData(std::pair<int, int> pixel);
+    void saveInFile(const std::vector<std::pair<PixelXY, double>>& vector, std::string name);
+    void saveInFileFromCorrectDraw(RadioButtonType);
+    bool isPixelInLine(PixelXY pixel);
 
     Ui::TerrainProfile *ui;
     QGraphicsScene * scene;
@@ -49,6 +60,7 @@ private:
     QPointF currentPixel;
     std::shared_ptr<IMapDataProvider> mapDataProvider;
     const DataProvider & dataProvider;
+    std::vector<std::pair<int, int>> vectorOfPiels;
 
     void displayImage(const QPixmap & img);
 };

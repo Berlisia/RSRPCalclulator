@@ -36,6 +36,8 @@ private:
     double calculateInterference(const PixelXY& pixel, const PixelWorker& pixelWorker);
     double calculateSnir(const PixelXY& pixel, double signalLvl);
     void initializeThrouputData();
+    void saveThroughtputInFile(std::string name);
+    void calculateAverageThroughtputForSectors();
 
     std::shared_ptr<ThreadPool> pool;
     QFuture<void> future;

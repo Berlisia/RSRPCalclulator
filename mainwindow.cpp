@@ -300,13 +300,18 @@ void MainWindow::terrainProfileTriggered(bool checked)
         terProfile = std::make_shared<TerrainProfile>(data, mapDataProvider, this);
         mapArea->setTerriainProfile(terProfile);
         connect(terProfile.get(), SIGNAL(drawLine()), this, SLOT(drawTerrainLine()));
-        connect(ui->terrainPushButton, SIGNAL(pressed()), terProfile.get(), SLOT(drawTerrainProfile()));
+        connect(ui->terrainPushButton, SIGNAL(pressed()), this, SLOT(saveLineData()));
     }
     else if(!checked)
     {
         scene->removeItem(currenItemInScene);
         currenItemInScene = nullptr;
     }
+}
+
+void MainWindow::saveLineData()
+{
+    terProfile->drawTerrainProfile(chooseTurnOnButton());
 }
 
 void MainWindow::selectBase()
@@ -432,4 +437,20 @@ void MainWindow::setUpImagesRadioBoxes()
     ui->interferenceCheckBox->setCheckable(false);
     ui->snirCheckBox->setCheckable(false);
     ui->signalRadioButton->setCheckable(false);
+}
+
+RadioButtonType MainWindow::chooseTurnOnButton()
+{
+    if(ui->rsrqRadioButton->isChecked())
+        return RadioButtonType::RSRQ;
+    else if(ui->signalRadioButton->isChecked())
+        return RadioButtonType::RSRP;
+    else if(ui->snirCheckBox->isChecked())
+        return RadioButtonType::SNIR;
+    else if(ui->interferenceCheckBox->isChecked())
+        return RadioButtonType::RSSI;
+    else if(ui->modulationRadioButton->isChecked())
+        return RadioButtonType::CQI;
+
+    return RadioButtonType::null;
 }

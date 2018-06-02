@@ -127,7 +127,7 @@
     <item row="19" column="2" colspan="3">
      <widget class="QPushButton" name="terrainPushButton">
       <property name="text">
-       <string>show terrain profile</string>
+       <string>save trend</string>
       </property>
      </widget>
     </item>

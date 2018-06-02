@@ -6,6 +6,9 @@
 
 std::mutex PixelWorkerForSNIR::mutex;
 
+extern const double numberOfSubcarriersInRB;
+extern const double subcarrierActivityFactor;
+
 double PixelWorkerForSNIR::calculate(double rsrq, PixelXY pixel, Snir& snir)
 {
     double snirlvl = subcarrierActivityFactor / ((1 / (numberOfSubcarriersInRB * rsrq) - subcarrierActivityFactor));

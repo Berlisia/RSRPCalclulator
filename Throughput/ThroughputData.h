@@ -7,9 +7,11 @@ class ThroughputData
 public:
     ThroughputData(const Sector& sector);
     void addSnir(double snir);
-    const Sector& getSectorData();
+    double getSectorBandwith() const;
     double calculateAreaCoveragePercentage(double snirTreshold);
     void storeThroughputForSector(double thr);
+    double getThroughput() const;
+    int getSectorEcgi() const;
 
 private:
     const Sector& sector;

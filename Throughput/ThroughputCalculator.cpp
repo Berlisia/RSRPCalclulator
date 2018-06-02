@@ -3,25 +3,24 @@
 #include <cmath>
 
 const double threeDBChannelWidth = 0.85;
+extern const std::vector<ModulationSchemeAndSnrMapping> modulationAndSnrMappingTable;
 
-ThroughputCalculator::ThroughputCalculator(const Throughput& thrData):
+ThroughputCalculator::ThroughputCalculator(Throughput& thrData):
     thrData(thrData)
 {
 }
 
 void ThroughputCalculator::calculate()
 {
-    for(auto thrSectorData: thrData) //sector
+    for(auto& thrSectorData: thrData) //sector
     {
-        double result = threeDBChannelWidth * thrSectorData.getSectorData().getBandwith();
+        double result = threeDBChannelWidth * thrSectorData.getSectorBandwith();
         double oldCoveragePercentage = 0;
         double sumOfModulation = 0;
-        for(int modIdx = modulationAndSnrMappingTable.size(); modIdx > 0; modIdx--) //modulacje
+        for(int modIdx = modulationAndSnrMappingTable.size() - 1; modIdx > 0; modIdx--) //modulacje
         {
             double coveragePercentage = thrSectorData.calculateAreaCoveragePercentage(modulationAndSnrMappingTable[modIdx].minSnr);
             coveragePercentage = coveragePercentage - oldCoveragePercentage;
-            double dupa = modulationAndSnrMappingTable[modIdx].codingRate; //popraw xD
-            double dupa1 = modulationAndSnrMappingTable[modIdx].valencOfMod;
             double sum = coveragePercentage * modulationAndSnrMappingTable[modIdx].codingRate * std::log2(modulationAndSnrMappingTable[modIdx].valencOfMod);
 
             sumOfModulation = sumOfModulation + sum;

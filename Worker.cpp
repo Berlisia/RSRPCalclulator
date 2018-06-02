@@ -58,9 +58,7 @@ void Worker::makeQueueOfCalculationTaskAndRun()
     saveInFile(data.rsrq, "rsrq.txt");
     saveInFile(data.snir, "snir.txt");
 
-    ThroughputCalculator thrCalc(data.throughput);
-    thrCalc.calculate();
-
+    calculateAverageThroughtputForSectors();
     data.getRsrp(std::move(RSRP.vector));
     if (!data.rsrp.vector.empty())
     {
@@ -96,19 +94,22 @@ void Worker::executeCalculationForPixel(PixelXY pixel)
     pixelWorkerSignal.executeCalculation();
     double interference = calculateInterference(pixel, pixelWorkerSignal); //[W]
 
-    PixelWorkerForRsrq workerForRSRQ;
-    double rsrq = workerForRSRQ.calculate(interference,
-                                          pixelWorkerSignal.getCurrentSignalPower().second, //[W]
-                                          pixelWorkerSignal.getCurrentSignalPower().first,
-                                          pixel,
-                                          data.rsrq);
-    double snir = calculateSnir(pixel, rsrq); //[dB]
+    if(interference != 0)
+    {
+        PixelWorkerForRsrq workerForRSRQ;
+        double rsrq = workerForRSRQ.calculate(interference,
+                                              pixelWorkerSignal.getCurrentSignalPower().second, //[W]
+                                              pixelWorkerSignal.getCurrentSignalPower().first,
+                                              pixel,
+                                              data.rsrq);
+        double snir = calculateSnir(pixel, rsrq); //[dB]
 
-    PixelWorkerForModulation pixelWorkerForModulation;
-    pixelWorkerForModulation.calculate(pixel, snir, data.modulation);
+        PixelWorkerForModulation pixelWorkerForModulation;
+        pixelWorkerForModulation.calculate(pixel, snir, data.modulation);
 
-    std::unique_lock<std::mutex> lock(mut);
-    data.throughput[pixelWorkerSignal.getMaxRsrpSectorIndex()].addSnir(snir);
+        std::unique_lock<std::mutex> lock(mut);
+        data.throughput[pixelWorkerSignal.getMaxRsrpSectorIndex()].addSnir(snir);
+    }
 }
 
 bool Worker::isBaseStation(PixelXY pixel)
@@ -147,6 +148,28 @@ void Worker::saveInFile(const std::vector<std::pair<PixelXY, double>>& vector, s
     plik.close();
 }
 
+void Worker::saveThroughtputInFile(std::string name)
+{
+    std::fstream plik;
+    plik.open(name.c_str(), std::ios::out);
+    if (plik.good() == true)
+    {
+        for (const auto& thrData : data.throughput)
+        {
+            plik << "ecgi: " << thrData.getSectorEcgi() << " | " << thrData.getThroughput();
+            plik << "\n";
+        }
+    }
+    plik.close();
+}
+
+void Worker::calculateAverageThroughtputForSectors()
+{
+    ThroughputCalculator thrCalc(data.throughput);
+    thrCalc.calculate();
+    saveThroughtputInFile("throughput.txt");
+}
+
 Receiver Worker::setupReciver(const PixelXY& pixel)
 {
     Receiver receiver{};
@@ -174,7 +197,7 @@ double Worker::calculateSnir(const PixelXY& pixel, double signalLvl)
 
 void Worker::initializeThrouputData()
 {
-    for(auto sector: sectors->getVectorOfSectors())
+    for(const auto& sector: sectors->getVectorOfSectors())
     {
         data.throughput.push_back(ThroughputData(sector));
     }

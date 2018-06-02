@@ -22,6 +22,7 @@ double PixelWorkerForInterference::calculate(InterferenceLvl& intLvl, PixelXY pi
         std::pair<PixelXY,double> pair = std::make_pair(pixel, interLvlIndB);
         std::unique_lock<std::mutex> lock(mutex);
         intLvl.push_back(pair);
+        return interLvl; //[W]
     }
-    return interLvl; //[W]
+    return 0;
 }

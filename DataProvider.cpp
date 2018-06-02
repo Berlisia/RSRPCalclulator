@@ -9,7 +9,7 @@ DataProvider::DataProvider() : minValueOfRSRP(-120)
     receiver.setGain(0);
     receiver.setOtherLosses(0);
 
-    fakeDataForDebuging();
+    fakeDataForDebuging2();
 }
 
 void DataProvider::addBaseStation(std::shared_ptr<BaseStation> base)
@@ -47,6 +47,33 @@ void DataProvider::clearCalculationData()
     snir.clear();
     modulation.clear();
     interferenceLvl.clear();
+}
+
+void DataProvider::fakeDataForDebuging2()
+{
+    double x = 51.0580;
+    double y = 16.3114;
+    GeographicalCoordinatesConverter geoConverter;
+    std::pair<int,int> pixel = geoConverter.geographicalCoordinatesToPixel(std::pair<double,double>(x,y));
+    PixelXY possition(pixel);
+    baseStations.push_back(std::make_shared<BaseStation>(possition.getXy(), 23, "bts1"));
+
+    std::string h = "D:/Polibuda/Mgr/lato2017_2018/PracaMgr/RSRPCalclulator/742266V02_pozioma.csv";
+    std::string v = "D:/Polibuda/Mgr/lato2017_2018/PracaMgr/RSRPCalclulator/742266V02_pionowa.csv";
+    //std::string h = "/home/eberlick/PracaMgr/Repo/RSRPCalclulator/742266V02_pozioma.csv";
+    //std::string v = "/home/eberlick/PracaMgr/Repo/RSRPCalclulator/742266V02_pionowa.csv";
+    Antenna antenna(45, 15, 3,3,h,v);
+    std::shared_ptr<IAntennaLossFileProvider> antennaLossFileProvider = std::make_shared<AntennaLossFileProvider>(h,v);
+
+    Sector sector1(antenna, baseStations[0]);
+    sector1.setBandwidth(10);
+    sector1.setAzimuth(0);
+    sector1.setMimo(Mimo::Nan);
+    sector1.setEnvironment(Environment::SmallAndMediumSizeCities);
+    sector1.setEcgi(1);
+    sector1.setAntennaCharacteristic(antennaLossFileProvider);
+    sector1.setModel(Model::Cost231Hata);
+    sectorControler->addSector(sector1);
 }
 
 void DataProvider::fakeDataForDebuging()

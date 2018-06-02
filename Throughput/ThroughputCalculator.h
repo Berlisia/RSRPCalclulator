@@ -4,8 +4,8 @@
 class ThroughputCalculator
 {
 public:
-    ThroughputCalculator(const Throughput& thrData);
+    ThroughputCalculator(Throughput& thrData);
     void calculate();
 private:
-    const Throughput& thrData;
+    Throughput& thrData;
 };

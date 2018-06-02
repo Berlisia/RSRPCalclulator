@@ -10,6 +10,7 @@
 #include "DrawRectangle.h"
 #include "Canvas.h"
 #include "MapProvider/GeographicalCoordinatesConverter.h"
+#include "TerrainProfile.h"
 #include <QProgressBar>
 
 class QWidget;
@@ -57,6 +58,7 @@ private:
     void networkWizualizatorStart();
     void radioBoxesCheckable();
     void setUpImagesRadioBoxes();
+    RadioButtonType chooseTurnOnButton();
 
     Ui::MainWindow *ui;
     DataProvider & data;
@@ -114,6 +116,7 @@ private slots:
     void zoomIn();
     void zoomOut();
     void terrainProfileTriggered(bool);
+    void saveLineData();
 };
 
 #endif // MAINWINDOW_H
