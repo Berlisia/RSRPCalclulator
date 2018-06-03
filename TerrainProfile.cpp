@@ -1,5 +1,6 @@
 #include "TerrainProfile.h"
 #include "ui_TerrainProfile.h"
+#include <QDebug>
 
 TerrainProfile::TerrainProfile(DataProvider const& p_data,
                                std::shared_ptr<IMapDataProvider> p_mapDataProvider,
@@ -57,16 +58,20 @@ void TerrainProfile::saveInFile(const std::vector<std::pair<PixelXY, double>>& v
     plik.open(name.c_str(), std::ios::out);
     if (plik.good() == true)
     {
+        int pixX = pixels[0].x();
+        int pixY = pixels[0].y();
+        std::pair<int,int> bsPix(pixX, pixY);
         for (const auto& r : vector)
         {
             if(isPixelInLine(r.first))
             {
-                plik << r.first.getX() << " " << r.first.getY() << " " << r.second;
+                plik << mapDataProvider->coutDistance(bsPix, r.first.getXy()) << ";" << r.second;
                 plik << "\n";
             }
         }
     }
     plik.close();
+    qDebug() << "DONE FILE";
 }
 
 void TerrainProfile::saveInFileFromCorrectDraw(RadioButtonType radioButton)
@@ -74,19 +79,19 @@ void TerrainProfile::saveInFileFromCorrectDraw(RadioButtonType radioButton)
     switch (radioButton)
     {
     case RadioButtonType::RSRP:
-        saveInFile(dataProvider.rsrp.vector, "RSRP_Path.txt");
+        saveInFile(dataProvider.rsrp.vector, "RSRP_Path.csv");
         break;
     case RadioButtonType::RSSI:
-        saveInFile(dataProvider.interferenceLvl, "RSSI_Path.txt");
+        saveInFile(dataProvider.interferenceLvl, "RSSI_Path.csv");
         break;
     case RadioButtonType::RSRQ:
-        saveInFile(dataProvider.rsrq, "RSRQ_Path.txt");
+        saveInFile(dataProvider.rsrq, "RSRQ_Path.csv");
         break;
     case RadioButtonType::SNIR:
-        saveInFile(dataProvider.snir, "SNIR_Path.txt");
+        saveInFile(dataProvider.snir, "SNIR_Path.csv");
         break;
     case RadioButtonType::CQI:
-        saveInFile(dataProvider.modulation, "CQI_Path.txt");
+        saveInFile(dataProvider.modulation, "CQI_Path.csv");
         break;
     default:
         break;

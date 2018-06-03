@@ -51,8 +51,8 @@ void DataProvider::clearCalculationData()
 
 void DataProvider::fakeDataForDebuging2()
 {
-    double x = 51.0580;
-    double y = 16.3114;
+    double x = 51.2611;
+    double y = 16.4689;
     GeographicalCoordinatesConverter geoConverter;
     std::pair<int,int> pixel = geoConverter.geographicalCoordinatesToPixel(std::pair<double,double>(x,y));
     PixelXY possition(pixel);
@@ -62,12 +62,12 @@ void DataProvider::fakeDataForDebuging2()
     std::string v = "D:/Polibuda/Mgr/lato2017_2018/PracaMgr/RSRPCalclulator/742266V02_pionowa.csv";
     //std::string h = "/home/eberlick/PracaMgr/Repo/RSRPCalclulator/742266V02_pozioma.csv";
     //std::string v = "/home/eberlick/PracaMgr/Repo/RSRPCalclulator/742266V02_pionowa.csv";
-    Antenna antenna(45, 15, 3,3,h,v);
+    Antenna antenna(41, 15, 3,38,h,v);
     std::shared_ptr<IAntennaLossFileProvider> antennaLossFileProvider = std::make_shared<AntennaLossFileProvider>(h,v);
 
     Sector sector1(antenna, baseStations[0]);
     sector1.setBandwidth(10);
-    sector1.setAzimuth(0);
+    sector1.setAzimuth(180);
     sector1.setMimo(Mimo::Nan);
     sector1.setEnvironment(Environment::SmallAndMediumSizeCities);
     sector1.setEcgi(1);
@@ -200,3 +200,13 @@ void DataProvider::fakeDataForDebuging()
     sector9.setModel(Model::Cost231Hata);
     sectorControler->addSector(sector9);
 }
+
+/*Stacje bazowe
+0 50.919689, 16.430065 Jaworzyna Sląska
+1 51.036416, 16.427318 Udanin
+2 50.978954, 16.248791 Dobromierz
+3 50.855580, 16.254284 Stare Bogaczowice
+4 50.783136, 16.426632 Bystrzyca Górna
+5 50.852979, 16.599666 Marcinowice
+6 50.976792, 16.590740 Mietków
+ * /
