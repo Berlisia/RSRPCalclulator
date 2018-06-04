@@ -16,7 +16,6 @@ typedef std::vector<std::pair<PixelXY,double>> Snir;
 typedef std::vector<std::pair<PixelXY,double>> SignalPower;
 typedef std::vector<std::pair<PixelXY,double>> ModulationScheme;
 typedef std::vector<std::pair<PixelXY,double>> Rsrq;
-
 typedef std::vector<ThroughputData> Throughput;
 
 class RSRPForPixel : public QObject
@@ -26,6 +25,22 @@ public:
     SignalPower vector;
 signals:
     void rsrpSizeChanged();
+};
+
+struct DodawaczkaSectorow
+{
+    DodawaczkaSectorow(BaseStations& bsVector, SectorsControlerPtr secControl):
+        bsVector(bsVector), secControl(secControl)
+    {}
+
+    BaseStations& bsVector;
+    SectorsControlerPtr secControl;
+
+    void addBS(double x, double y, int height, std::string name);
+    void addSector(double power, double gain, int tilt, int bandBw, std::string fileH, std::string fileV,
+                   std::shared_ptr<BaseStation> baseStation,
+                   double bandwidth, int azimuth, Mimo mimo,
+                   Environment env, int ecgi, Model model);
 };
 
 class DataProvider
@@ -54,7 +69,7 @@ public:
     Throughput throughput;
 
 private:
-    void fakeDataForDebuging();
+    void dataFor120Klaster();
     void fakeDataForDebuging2();
 };
 
