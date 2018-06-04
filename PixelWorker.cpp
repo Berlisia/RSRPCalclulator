@@ -36,7 +36,7 @@ void PixelWorker::executeCalculation()
         {
             double rsrp = rsrpSectors[i].second - (*antennaLossFromSectorsPerOnePixel)[i] -
                          pathL + receiver.getGain() - receiver.getOtherLosses();
-            if(rsrp > (minValueRSRP))
+            //if(rsrp > (minValueRSRP))
             {
                 auto numberOfPrb = rsrpSectors[i].first;
                 rsrpFromSectors.push_back({numberOfPrb ,sectorsControler.getBandIndexFromSector(i), rsrp});
