@@ -69,6 +69,7 @@ public:
     Throughput throughput;
 
 private:
+    void dataFor60Klaster();
     void dataFor120Klaster();
     void fakeDataForDebuging2();
 };

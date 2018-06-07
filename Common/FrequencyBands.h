@@ -3,7 +3,7 @@
 #include <vector>
 
 const double numberOfSubcarriersInRB = 12.0;
-const double subcarrierActivityFactor = 5./3.;
+const double subcarrierActivityFactor = 2./6.;
 
 enum Duplex
 {
