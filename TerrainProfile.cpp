@@ -1,6 +1,7 @@
 #include "TerrainProfile.h"
 #include "ui_TerrainProfile.h"
 #include <QDebug>
+#include <algorithm>
 
 TerrainProfile::TerrainProfile(DataProvider const& p_data,
                                std::shared_ptr<IMapDataProvider> p_mapDataProvider,
@@ -17,8 +18,14 @@ void TerrainProfile::addPixel(QPointF pixel)
     if (pixels.size() == 2)
     {
         pixels.clear();
+        vectorOfPiels.clear();
     }
     pixels.push_back(pixel);
+}
+
+void TerrainProfile::clearVectorOfPixels()
+{
+    vectorOfPiels.clear();
 }
 
 int TerrainProfile::getPixelsSize()
@@ -52,22 +59,36 @@ bool TerrainProfile::isPixelInLine(PixelXY pixel)
     return iterator != vectorOfPiels.end();
 }
 
+void TerrainProfile::storeDystansAndValueMapFromResultTable(const std::vector<std::pair<PixelXY, double>>& vectorSrc,
+                                            std::vector<std::pair<double, double>>& dystansValueMapTgt)
+{
+    int pixX = pixels[0].x();
+    int pixY = pixels[0].y();
+    std::pair<int,int> bsPix(pixX, pixY);
+    for (const auto& r : vectorSrc)
+    {
+        if(isPixelInLine(r.first))
+        {
+            std::pair<double,double> valuePair(mapDataProvider->coutDistance(bsPix, r.first.getXy()), r.second);
+            dystansValueMapTgt.push_back(valuePair);
+        }
+    }
+    std::sort(dystansValueMapTgt.begin(),dystansValueMapTgt.end());
+}
+
 void TerrainProfile::saveInFile(const std::vector<std::pair<PixelXY, double>>& vector, std::string name)
 {
+    std::vector<std::pair<double, double>> dystansValueMap;
+    storeDystansAndValueMapFromResultTable(vector,dystansValueMap);
+
     std::fstream plik;
     plik.open(name.c_str(), std::ios::out);
     if (plik.good() == true)
     {
-        int pixX = pixels[0].x();
-        int pixY = pixels[0].y();
-        std::pair<int,int> bsPix(pixX, pixY);
-        for (const auto& r : vector)
+        for(const auto& value: dystansValueMap)
         {
-            if(isPixelInLine(r.first))
-            {
-                plik << mapDataProvider->coutDistance(bsPix, r.first.getXy()) << ";" << r.second;
-                plik << "\n";
-            }
+            plik << value.first << ";" << value.second;
+            plik << "\n";
         }
     }
     plik.close();

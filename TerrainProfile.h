@@ -33,6 +33,7 @@ class TerrainProfile : public QDialog
 public:
     explicit TerrainProfile(const DataProvider &p_data, std::shared_ptr<IMapDataProvider> p_mapDataProvider, QWidget *parent = 0);
     void addPixel(QPointF pixel);
+    void clearVectorOfPixels();
     int getPixelsSize();
     QPointF getFirstPixel();
     QPointF getCurrentPixel();
@@ -51,6 +52,8 @@ private:
     void saveInFile(const std::vector<std::pair<PixelXY, double>>& vector, std::string name);
     void saveInFileFromCorrectDraw(RadioButtonType);
     bool isPixelInLine(PixelXY pixel);
+    void storeDystansAndValueMapFromResultTable(const std::vector<std::pair<PixelXY, double>>& vectorSrc,
+                                                std::vector<std::pair<double, double>>& dystansValueMapTgt);
 
     Ui::TerrainProfile *ui;
     QGraphicsScene * scene;

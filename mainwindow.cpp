@@ -70,6 +70,10 @@ MainWindow::MainWindow(DataProvider& p_data, std::shared_ptr<IMapDataProvider> p
     connect(ui->modulationRadioButton, SIGNAL(clicked(bool)),this, SLOT(drawModulationImg(bool)));
     connect(ui->rsrqRadioButton, SIGNAL(clicked(bool)),this, SLOT(drawRsrqImg(bool)));
 
+    terProfile = std::make_shared<TerrainProfile>(data, mapDataProvider, this);
+    connect(terProfile.get(), SIGNAL(drawLine()), this, SLOT(drawTerrainLine()));
+    connect(ui->terrainPushButton, SIGNAL(pressed()), this, SLOT(saveLineData()));
+
     networkWizualizatorStart();
 }
 
@@ -297,10 +301,7 @@ void MainWindow::terrainProfileTriggered(bool checked)
 {
     if(checked)
     {
-        terProfile = std::make_shared<TerrainProfile>(data, mapDataProvider, this);
         mapArea->setTerriainProfile(terProfile);
-        connect(terProfile.get(), SIGNAL(drawLine()), this, SLOT(drawTerrainLine()));
-        connect(ui->terrainPushButton, SIGNAL(pressed()), this, SLOT(saveLineData()));
     }
     else if(!checked)
     {
