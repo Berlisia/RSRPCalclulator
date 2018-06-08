@@ -12,7 +12,7 @@ extern const double subcarrierActivityFactor;
 
 double PixelWorkerForSNIR::calculate(double rsrq, PixelXY pixel, Snir& snir)
 {
-    double snirlvl = subcarrierActivityFactor / ((1 / (numberOfSubcarriersInRB * rsrq) - subcarrierActivityFactor));
+    double snirlvl = 1 / ((1 / (numberOfSubcarriersInRB * rsrq) - subcarrierActivityFactor));
     double snirlvlIndB = WatTodB(snirlvl);
     if(!std::isinf(snirlvlIndB))
     {
