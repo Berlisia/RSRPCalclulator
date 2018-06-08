@@ -3,6 +3,7 @@
 #include "Common/FrequencyBands.h"
 #include "Common/Units.h"
 #include <cmath>
+#include <QDebug>
 
 std::mutex PixelWorkerForSNIR::mutex;
 

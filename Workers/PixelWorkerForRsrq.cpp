@@ -3,6 +3,8 @@
 #include "Common/Units.h"
 #include <cmath>
 
+#include <QDebug>
+
 std::mutex PixelWorkerForRsrq::mutex;
 
 double PixelWorkerForRsrq::calculate(double rssi, double rsrp, int numberOfPrb ,PixelXY pixel, Rsrq& rsrq)

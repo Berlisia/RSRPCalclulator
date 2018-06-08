@@ -12,7 +12,7 @@ std::pair<int,double> RsrpCalculation::calculateRsrp(Sector const& sector)// sig
     double rsrp = 0;
     double power = sector.getPower() / mimo(sector);
     rsrp = power - std::log10(numberOfSubcarrer(sector.getBandwith())) * 10; //dBm - dB
-    return std::pair<int, double>(numberOfPrb, rsrp);
+    return std::pair<int, double>(numberOfPrb, rsrp); //dBm
 }
 
 int RsrpCalculation::numberOfSubcarrer(double bandwidth)

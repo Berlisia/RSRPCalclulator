@@ -16,7 +16,8 @@ DataProvider::DataProvider() : minValueOfRSRP(-120)
     receiver.setGain(0);
     receiver.setOtherLosses(0);
 
-    dataFor60Klaster();
+    dataFor120Klaster();
+    //fakeDataForDebuging2();
 }
 
 void DataProvider::addBaseStation(std::shared_ptr<BaseStation> base)
@@ -68,39 +69,39 @@ void DataProvider::dataFor120Klaster()
     adder.addBS(50.976792, 16.590740, 23, "Mietków"); //6
 
     //JaworzynaSląska
-    adder.addSector(45, 15, 3, 1, h_40, v_40, baseStations[0], 15, 330, Mimo::TwoAntenna, Environment::SuburbanEvironments, 1, Model::Cost231Hata);
-    adder.addSector(45, 15, 3, 1, h_40, v_40, baseStations[0], 15, 90, Mimo::TwoAntenna, Environment::SuburbanEvironments, 2, Model::Cost231Hata);
-    adder.addSector(45, 15, 3, 1, h_40, v_40, baseStations[0], 15, 210, Mimo::TwoAntenna, Environment::SuburbanEvironments, 3, Model::Cost231Hata);
+    adder.addSector(45, 15, 3, 1, h, v, baseStations[0], 15, 330, Mimo::TwoAntenna, Environment::SuburbanEvironments, 1, Model::Cost231Hata);
+    adder.addSector(45, 15, 3, 1, h, v, baseStations[0], 15, 90, Mimo::TwoAntenna, Environment::SuburbanEvironments, 2, Model::Cost231Hata);
+    adder.addSector(45, 15, 3, 1, h, v, baseStations[0], 15, 210, Mimo::TwoAntenna, Environment::SuburbanEvironments, 3, Model::Cost231Hata);
 
     //Udanin
-    adder.addSector(45, 15, 3, 1, h_40, v_40, baseStations[1], 15, 60, Mimo::TwoAntenna, Environment::SuburbanEvironments, 4, Model::Cost231Hata);
-    adder.addSector(45, 15, 3, 1, h_40, v_40, baseStations[1], 15, 270, Mimo::TwoAntenna, Environment::SuburbanEvironments, 5, Model::Cost231Hata);
-    adder.addSector(45, 15, 3, 1, h_40, v_40, baseStations[1], 15, 150, Mimo::TwoAntenna, Environment::SuburbanEvironments, 6, Model::Cost231Hata);
+    adder.addSector(45, 15, 3, 1, h, v, baseStations[1], 15, 60, Mimo::TwoAntenna, Environment::SuburbanEvironments, 4, Model::Cost231Hata);
+    adder.addSector(45, 15, 3, 1, h, v, baseStations[1], 15, 270, Mimo::TwoAntenna, Environment::SuburbanEvironments, 5, Model::Cost231Hata);
+    adder.addSector(45, 15, 3, 1, h, v, baseStations[1], 15, 150, Mimo::TwoAntenna, Environment::SuburbanEvironments, 6, Model::Cost231Hata);
 
     //Dobromierz
-    adder.addSector(45, 15, 3, 1, h_40, v_40, baseStations[2], 15, 330, Mimo::TwoAntenna, Environment::SuburbanEvironments, 7, Model::Cost231Hata);
-    adder.addSector(45, 15, 3, 1, h_40, v_40, baseStations[2], 15, 90, Mimo::TwoAntenna, Environment::SuburbanEvironments, 8, Model::Cost231Hata);
-    adder.addSector(45, 15, 3, 1, h_40, v_40, baseStations[2], 15, 210, Mimo::TwoAntenna, Environment::SuburbanEvironments, 9, Model::Cost231Hata);
+    adder.addSector(45, 15, 3, 1, h, v, baseStations[2], 15, 330, Mimo::TwoAntenna, Environment::SuburbanEvironments, 7, Model::Cost231Hata);
+    adder.addSector(45, 15, 3, 1, h, v, baseStations[2], 15, 90, Mimo::TwoAntenna, Environment::SuburbanEvironments, 8, Model::Cost231Hata);
+    adder.addSector(45, 15, 3, 1, h, v, baseStations[2], 15, 210, Mimo::TwoAntenna, Environment::SuburbanEvironments, 9, Model::Cost231Hata);
 
     //StareBogaczowice
-    adder.addSector(45, 15, 5, 1, h_40, v_40, baseStations[3], 15, 30, Mimo::TwoAntenna, Environment::SuburbanEvironments, 10, Model::Cost231Hata);
-    adder.addSector(45, 15, 3, 1, h_40, v_40, baseStations[3], 15, 150, Mimo::TwoAntenna, Environment::SuburbanEvironments, 11, Model::Cost231Hata);
-    adder.addSector(45, 15, 3, 1, h_40, v_40, baseStations[3], 15, 270, Mimo::TwoAntenna, Environment::SuburbanEvironments, 12, Model::Cost231Hata);
+    adder.addSector(45, 15, 5, 1, h, v, baseStations[3], 15, 30, Mimo::TwoAntenna, Environment::SuburbanEvironments, 10, Model::Cost231Hata);
+    adder.addSector(45, 15, 3, 1, h, v, baseStations[3], 15, 150, Mimo::TwoAntenna, Environment::SuburbanEvironments, 11, Model::Cost231Hata);
+    adder.addSector(45, 15, 3, 1, h, v, baseStations[3], 15, 270, Mimo::TwoAntenna, Environment::SuburbanEvironments, 12, Model::Cost231Hata);
 
     //BystrzycaGórna
-    adder.addSector(45, 15, 4, 1, h_40, v_40, baseStations[4], 15, 30, Mimo::TwoAntenna, Environment::SuburbanEvironments, 13, Model::Cost231Hata);
-    adder.addSector(45, 15, 3, 1, h_40, v_40, baseStations[4], 15, 150, Mimo::TwoAntenna, Environment::SuburbanEvironments, 14, Model::Cost231Hata);
-    adder.addSector(45, 15, 3, 1, h_40, v_40, baseStations[4], 15, 270, Mimo::TwoAntenna, Environment::SuburbanEvironments, 15, Model::Cost231Hata);
+    adder.addSector(45, 15, 4, 1, h, v, baseStations[4], 15, 30, Mimo::TwoAntenna, Environment::SuburbanEvironments, 13, Model::Cost231Hata);
+    adder.addSector(45, 15, 3, 1, h, v, baseStations[4], 15, 150, Mimo::TwoAntenna, Environment::SuburbanEvironments, 14, Model::Cost231Hata);
+    adder.addSector(45, 15, 3, 1, h, v, baseStations[4], 15, 270, Mimo::TwoAntenna, Environment::SuburbanEvironments, 15, Model::Cost231Hata);
 
     //Marcinowice
-    adder.addSector(45, 15, 4, 1, h_40, v_40, baseStations[5], 15, 30, Mimo::TwoAntenna, Environment::SuburbanEvironments, 16, Model::Cost231Hata);
-    adder.addSector(45, 15, 3, 1, h_40, v_40, baseStations[5], 15, 150, Mimo::TwoAntenna, Environment::SuburbanEvironments, 17, Model::Cost231Hata);
-    adder.addSector(45, 15, 3, 1, h_40, v_40, baseStations[5], 15, 270, Mimo::TwoAntenna, Environment::SuburbanEvironments, 18, Model::Cost231Hata);
+    adder.addSector(45, 15, 4, 1, h, v, baseStations[5], 15, 30, Mimo::TwoAntenna, Environment::SuburbanEvironments, 16, Model::Cost231Hata);
+    adder.addSector(45, 15, 3, 1, h, v, baseStations[5], 15, 150, Mimo::TwoAntenna, Environment::SuburbanEvironments, 17, Model::Cost231Hata);
+    adder.addSector(45, 15, 3, 1, h, v, baseStations[5], 15, 270, Mimo::TwoAntenna, Environment::SuburbanEvironments, 18, Model::Cost231Hata);
 
     //Mietków
-    adder.addSector(45, 15, 3, 1, h_40, v_40, baseStations[6], 15, 30, Mimo::TwoAntenna, Environment::SuburbanEvironments, 19, Model::Cost231Hata);
-    adder.addSector(45, 15, 3, 1, h_40, v_40, baseStations[6], 15, 150, Mimo::TwoAntenna, Environment::SuburbanEvironments, 20, Model::Cost231Hata);
-    adder.addSector(45, 15, 3, 1, h_40, v_40, baseStations[6], 15, 270, Mimo::TwoAntenna, Environment::SuburbanEvironments, 21, Model::Cost231Hata);
+    adder.addSector(45, 15, 3, 1, h, v, baseStations[6], 15, 30, Mimo::TwoAntenna, Environment::SuburbanEvironments, 19, Model::Cost231Hata);
+    adder.addSector(45, 15, 3, 1, h, v, baseStations[6], 15, 150, Mimo::TwoAntenna, Environment::SuburbanEvironments, 20, Model::Cost231Hata);
+    adder.addSector(45, 15, 3, 1, h, v, baseStations[6], 15, 270, Mimo::TwoAntenna, Environment::SuburbanEvironments, 21, Model::Cost231Hata);
 }
 
 void DataProvider::dataFor60Klaster()

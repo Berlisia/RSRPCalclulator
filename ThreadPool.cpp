@@ -3,6 +3,7 @@
 
 ThreadPool::ThreadPool(size_t p_size) : size(p_size)
 {
+    p_size = 1;
 }
 
 void ThreadPool::start()

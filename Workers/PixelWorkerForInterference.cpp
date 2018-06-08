@@ -16,7 +16,7 @@ PixelWorkerForInterference::PixelWorkerForInterference(const std::vector<PrbBand
 double PixelWorkerForInterference::calculate(InterferenceLvl& intLvl, PixelXY pixel)
 {
     double interLvl = m_interferCalc.calculateInterference();
-    double interLvlIndB = WatTodB(interLvl);
+    double interLvlIndB = WatTodBm(interLvl);
     if(!std::isinf(interLvlIndB))
     {
         std::pair<PixelXY,double> pair = std::make_pair(pixel, interLvlIndB);

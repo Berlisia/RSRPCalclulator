@@ -10,3 +10,8 @@ double WatTodB(double wat)
 {
     return std::log10(wat)*10;
 }
+
+double WatTodBm(double wat)
+{
+    return std::log10(wat*1000)*10;
+}

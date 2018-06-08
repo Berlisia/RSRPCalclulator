@@ -32,10 +32,10 @@ void PixelWorker::executeCalculation()
     for (unsigned int i = 0; i < antennaLossFromSectorsPerOnePixel->size(); i++) //for po wszystkich sectorach
     {
         double pathL = pathLossFromSectorsPerOnePixel[i];
-        if(!std::isnan(pathL) and !std::isinf(pathL)) //dBm
+        if(!std::isnan(pathL) and !std::isinf(pathL)) //dB
         {
             double rsrp = rsrpSectors[i].second - (*antennaLossFromSectorsPerOnePixel)[i] -
-                         pathL + receiver.getGain() - receiver.getOtherLosses();
+                         pathL + receiver.getGain() - receiver.getOtherLosses(); //dBm
             //if(rsrp > (minValueRSRP))
             {
                 auto numberOfPrb = rsrpSectors[i].first;
