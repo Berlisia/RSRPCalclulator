@@ -16,6 +16,7 @@ public:
     void setPainter(QPainter* p_painter);
     void draw();
     Rectangle* getRect();
+    ~DrawRectangle();
 
 signals:
     void drawingDone();

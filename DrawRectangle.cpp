@@ -3,6 +3,10 @@
 
 void DrawRectangle::mousePress(QGraphicsSceneMouseEvent* event)
 {
+    if(rectangle)
+    {
+        delete rectangle;
+    }
     clickPressed = true;
     startPosition = event->scenePos();
 
@@ -67,4 +71,9 @@ void DrawRectangle::draw()
 Rectangle* DrawRectangle::getRect()
 {
     return rectangle;
+}
+
+DrawRectangle::~DrawRectangle()
+{
+    delete rectangle;
 }

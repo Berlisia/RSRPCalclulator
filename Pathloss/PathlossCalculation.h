@@ -25,10 +25,6 @@ private:
     std::shared_ptr<IMapDataProvider> mapProvider;
     SectorsControler & sectors;
     const Receiver & receiver;
-
-    std::unique_ptr<PathlossModel> okumuryModel;
-    std::unique_ptr<PathlossModel> hataModel;
-
 };
 
 #endif // PATHLOSSCALCULATION_H

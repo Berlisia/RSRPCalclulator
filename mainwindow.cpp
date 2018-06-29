@@ -92,7 +92,7 @@ void MainWindow::displayImage(const QPixmap & img, std::vector<std::pair<PixelXY
     {
         scene->clear();
     }
-    scene = new QGraphicsScene();
+    scene = new QGraphicsScene(this);
     mapArea = new ScribbleArea(ui->checkBox, ui->terrainCheckBox, pixelData, ui->valueLabel,img);
     mapArea->setFlags(QGraphicsItem::ItemIsMovable);
     scene->addItem(mapArea);
@@ -146,7 +146,7 @@ void MainWindow::showScale(ImagePainter & paint, double max, double min)
     }
     painter.end();
 
-    scaleScene = new QGraphicsScene();
+    scaleScene = new QGraphicsScene(this);
     scaleItem = new QGraphicsPixmapItem(px);
     scaleScene->addItem(scaleItem);
 
@@ -247,6 +247,7 @@ void MainWindow::showRectangle()
     if(currenItemInScene != nullptr)
     {
         scene->removeItem(currenItemInScene);
+        delete currenItemInScene;
     }
     QRectF rect(drawRectangle->getRect()->getPosition().x(),
                            drawRectangle->getRect()->getPosition().y(),
@@ -306,7 +307,7 @@ void MainWindow::terrainProfileTriggered(bool checked)
     else if(!checked)
     {
         scene->removeItem(currenItemInScene);
-        currenItemInScene = nullptr;
+        delete currenItemInScene;
     }
 }
 

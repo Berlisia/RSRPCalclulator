@@ -67,23 +67,17 @@ Model PathlossCalculation::choosePropagarionModel(Sector const& sector)
 
 Pathloss PathlossCalculation::okumuraCalculation(Sector const& sector)
 {
-    if(!okumuryModel)
-    {
-        okumuryModel = std::make_unique<OkumuraHataPathlossModel>();
-    }
-    setUpParameters(*okumuryModel, sector);
-    Pathloss pathloss = okumuryModel->pathloss();
+    OkumuraHataPathlossModel okumuryModel;
+    setUpParameters(okumuryModel, sector);
+    Pathloss pathloss = okumuryModel.pathloss();
     return pathloss;
 }
 
 Pathloss PathlossCalculation::costCalculation(Sector const& sector)
 {
-    if(!hataModel)
-    {
-        hataModel = std::make_unique<Cost231HataModel>();
-    }
-    setUpParameters(*hataModel, sector);
-    Pathloss pathloss = hataModel->pathloss();
+    Cost231HataModel hataModel;
+    setUpParameters(hataModel, sector);
+    Pathloss pathloss = hataModel.pathloss();
     return pathloss;
 }
 
