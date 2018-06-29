@@ -57,6 +57,14 @@ void ThreadPool::add(const Task& task, const PixelXY& pixel)
     queue.push(task, pixel);
 }
 
+ThreadPool::~ThreadPool()
+{
+    for(const auto& thread : threads)
+    {
+        thread->join();
+    }
+}
+
 void ThreadPool::threadFunc()
 {
     std::pair<int, int> px = std::pair<int, int>(0, 0);

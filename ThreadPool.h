@@ -21,6 +21,7 @@ public:
     void start();
     void stop();
     void add(const Task & task, const PixelXY & pixel);
+    ~ThreadPool();
 
 private:
     void threadFunc();
