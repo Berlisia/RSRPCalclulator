@@ -1,9 +1,6 @@
 # RSRPCalclulator
-Programista płakał jak komitował xD
 
 Wyznaczenie rozkładu mocy sygnału referencyjnego RSRP dla stacji bazowych eNodeB w sieci LTE.
-
-FICZERY (Jak coś nie działa lub się wywali to znaczy, że coś źle zrobiłeś :D)
 
 1. Możliwość dodania stacji bazowej.
 Celem jest umożliwienie określenia położenia stacji bazowej, wysokości umieszczenia anteny nad terenem oraz nadania nazwy, po której będzie identyfikowana.
